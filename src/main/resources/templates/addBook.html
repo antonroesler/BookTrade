@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <title>BücherHändler</title>
+  <script src="modal.js"></script>
+</head>
+
+<body>
+
+
+  <!-- NavBar -->
+
+  <nav id="header-navbar">
+
+
+    <ul>
+      <li><a href="index.html">Meine Bücher</a></li>
+      <li><a href="impressum.html">Impressum</a></li>
+      <li><input type="button" class="nav-search-btn" value="MakeSomeBooks"></li>
+    </ul>
+    <form>
+      <input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author">
+      <input type="button" class="nav-search-btn" value="search">
+    </form>
+
+
+
+  </nav>
+
+
+  <!-- Big Title -->
+
+  <div class="container" id="big-title">
+    <div class="row">
+      <h1>Bücher...</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <form th:action="@{/addBook}" th:object="${bookForm}" method="POST">
+        Title: <input type="text" th:field="*{title}" /> <br />
+        Author: <input type="text" th:field="*{author}" /> <br />
+        ISBN: <input type="text" th:field="*{isbn}" /> <br /> <input type="submit" value="Create" />
+
+      </form>
+    </div>
+  </div>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

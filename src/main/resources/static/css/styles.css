@@ -74,6 +74,8 @@
 
 ul {
   list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 html {
@@ -204,15 +206,13 @@ section {
   margin-top: 2rem;
   box-shadow: 1px 1px 11px -7px #08080cff;
 }
-section ul {
-  position: relative;
-  display: inline-block;
 
-} 
 
 section ul li {
   position: relative;
   display: inline-block;
+  text-align: center;
+  flex: 10%;
 }
 
 /* Book Cards */
@@ -226,6 +226,8 @@ section ul li {
   flex: 10%;
   margin: 1rem;
   min-width: 10rem;
+  max-width: 10rem;
+
 }
 
 section ul li:nth-child(4n) .book-card {
@@ -308,6 +310,6 @@ section h2 {
 .row {
   display: flex;
   align-content: space-between;
-  flex-flow: wrap-reverse;
+  flex-flow: row wrap;
   text-align: center;
 }

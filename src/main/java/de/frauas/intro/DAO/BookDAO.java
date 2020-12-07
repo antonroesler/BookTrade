@@ -20,4 +20,11 @@ public class BookDAO {
 	public void addBook(String title, String iSBN, String authorString) {
 		books.add(new Book(title, iSBN, authorString));
 	}
+	
+	public void createSomeNewBooks() {
+		this.addBook("The Art of Statistics", "987-654-123", "David Spiegelhalter");
+		this.addBook("The Book of Why", "987-123-456", "Judea Pearl");
+		this.addBook("Clean Code", "987-123-125", "Robert C. Martin");
+		this.addBook("A long Titled Book with a Datavisualizationkit", "987-123-000", "Anton Rösler");
+	}
 }
