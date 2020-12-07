@@ -2,11 +2,11 @@
 <html lang="de" dir="ltr">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="./css/styles.css">
-<title>BücherHändler</title>
-<script src="modal.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="./css/styles.css">
+	<title>BücherHändler</title>
+	<script src="modal.js"></script>
 </head>
 
 <body>
@@ -23,16 +23,9 @@
 
 		</ul>
 
-
-
 		<form>
-			<input type="text" id="nav-search" name="search"
-				placeholder="ISBN, Title, Author"> <input type="button"
-				id="nav-search-btn" value="search">
+			<input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author"> <input type="button" id="nav-search-btn" value="search">
 		</form>
-
-
-
 
 	</nav>
 
@@ -44,10 +37,10 @@
 			<h1>Bücher...</h1>
 		</div>
 	</div>
-	
+
 	<form th:action="@{/makeSome}" method="POST">
-			<button>Make Some</button>
-		</form>
+		<button>Make Some</button>
+	</form>
 
 	<!-- My Books -->
 
@@ -67,14 +60,9 @@
 								<p class="book-card-author" th:utext="${book.authorString}">...</p>
 								<div class="card-bottom">
 
-									<a href="index.html" class="icon"> <img
-										src="icons/delete.png" alt="More Iconn">
-									</a> <a
-										href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y"
-										class="icon"> <img src="icons/view.png"
-										alt="View on Goole Books Icon">
-									</a> <a class="icon" id="more-btn"> <img src="icons/more.png"
-										alt="More Icon">
+									<a href="index.html" class="icon"> <img src="icons/delete.png" alt="More Iconn">
+									</a> <a href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y" class="icon"> <img src="icons/view.png" alt="View on Goole Books Icon">
+									</a> <a class="icon" id="more-btn"> <img src="icons/more.png" alt="More Icon">
 									</a>
 
 								</div>
@@ -82,16 +70,7 @@
 						</li>
 
 					</ul>
-
-
-
-
-
-
-
-
-
-
+					<a href="/addBook">Add a Book</a>
 
 
 
@@ -143,8 +122,7 @@
 
 
 	Icons made by
-	<a href="https://www.flaticon.com/authors/kiranshastry"
-		title="Kiranshastry">Kiranshastry</a> from
+	<a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from
 	<a href="https://www.flaticon.com/" title="Flaticon">
 		www.flaticon.com</a>
 </body>

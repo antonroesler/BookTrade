@@ -1,11 +1,11 @@
-/* Farben 
- Bright 
+/* Farben
+ Bright
 --middle-blue-green: #97ede3ff;
 --space-cadet: #2d3047ff;
 --canary: #fffd82ff;
 --light-salmon: #ff9b71ff;
 --red-crayola: #e84855ff;
- Dark 
+ Dark
 --pine-green: #12695fff;
 --rich-black-fogra-39: #08080cff;
 --olive: #8f8c00ff;
@@ -72,12 +72,6 @@
 
 /* Global */
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
 html {
   font-size: 16px;
 }
@@ -90,10 +84,7 @@ body {
 }
 
 
-:focus{
-  outline: none;
-  box-shadow: 0 0 2px 2px #F0F0F0, 0 0 7px #F0F0F0;
-}
+
 
 /* General */
 
@@ -109,6 +100,26 @@ body {
 
 .screen-reader {
   display: none;
+}
+
+.container {
+  width: 95%;
+  /* Trick to center the container: */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.row {
+  display: flex;
+  align-content: space-between;
+  flex-flow: row wrap;
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 
@@ -298,18 +309,49 @@ section h2 {
 
 
 
-/* Grid System */
+/* ADD BOOK PAGE */
+#add-book-section .row {
+  flex-flow: column;
 
-.container {
-  width: 95%;
-  /* Trick to center the container: */
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.row {
-  display: flex;
-  align-content: space-between;
-  flex-flow: row wrap;
-  text-align: center;
+#add-book-section form {
+  padding-top: 1rem;
+  width: 100%;
+}
+
+#add-book-section form input{
+  height: 2rem;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  text-indent: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-radius: 1rem;
+}
+#add-book-section form label{
+  font-weight: 700;
+}
+
+#add-btn {
+  margin-top: 1rem;
+  height: 2rem;
+  background-color: #97ede3ff;
+  color: black;
+  border-radius: 1rem;
+  border: 0;
+}
+
+#add-btn:hover {
+  background-color: #12695fff;
+  color: white;
+  border: 1px solid white;
+
+}
+
+
+.platzhalter {
+  width: 10px;
+  height: 500px;
 }

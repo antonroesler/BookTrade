@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
   <title>BücherHändler</title>
   <script src="modal.js"></script>
 </head>
@@ -40,30 +41,34 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="row">
-      <form th:action="@{/addBook}" th:object="${bookForm}" method="POST">
-        Title: <input type="text" th:field="*{title}" /> <br />
-        Author: <input type="text" th:field="*{author}" /> <br />
-        ISBN: <input type="text" th:field="*{isbn}" /> <br /> <input type="submit" value="Create" />
+  <section id="add-book-section">
 
-      </form>
+
+    <div class="container">
+      <div class="row">
+        <div class="new">
+
+
+        <form th:action="@{/addBook}" th:object="${bookForm}" method="POST">
+          <label for="title">Title</label>
+          <input type="text" th:field="*{title}" name="title" autocomplete="off" placeholder="Surely you're joking Mr. Feynman">
+          <label for="title">Author</label>
+          <input type="text" th:field="*{author}" name="author" autocomplete="off" placeholder="Richard Feynman">
+          <label for="title">ISBN</label>
+          <input type="text" th:field="*{isbn}" name="isbn" autocomplete="off"  placeholder="978-123-654">
+          <input id="add-btn" type="submit" value="ADD" />
+
+        </form>
+          </div>
+      </div>
     </div>
+
+  </section>
+
+  <div class="platzhalter">
   </div>
 
 </body>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
