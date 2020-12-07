@@ -1,11 +1,11 @@
-/* Farben */
-/* Bright */
+/* Farben 
+ Bright 
 --middle-blue-green: #97ede3ff;
 --space-cadet: #2d3047ff;
 --canary: #fffd82ff;
 --light-salmon: #ff9b71ff;
 --red-crayola: #e84855ff;
-/* Dark */
+ Dark 
 --pine-green: #12695fff;
 --rich-black-fogra-39: #08080cff;
 --olive: #8f8c00ff;
@@ -14,7 +14,7 @@
 
 -- bg: #FFF1EB;
 -- card: #ffd4c2;
-
+*/
 
 /* Fonts */
 /* raleway-regular - latin */
@@ -71,6 +71,10 @@
 }
 
 /* Global */
+
+ul {
+  list-style-type: none;
+}
 
 html {
   font-size: 16px;
@@ -200,6 +204,16 @@ section {
   margin-top: 2rem;
   box-shadow: 1px 1px 11px -7px #08080cff;
 }
+section ul {
+  position: relative;
+  display: inline-block;
+
+} 
+
+section ul li {
+  position: relative;
+  display: inline-block;
+}
 
 /* Book Cards */
 .book-card {
@@ -214,17 +228,17 @@ section {
   min-width: 10rem;
 }
 
-.book-card:nth-child(4n) {
+section ul li:nth-child(4n) .book-card {
     background-color: #97ede3ff;
 }
-.book-card:nth-child(4n+1) {
+section ul li:nth-child(4n+1) .book-card {
     background-color: #e84855ff;
 }
-.book-card:nth-child(4n+2) {
+section ul li:nth-child(4n+2) .book-card {
     background-color: #2d3047ff;
     color: white;
 }
-.book-card:nth-child(4n+3) {
+section ul li:nth-child(4n+3) .book-card {
     background-color: #fffd82ff;
 }
 
