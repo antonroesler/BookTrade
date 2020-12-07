@@ -32,7 +32,8 @@ hs_err_pid*
 *~
 .#*
 .*.md.html
-.DS_Store
+.DS_Store*
+.DS_*
 .attach_pid*
 .classpath
 .factorypath
