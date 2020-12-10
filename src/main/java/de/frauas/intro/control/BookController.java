@@ -44,5 +44,15 @@ public class BookController {
 		return "redirect:/index";
 
 	}
+	
+	@RequestMapping(value = { "/addBookExtra" }, method = RequestMethod.POST)
+	public String addBookExtra(Model model, @ModelAttribute("studentForm") BookForm bookForm) {
+
+		bookDAO.addBookFull(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor(), bookForm.getGoogleBooksReferenceUri(), 
+				bookForm.getBookAbstract(), bookForm.getPublisher());
+
+		return "redirect:/index";
+
+	}
 
 }

@@ -1,5 +1,6 @@
 package de.frauas.intro.DAO;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,11 @@ public class BookDAO {
 	
 	public void addBook(String title, String iSBN, String authorString) {
 		books.add(new Book(title, iSBN, authorString));
+	}
+	
+	public void addBookFull(String title, String iSBN, String authorString , URI googleBooksReferenceUri, String bookAbstract,
+			String publisher) {
+		books.add(new Book(title, iSBN, authorString, googleBooksReferenceUri, bookAbstract, publisher));
 	}
 	
 	public void createSomeNewBooks() {

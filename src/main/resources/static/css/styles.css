@@ -115,11 +115,30 @@ body {
   flex-flow: row wrap;
   text-align: center;
 }
+button {
+  border: 0;
+  border-radius: 1rem;
+  background-color: #97ede3ff;
+  margin: 1rem;
+  min-height: 2rem;
+  min-width: 3rem;
+}
+button:hover {
+  border: 0.1rem solid white;
+  background-color: #12695fff;
+}
+
 
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+
+input[type=text]:focus {
+  border: none;
+  background-color: lightblue;
+  outline: none;
 }
 
 
@@ -349,6 +368,10 @@ section h2 {
   color: white;
   border: 1px solid white;
 
+}
+
+#add-large-form{
+  display: none;
 }
 
 
