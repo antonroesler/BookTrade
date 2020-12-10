@@ -2,170 +2,129 @@
 <html lang="de" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="./css/styles.css">
-  <title>BücherHändler</title>
-  <script src="modal.js"></script>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="./css/styles.css">
+	<title>BücherHändler</title>
+	<script src="modal.js"></script>
 </head>
 
 <body>
 
 
-  <!-- NavBar -->
+	<!-- NavBar -->
 
-  <nav id="header-navbar">
-
-
-          <ul>
-            <li><a href="index.html">Meine Bücher</a></li>
-            <li><a href="impressum.html">Impressum</a></li>
-            <li><input type="button" class="nav-search-btn" value="MakeSomeBooks"></li>
-          </ul>
-          <form>
-            <input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author">
-            <input type="button" class="nav-search-btn" value="search">
-          </form>
+	<nav id="header-navbar">
 
 
+		<ul>
+			<li><a href="index">Meine Bücher XX</a></li>
+			<li><a href="impressum">Impressum</a></li>
 
-  </nav>
+		</ul>
 
+		<form>
+			<input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author"> <input type="button" id="nav-search-btn" value="search">
+		</form>
 
-  <!-- Big Title -->
-
-  <div class="container" id="big-title">
-    <div class="row">
-        <h1>Bücher...</h1>
-    </div>
-  </div>
-
-  <!-- My Books -->
-
-  <section id="my-books-section">
-
-    <div class="container" id="my-books-title">
-      <div class="row">
-          <h2>Meine Bücher</h2>
-      </div>
-      <div class="container" id="my-books-title">
-        <div class="row">
-
-          <div class="book-card" onclick="location.href='';">
-            <p class="book-card-title">The Art of Statistics</p>
-            <p class="book-card-author">David Spiegelhalter</p>
-            <div class="card-bottom">
-
-              <a href="index.html" class="icon">
-                <img src="icons/delete.png" alt="More Iconn">
-              </a>
-              <a href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y" class="icon">
-                <img src="icons/view.png" alt="View on Goole Books Icon">
-              </a>
-              <a class="icon" id="more-btn">
-                <img src="icons/more.png" alt="More Icon">
-              </a>
-
-            </div>
-          </div>
-
-          <div class="col-1 book-card" onclick="location.href='';">
-            <p class="book-card-title">The Book of Why</p>
-            <p class="book-card-author">Judea Pearl</p>
-            <div class="card-bottom">
-
-              <a href="index.html" class="icon">
-                <img src="icons/delete.png" alt="More Iconn">
-              </a>
-              <a href="https://books.google.de/books?id=EmY8DwAAQBAJ&dq=book+of+why&source=gbs_navlinks_s" class="icon">
-                <img src="icons/view.png" alt="View on Goole Books Icon">
-              </a>
-              <a href="index.html" class="icon">
-                <img src="icons/more.png" alt="More Iconn">
-              </a>
-
-            </div>
-          </div>
+	</nav>
 
 
-          <div class="col-1 book-card" onclick="location.href='';">
-            <p class="book-card-title">Clean Code</p>
-            <p class="book-card-author">Robert C. Martin</p>
-            <div class="card-bottom">
+	<!-- Big Title -->
 
-              <a href="index.html" class="icon">
-                <img src="icons/delete.png" alt="More Iconn">
-              </a>
-              <a href="https://books.google.de/books?id=TCEJEAAAQBAJ&source=gbs_navlinks_s" class="icon">
-                <img src="icons/view.png" alt="View on Goole Books Icon">
-              </a>
-              <a href="index.html" class="icon">
-                <img src="icons/more.png" alt="More Iconn">
-              </a>
+	<div class="container" id="big-title">
+		<div class="row">
+			<h1>Bücher...</h1>
+		</div>
+	</div>
 
-            </div>
-          </div>
+	<form th:action="@{/makeSome}" method="POST">
+		<button>Make Some</button>
+	</form>
 
+	<!-- My Books -->
 
-          <div class="col-1 book-card" onclick="location.href='';">
-            <p class="book-card-title">Datenvisualisierung – Grundlagen und Praxis</p>
-            <p class="book-card-author">Claus O. Wilke</p>
-            <div class="card-bottom">
+	<section id="my-books-section">
 
-              <a href="index.html" class="icon">
-                <img src="icons/delete.png" alt="More Iconn">
-              </a>
-              <a href="https://books.google.de/books?id=lJHmDwAAQBAJ&dq=wilke+datenvisualisierung&source=gbs_navlinks_s" class="icon">
-                <img src="icons/view.png" alt="View on Goole Books Icon">
-              </a>
-              <a href="index.html" class="icon">
-                <img src="icons/more.png" alt="More Iconn">
-              </a>
+		<div class="container" id="my-books-title">
+			<div class="row">
+				<h2>Meine Bücher</h2>
+			</div>
+			<div class="container" id="my-books-title">
+				<div class="row">
 
-            </div>
-          </div>
+					<ul class="row">
+						<li th:each="book: ${books}">
+							<div class="book-card" onclick="location.href='';">
+								<p class="book-card-title" th:utext="${book.title}">...</p>
+								<p class="book-card-author" th:utext="${book.authorString}">...</p>
+								<div class="card-bottom">
 
+									<a href="index.html" class="icon"> <img src="icons/delete.png" alt="More Iconn">
+									</a> <a href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y" class="icon"> <img src="icons/view.png" alt="View on Goole Books Icon">
+									</a> <a class="icon" id="more-btn"> <img src="icons/more.png" alt="More Icon">
+									</a>
 
-        </div>
-      </div>
-  </section>
+								</div>
+							</div>
+						</li>
 
-  <!-- Wishlist -->
-
-  <section id="wishlist-section">
-
-    <div class="container" id="my-books-title">
-      <div class="row">
-        <div class="col-6">
-          <h2>Wunschliste</h2>
-        </div>
-      </div>
-
-    </div>
-
-  </section>
-
-  <!-- Recomondations -->
-
-  <section id="recomondations-section">
-
-    <div class="container" id="my-books-title">
-      <div class="row">
-        <div class="col-6">
-          <h2>Empfehlungen</h2>
-        </div>
-      </div>
-
-    </div>
-
-
-
-  </section>
+					</ul>
+					<a href="/addBook">Add a Book</a>
 
 
 
 
-  Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Wishlist -->
+
+	<section id="wishlist-section">
+
+		<div class="container" id="my-books-title">
+			<div class="row">
+				<div class="col-6">
+					<h2>Wunschliste</h2>
+				</div>
+			</div>
+
+		</div>
+
+	</section>
+
+	<!-- Recomondations -->
+
+	<section id="recomondations-section">
+
+		<div class="container" id="my-books-title">
+			<div class="row">
+				<div class="col-6">
+					<h2>Empfehlungen</h2>
+				</div>
+			</div>
+
+		</div>
+
+
+
+	</section>
+
+
+
+
+	Icons made by
+	<a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from
+	<a href="https://www.flaticon.com/" title="Flaticon">
+		www.flaticon.com</a>
 </body>
 
 </html>

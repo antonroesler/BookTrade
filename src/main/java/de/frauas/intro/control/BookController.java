@@ -15,34 +15,34 @@ import de.frauas.intro.model.Book;
 @RequestMapping(value = "/")
 public class BookController {
 	BookDAO bookDAO = new BookDAO();
-	
-	
-	@RequestMapping(value = { "/listBooks" }, method = RequestMethod.GET)
-	public String listBooks(Model model) {
+
+	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
+	public String mainPage(Model model) {
 		model.addAttribute("books", bookDAO.getBooks());
-		return "listBooks";
+		return "index";
 	}
-	
+
 	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)
-	public String makeSome(Model model) {
+	public String makeSomeSampleBooks(Model model) {
 		bookDAO.createSomeNewBooks();
-		return "redirect:/listBooks";
+		return "redirect:/index";
 	}
+
 	@RequestMapping(value = { "/addBook" }, method = RequestMethod.GET)
 	public String addBookpage(Model model) {
 		BookForm bookForm = new BookForm();
 		model.addAttribute("bookForm", bookForm);
 		return "addBook";
-		
+
 	}
-	
+
 	@RequestMapping(value = { "/addBook" }, method = RequestMethod.POST)
 	public String addBook(Model model, @ModelAttribute("studentForm") BookForm bookForm) {
-		
+
 		bookDAO.addBook(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor());
-		
-		return "redirect:/listBooks";
-		
+
+		return "redirect:/index";
+
 	}
 
 }

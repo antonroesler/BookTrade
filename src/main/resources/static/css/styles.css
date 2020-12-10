@@ -273,6 +273,7 @@ section ul li:nth-child(4n+3) .book-card {
   display: flex;
   justify-content: center;
   align-content: center;
+  padding-top: 0.2rem;
 }
 
 .book-card a {
