@@ -14,6 +14,8 @@
 
 -- bg: #FFF1EB;
 -- card: #ffd4c2;
+
+
 */
 
 /* Fonts */
@@ -83,6 +85,16 @@ body {
   background-color: #FFF1EB;
 }
 
+form > input{
+  height: 2rem;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  text-indent: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-radius: 1rem;
+}
 
 
 
@@ -235,6 +247,7 @@ section {
   padding-top: 0;
   margin-top: 2rem;
   box-shadow: 1px 1px 11px -7px #08080cff;
+  min-height: 3rem;
 }
 
 
@@ -340,16 +353,6 @@ section h2 {
   width: 100%;
 }
 
-#add-book-section form input{
-  height: 2rem;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
-  text-indent: 1rem;
-  margin-bottom: 1rem;
-  border: 0;
-  border-radius: 1rem;
-}
 #add-book-section form label{
   font-weight: 700;
 }
@@ -378,4 +381,19 @@ section h2 {
 .platzhalter {
   width: 10px;
   height: 500px;
+}
+
+
+
+/* Login PAGE */
+#login-section {
+  padding: 1rem;
+  text-align: center;
+}
+#login-section form input {
+  width: 40%;
+  margin: 1rem;;
+}
+#login-btn {
+  width: 85%
 }

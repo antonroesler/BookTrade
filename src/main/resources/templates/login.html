@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+    <title>Login</title>
+  </head>
+  <body>
+
+    <!-- NavBar -->
+
+    <nav id="header-navbar">
+
+
+      <ul>
+        <li><a href="index.html">Meine Bücher</a></li>
+        <li><a href="impressum.html">Impressum</a></li>
+        <li><input type="button" class="nav-search-btn" value="MakeSomeBooks"></li>
+      </ul>
+      <form>
+        <input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author">
+        <input type="button" class="nav-search-btn" value="search">
+      </form>
+
+
+
+    </nav>
+    <section id="login-section">
+<div class="container">
+    <form th:action="@{/login}" th:object="${loginForm}" method="POST">
+      <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
+      <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
+
+      <button type="submit" id="login-btn">Login</button>
+    </form>
+</div>
+
+
+    </section>
+
+  </body>
+</html>

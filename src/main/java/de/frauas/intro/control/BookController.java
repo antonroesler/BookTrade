@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.frauas.intro.DAO.BookDAO;
 import de.frauas.intro.form.BookForm;
+import de.frauas.intro.form.LoginForm;
 import de.frauas.intro.model.Book;
 
 @Controller
@@ -37,7 +38,7 @@ public class BookController {
 	}
 
 	@RequestMapping(value = { "/addBook" }, method = RequestMethod.POST)
-	public String addBook(Model model, @ModelAttribute("studentForm") BookForm bookForm) {
+	public String addBook(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
 
 		bookDAO.addBook(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor());
 
@@ -46,7 +47,7 @@ public class BookController {
 	}
 	
 	@RequestMapping(value = { "/addBookExtra" }, method = RequestMethod.POST)
-	public String addBookExtra(Model model, @ModelAttribute("studentForm") BookForm bookForm) {
+	public String addBookExtra(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
 
 		bookDAO.addBookFull(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor(), bookForm.getGoogleBooksReferenceUri(), 
 				bookForm.getBookAbstract(), bookForm.getPublisher());
@@ -54,5 +55,6 @@ public class BookController {
 		return "redirect:/index";
 
 	}
+	
 
 }
