@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="./css/styles.css">
+<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+<script src="../static/js/addBook.js"></script>
+<title>BücherHändler</title>
+</head>
+
+<body>
+
+
+	<!-- NavBar -->
+
+	<nav id="header-navbar">
+
+		<div class="flex-container">
+			<ul>
+				<li><a href="index">Meine Bücher</a></li>
+				<li><a href="impressum">Impressum</a></li>
+
+			</ul>
+
+		</div>
+	</nav>
+
+	<section id="book-view-section">
+		<div class="container" th:object="${book}">
+			<img th:src="*{imageUri}" alt="">
+			<div class="flex-container">
+				<ul>
+					<li>
+						<p>Title</p>
+						<p class="book-card-title" th:utext="*{volumeInfo.title}">...</p>
+					</li>
+					<li>
+						<p>Subtitle</p>
+						<p class="book-card-title" th:utext="*{volumeInfo.subtitle}">...</p>
+					</li>
+					<li>
+						<p>Author(s)</p>
+						<p class="book-card-title" th:utext="*{aut}">...</p>
+					</li>
+					<li>
+						<p>Id</p>
+						<p class="book-card-title" th:utext="*{id}">...</p>
+					</li>
+					<li>
+						<p>Publisher</p>
+						<p class="book-card-title" th:utext="*{volumeInfo.publisher}">...</p>
+					</li>
+					<li>
+						<p>Publishing Year</p>
+						<p class="book-card-title" th:utext="*{volumeInfo.publishDate}">...</p>
+					</li>
+					<li>
+						<p>Pages</p>
+						<p class="book-card-title" th:utext="*{volumeInfo.pageCount}">...</p>
+					</li>
+				</ul>
+			</div>
+
+
+		</div>
+	</section>
+
+
+</body>
+
+</html>

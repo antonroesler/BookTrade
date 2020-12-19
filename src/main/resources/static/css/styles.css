@@ -87,11 +87,7 @@ body {
 
 form > input{
   height: 2rem;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
   text-indent: 1rem;
-  margin-bottom: 1rem;
   border: 0;
   border-radius: 1rem;
 }
@@ -120,6 +116,14 @@ form > input{
   margin-left: auto;
   margin-right: auto;
 }
+.flex-container {
+  display: flex;
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+  height: inherit;
+}
 
 .row {
   display: flex;
@@ -131,7 +135,6 @@ button {
   border: 0;
   border-radius: 1rem;
   background-color: #97ede3ff;
-  margin: 1rem;
   min-height: 2rem;
   min-width: 3rem;
 }
@@ -163,61 +166,46 @@ input[type=text]:focus {
   font-weight: bold;
   font-size: 1.1rem;
   border-radius: 0 0 0.5rem 0.5rem ;
+}
+
+#header-navbar > .flex-container > ul{
+  flex: 50%;
   display: flex;
   align-content: space-between;
-  flex-wrap: wrap;
+  align-self: center;
+}
+#header-navbar > .flex-container > form{
+  flex: 50%;
+  display: flex;
+  align-content: space-between;
+  align-self: center;
+}
+
+#header-navbar form > button {
+  flex: 10%;
+  margin: 1rem;
 }
 
 
-#header-navbar ul{
-  display: inline-block;
-  margin: 0;
-  padding-top: 30px;
-  float: right;
-  height: 100%;
+#header-navbar form > input {
+  flex: 20%;
+  margin: 1rem;
 }
 
-#header-navbar  ul > li {
-  display: inline-block;
-  padding: 0.8rem 0.5rem;
-  height: 100%;
+#header-navbar > .flex-container > ul > li {
+  margin: 1rem;
 }
 
-#header-navbar  form {
-  display: inline-block;
-  padding-right: 5%;
-  margin-left: 5%;
-  padding-top: 30px;
-  flex: auto;
-  height: 100%;
-  float: left;
-}
-#nav-search {
-  display: inline-block;
-  width: 80%;
-  height: 50%;
-  border-radius: 1rem;
-  padding-left: 2rem;;
-  border: 0;
+#header-navbar > .flex-container > ul > li > a {
+  text-decoration: none;
+  color: #FFF;
 }
 
-#nav-search-btn {
-  width: 15%;
-  height: 50%;
-  background-color: #97ede3ff;
-  border: 0;
-  border-radius: 1rem;
-
-}
 #nav-search-btn:hover {
   background-color: #8f8c00ff;
   color: white;
 }
 
-#header-navbar ul > li > a{
-  text-decoration: none;
-  color: #FFF;
-}
 
 
 
@@ -396,4 +384,38 @@ section h2 {
 }
 #login-btn {
   width: 85%
+}
+
+
+/* BOOK VIEW PAGE */
+#book-view-section {
+  height: auto;
+}
+#book-view-section div {
+  width: inherit;
+}
+
+#book-view-section div > ul {
+
+  display: flex;
+  flex-flow: column;
+  width: inherit;
+  display: flex;
+}
+
+#book-view-section ul >li {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+}
+#book-view-section ul >li > p {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+#book-view-section div > ul > li > p:first-child{
+  font-weight: 700;
+}
+#book-view-section img{
+  width: 5rem;
+  height: auto;
 }
