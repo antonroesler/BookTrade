@@ -2,12 +2,12 @@
 <html lang="de" dir="ltr">
 
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="./css/styles.css">
-<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
-<script src="../static/js/addBook.js"></script>
-<title>BücherHändler</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="./css/styles.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+	<script src="../static/js/addBook.js"></script>
+	<title>BücherHändler</title>
 </head>
 
 <body>
@@ -29,38 +29,44 @@
 
 	<section id="book-view-section">
 		<div class="container" th:object="${book}">
-			<img th:src="*{imageUri}" alt="">
-			<div class="flex-container">
-				<ul>
-					<li>
-						<p>Title</p>
-						<p class="book-card-title" th:utext="*{volumeInfo.title}">...</p>
-					</li>
-					<li>
-						<p>Subtitle</p>
-						<p class="book-card-title" th:utext="*{volumeInfo.subtitle}">...</p>
-					</li>
-					<li>
-						<p>Author(s)</p>
-						<p class="book-card-title" th:utext="*{aut}">...</p>
-					</li>
-					<li>
-						<p>Id</p>
-						<p class="book-card-title" th:utext="*{id}">...</p>
-					</li>
-					<li>
-						<p>Publisher</p>
-						<p class="book-card-title" th:utext="*{volumeInfo.publisher}">...</p>
-					</li>
-					<li>
-						<p>Publishing Year</p>
-						<p class="book-card-title" th:utext="*{volumeInfo.publishDate}">...</p>
-					</li>
-					<li>
-						<p>Pages</p>
-						<p class="book-card-title" th:utext="*{volumeInfo.pageCount}">...</p>
-					</li>
-				</ul>
+			<div class="flex-container" id="view-book-container">
+				<div class="inner-flex">
+
+				</div>
+				<div class="inner-flex">
+					<img th:src="*{imageUri}" alt="Kein Bild Verfügbar">
+				</div>
+				<div class="inner-flex">
+					<p>Title</p>
+					<p class="book-card-title" th:utext="*{volumeInfo.title}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Subtitle</p>
+					<p class="book-card-title" th:utext="*{volumeInfo.subtitle}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Author(s)</p>
+					<p class="book-card-title" th:utext="*{aut}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Id</p>
+					<p class="book-card-title" th:utext="*{id}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Publisher</p>
+					<p class="book-card-title" th:utext="*{volumeInfo.publisher}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Publishing Year</p>
+					<p class="book-card-title" th:utext="*{volumeInfo.publishDate}">...</p>
+				</div>
+				<div class="inner-flex">
+					<p>Pages</p>
+					<p class="book-card-title" th:utext="*{volumeInfo.pageCount}">...</p>
+				</div>
+
+				<div class="inner-flex"></div>
+
 			</div>
 
 

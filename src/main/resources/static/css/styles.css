@@ -391,31 +391,35 @@ section h2 {
 #book-view-section {
   height: auto;
 }
-#book-view-section div {
+#book-view-section > div {
   width: inherit;
+  padding: 1rem;
+}
+#view-book-container{
+  flex-direction: column;
+  text-align: center;
+}
+#view-book-container img{
+  min-height: 5rem;
+  width: auto;
 }
 
-#book-view-section div > ul {
-
-  display: flex;
-  flex-flow: column;
-  width: inherit;
-  display: flex;
+div.inner-flex > p{
+  display: inline-block;
+}
+div.inner-flex > p:first-child{
+  float: left;
+  font-weight: bold;
+}
+div.inner-flex > p:last-child{
+  float: right;
 }
 
-#book-view-section ul >li {
-  display: flex;
-  flex-direction: row;
-  flex-flow: row;
+/*Make Container Visible */
+/*
+.container {
+  background-color: pink;
 }
-#book-view-section ul >li > p {
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-#book-view-section div > ul > li > p:first-child{
-  font-weight: 700;
-}
-#book-view-section img{
-  width: 5rem;
-  height: auto;
+.container .container {
+  background-color: gold;
 }

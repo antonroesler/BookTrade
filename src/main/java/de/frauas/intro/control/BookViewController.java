@@ -19,11 +19,18 @@ public class BookViewController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public String viewPageID(Model model, @RequestParam("id") String id) {
-		BookSummary book = googleBookAPI.getBookByID(id);
-		book.setAut(book.authors());
-		book.setimageUri();
-		model.addAttribute("book", book);
-		return "bookView";
+		try {
+			BookSummary book = googleBookAPI.getBookByID(id);
+			book.setAut(book.authors());
+			book.setimageUri();
+			model.addAttribute("book", book);
+			return "bookView";
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return "redirect:/error/notfound";
+		
+		
 	}
 	
 	
