@@ -4,7 +4,10 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import de.frauas.intro.model.Book;
+
 
 public class BookDAO {
 	
@@ -19,12 +22,12 @@ public class BookDAO {
 	}
 	
 	public void addBook(String title, String iSBN, String authorString) {
-		books.add(new Book(title, iSBN, authorString));
+
 	}
 	
 	public void addBookFull(String title, String iSBN, String authorString , URI googleBooksReferenceUri, String bookAbstract,
 			String publisher) {
-		books.add(new Book(title, iSBN, authorString, googleBooksReferenceUri, bookAbstract, publisher));
+
 	}
 	
 	public void createSomeNewBooks() {

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../css/styles.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+	<script src="../static/js/addBook.js"></script>
+	<title>BücherHändler</title>
+</head>
+
+<body>
+
+
+	<!-- NavBar -->
+
+	<nav id="header-navbar">
+
+		<div class="flex-container">
+			<ul>
+				<li><a href="index">Meine Bücher</a></li>
+				<li><a href="impressum">Impressum</a></li>
+
+			</ul>
+
+		</div>
+	</nav>
+
+	<section id="search-results-section">
+
+		<div class="container" id="my-books-title">
+			<div class="row">
+
+				<ul class="row">
+					<li th:each="book: ${bookList}">
+						<div class="book-card" onclick="location.href='';">
+							<p class="book-card-title" th:utext="${book.getVolumeInfo().title}">...</p>
+							<p class="book-card-author" th:utext="${book.authors()}">...</p>
+							<div class="card-bottom">
+
+								<a href="index.html" class="icon"> <img src="../icons/delete.png" alt="More Iconn">
+								</a> <a href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y" class="icon"> <img src="../icons/view.png" alt="View on Goole Books Icon">
+								</a> <a class="icon" id="more-btn"> <img src="../icons/more.png" alt="More Icon">
+								</a>
+
+							</div>
+						</div>
+					</li>
+
+				</ul>
+				<a href="/addBook">Add a Book</a>
+			</div>
+		</div>
+
+	</section>
+
+
+</body>
+
+</html>

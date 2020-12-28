@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+    <title>Login</title>
+  </head>
+  <body>
+
+    <!-- NavBar -->
+
+  	<nav id="header-navbar">
+
+  		<div class="flex-container">
+  			<ul>
+  				<li><a href="index">Meine Bücher</a></li>
+  				<li><a href="impressum">Impressum</a></li>
+
+  			</ul>
+
+  		</div>
+  	</nav>
+
+
+
+    </nav>
+    <section id="login-section">
+<div class="container">
+    <form th:action="@{/user/register}" th:object="${loginForm}" method="POST">
+      <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
+      <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
+      <button type="submit" id="login-btn">Registrieren</button>
+    </form>
+</div>
+
+
+    </section>
+
+  </body>
+</html>

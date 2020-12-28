@@ -3,6 +3,8 @@ package de.frauas.intro.form;
 import java.net.URI;
 import java.util.HashMap;
 
+import javax.swing.DefaultListCellRenderer.UIResource;
+
 public class VolumeInfo {
 
 	private String title;
@@ -12,6 +14,7 @@ public class VolumeInfo {
 	private String publishDate;
 	private int pageCount;
 	private HashMap<String, URI> imageLinks;
+	private URI infoLink;
 	
 
 	public String getPublisher() {
@@ -44,6 +47,14 @@ public class VolumeInfo {
 
 	public void setImageLinks(HashMap<String, URI> imageLinks) {
 		this.imageLinks = imageLinks;
+	}
+
+	public URI getInfoLink() {
+		return infoLink;
+	}
+
+	public void setInfoLink(URI infoLink) {
+		this.infoLink = infoLink;
 	}
 
 	public String[] getAuthors() {

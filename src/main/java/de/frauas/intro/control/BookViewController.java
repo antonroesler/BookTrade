@@ -34,12 +34,12 @@ public class BookViewController {
 	}
 	
 	
-	@RequestMapping(value = "/query", method = RequestMethod.GET)
-	@ResponseBody
-	public String viewPageQuery(Model model, @RequestParam("q") String q) {
-		return googleBookAPI.query(q);
-
-	}
+//	@RequestMapping(value = "/query", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String viewPageQuery(Model model, @RequestParam("q") String q) {
+//		return googleBookAPI.query(q);
+//
+//	}
 //	@RequestMapping(method = RequestMethod.GET)
 //	@ResponseBody
 //	public String viewPageQuery(@RequestParam("q") String query) {
