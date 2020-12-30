@@ -303,6 +303,31 @@ section ul li:nth-child(4n+3) .book-card {
   text-decoration: none;
 }
 
+.card-bottom div {
+  display: block;
+  height: 100%;
+  width: 100%;
+  text-decoration: none;
+}
+.card-bottom div form {
+  display: inline-block;
+  height: inherit;
+  width: inherit;
+}
+.card-bottom div img {
+  display: inline-block;
+  height: 80%;
+  width: auto;
+}
+
+.card-bottom div img:hover {
+  background-color: #97ede3ff;
+}
+
+.card-bottom div img:active {
+  background-color: #e84855ff;
+}
+
 
 /* My Books Section */
 section .col-6 {
@@ -395,13 +420,9 @@ section h2 {
   width: inherit;
   padding: 1rem;
 }
-#view-book-container{
+
+#book-view-section .flex-container {
   flex-direction: column;
-  text-align: center;
-}
-#view-book-container img{
-  min-height: 5rem;
-  width: auto;
 }
 
 div.inner-flex > p{
@@ -414,6 +435,30 @@ div.inner-flex > p:first-child{
 div.inner-flex > p:last-child{
   float: right;
 }
+
+/*Search Page*/
+#search-section form {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  	justify-content: center;
+}
+#search-section #search-field {
+	width: 80%;
+	margin-top: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#search-section .radio-btn{
+	padding: 0.7rem;
+}
+#search-section #search-btn{
+	width: 80%;
+	margin-bottom: 1rem;
+}
+
 
 /*Make Container Visible */
 /*

@@ -1,23 +1,19 @@
 package de.frauas.intro.DAO;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
-import de.frauas.intro.form.BookSummary;
 import de.frauas.intro.form.SearchResultSummary;
 import de.frauas.intro.model.Book;
 
 public class GoogleBookAPI {
 
-	public static BookSummary getBookByID(String id) {
+	public static Book getBookByID(String id) {
 		String uri = "https://www.googleapis.com/books/v1/volumes/" + removeLeadingSlash(id);
 		RestTemplate restTemplate = new RestTemplate();
-		BookSummary bookSummary = restTemplate.getForObject(uri, BookSummary.class);
-		return bookSummary;
+		Book book = restTemplate.getForObject(uri, Book.class);
+		return book;
 	}
 
 	public static SearchResultSummary query(String query) {
@@ -55,13 +51,13 @@ public class GoogleBookAPI {
 		return uri;
 	}
 
-	public static ArrayList<BookSummary> getAllBooksById(List<Book> bookIds) {
-		ArrayList<BookSummary> bookSummaries = new ArrayList<>();
-		if (bookIds != null) {
-			for (Book book : bookIds) {
-				bookSummaries.add(getBookByID(book.getId()));
+	public static ArrayList<Book> getAllBooksById(ArrayList<String> arrayList) {
+		ArrayList<Book> books = new ArrayList<>();
+		if (arrayList != null) {
+			for (String book : arrayList) {
+				books.add(getBookByID(book));
 			}
 		}
-		return bookSummaries;
+		return books;
 	}
 }

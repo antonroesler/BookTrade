@@ -8,29 +8,22 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
 
-import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
-
-import de.frauas.intro.form.BookSummary;
 import de.frauas.intro.model.Book;
 import de.frauas.intro.model.User;
 
 @Service
 public class UserDAO {
-	
+
 	HashMap<String, User> users = new HashMap();
-	
+
 	public void addUser(User user) {
 		users.put(user.getHash(), user);
 	}
-	
+
 	public User getUser(String userHash) {
 		return users.get(userHash);
 	}
-	
+
 	public ArrayList<User> getAllUsers() {
 		Set<String> hashes = users.keySet();
 		ArrayList<User> allUsers = new ArrayList<>();
@@ -40,41 +33,32 @@ public class UserDAO {
 		return allUsers;
 	}
 
-	public ArrayList<BookSummary> getBooks(String userHash) {
-		for (User user : getAllUsers()) {
-			System.out.println("all:" + user.getHash());
-		}
-		User user = users.get(userHash);
-		if (user != null) {
-		ArrayList<Book> bookIds = user.getBooks();
-		if (bookIds.isEmpty()) {
-			Book book = new Book();
-			book.setId("B9f567DUudkC");
-			bookIds.add(book);
-		}
-		ArrayList<BookSummary> bookSummaries = GoogleBookAPI.getAllBooksById(bookIds);
-		return bookSummaries;
-		}
-		else return null;
-	}
-	
-	
+//	public ArrayList<BookSummary> getBooks(String userHash) {
+//		for (User user : getAllUsers()) {
+//			System.out.println("all:" + user.getHash());
+//		}
+//		User user = users.get(userHash);
+//		System.out.println("User: " + user.getHash());
+//		System.out.println(user);
+//		if (user != null) {
+//			ArrayList<Book> bookIds = user.getBooks();
+//			if (bookIds.isEmpty()) {
+//				System.out.println("found empty");
+//				Book book = new Book();
+//				book.setId("B9f567DUudkC");
+//				bookIds.add(book);
+//			}
+//			ArrayList<BookSummary> bookSummaries = GoogleBookAPI.getAllBooksById(bookIds);
+//			return bookSummaries;
+//		} else
+//			return null;
+//	}
+//
+//	public void addBookToUser(String bookId, String userHash) {
+//		User user = getUser(userHash);
+//		user.addBook(new Book(userHash));
+//	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 //	FirebaseInitializer initializer = new FirebaseInitializer();
 //	Firestore db = initializer.getFirebase();
 //	

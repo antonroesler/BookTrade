@@ -30,44 +30,42 @@
 	<section id="book-view-section">
 		<div class="container" th:object="${book}">
 			<div class="flex-container" id="view-book-container">
-				<div class="inner-flex">
 
-				</div>
+
+
 				<div class="inner-flex">
 					<img th:src="*{imageUri}" alt="Kein Bild Verfügbar">
 				</div>
 				<div class="inner-flex">
-					<p>Title</p>
+					<p>Titel</p>
 					<p class="book-card-title" th:utext="*{volumeInfo.title}">...</p>
 				</div>
 				<div class="inner-flex">
-					<p>Subtitle</p>
+					<p>Untertitel</p>
 					<p class="book-card-title" th:utext="*{volumeInfo.subtitle}">...</p>
 				</div>
 				<div class="inner-flex">
-					<p>Author(s)</p>
-					<p class="book-card-title" th:utext="*{aut}">...</p>
+					<p>Autor</p>
+					<p class="book-card-title" th:utext="*{autor}">...</p>
 				</div>
 				<div class="inner-flex">
 					<p>Id</p>
 					<p class="book-card-title" th:utext="*{id}">...</p>
 				</div>
 				<div class="inner-flex">
-					<p>Publisher</p>
+					<p>Verlag</p>
 					<p class="book-card-title" th:utext="*{volumeInfo.publisher}">...</p>
 				</div>
 				<div class="inner-flex">
-					<p>Publishing Year</p>
+					<p>Jahr</p>
 					<p class="book-card-title" th:utext="*{volumeInfo.publishDate}">...</p>
 				</div>
 				<div class="inner-flex">
-					<p>Pages</p>
+					<p>Seiten</p>
 					<p class="book-card-title" th:utext="*{volumeInfo.pageCount}">...</p>
 				</div>
 
-				<div class="inner-flex"></div>
-
-			</div>
+				</div>
 
 
 		</div>

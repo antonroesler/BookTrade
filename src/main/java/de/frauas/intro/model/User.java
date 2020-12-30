@@ -20,7 +20,7 @@ public class User {
 	public String getHash() {
 		String userString = username + password;
 		String hashCode = Integer.toHexString(userString.hashCode());
-		hashCode = hashCode.substring(0, 5);
+		hashCode = hashCode.substring(0, 7);
 		return hashCode;
 	}
 

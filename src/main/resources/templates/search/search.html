@@ -1,25 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="de" dir="ltr">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="./../css/styles.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+	<title>Suchen</title>
 </head>
+
 <body>
-
-			<form th:action="@{/search/find}" th:object="${searchForm}" method="GET">
-				<input type="text" id="nav-search" name="search" placeholder="ISBN, Title, Author" th:field="*{input}">
-				<input type="radio" name="search-type" value="ALL" checked="checked" th:field="*{type}">
-				<label for="all">Alles</label><br>
-				<input type="radio" name="search-type" value="TITLE" th:field="*{type}">
-				<label for="title">Titel</label><br>
-				<input type="radio" name="search-type" value="AUTHOR" th:field="*{type}">
-				<label for="author">Autor</label><br>
-				<input type="radio" name="search-type" value="ISBN" th:field="*{type}">
-				<label for="isbn">ISBN</label><br>
-				<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-				<button type="submit" id="nav-search-btn">Search</button>
-			</form>
-
+	<section id="search-section">
+	<div class="flex-container">
+		<form th:action="@{/search/find}" th:object="${searchForm}" method="GET">
+			<input type="text" id="search-field" name="search" placeholder="ISBN, Title, Author" th:field="*{input}">
+			<div class="radio-btn">
+			<input type="radio" name="search-type" value="ALL" checked="checked" th:field="*{type}">
+			<label for="all">Alles</label><br>
+			</div>
+			<div class="radio-btn">
+			<input type="radio" name="search-type" value="TITLE" th:field="*{type}">
+			<label for="title">Titel </label><br>
+			</div>
+			<div class="radio-btn">
+			<input type="radio" name="search-type" value="AUTHOR" th:field="*{type}">
+			<label for="author">Autor</label><br>
+			</div>
+			<div class="radio-btn">
+			<input type="radio" name="search-type" value="ISBN" th:field="*{type}">
+			<label for="isbn">ISBN</label><br>
+			</div>
+			
+			<input type="hidden" th:value="*{user}" th:field="*{user}" />
+			<button type="submit" id="search-btn">Search</button>
+		</form>
+		</div>
+	</section>
 
 </body>
+
 </html>
