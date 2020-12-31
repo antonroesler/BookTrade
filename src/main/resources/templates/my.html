@@ -69,8 +69,8 @@ function drop(ev) {
 			<div class="container">
 			<div class="row">
 
-				<ul class="row" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
-					<li th:each="book: ${books}" th:draggable="true" th:ondragstart="drag(event)">
+				<ul class="row">
+					<li th:each="book: ${books}">
 						<div class="book-card">
 							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
 							<p class="book-card-text" th:utext="${book.autor}">...</p>
@@ -93,10 +93,6 @@ function drop(ev) {
 
 							</div>
 						</div>
-					</li>
-					
-					<li th:draggable="true" th:ondragstart="drag(event)">
-						</p>Jier<p>
 					</li>
 
 				</ul>
@@ -127,17 +123,6 @@ function drop(ev) {
 		</div>
 	</section>
 
-	<section>
-	<h1>Java Script Test</h1>
-
-	<ul class="test-con" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
-	<li id="tester" th:draggable="true" th:ondragstart="drag(event)"></li>
-	</ul>
-
-	<ul class="test-con" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
-	</ul>
-
-	</section>
 
 
 
