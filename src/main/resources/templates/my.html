@@ -33,7 +33,7 @@ function drop(ev) {
 	<nav id="header-navbar">
 
 		<div class="flex-container">
-			<ul>
+			<ul style="list-style-type:none;">
 				<li><a href="index">Meine Bücher</a></li>
 				<li><a href="impressum">Impressum</a></li>
 				<li></li>
@@ -69,7 +69,7 @@ function drop(ev) {
 			<div class="container">
 			<div class="row">
 
-				<ul class="row">
+				<ul class="row" style="list-style-type:none;">
 					<li th:each="book: ${books}">
 						<div class="book-card">
 							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
