@@ -44,15 +44,14 @@ public class BookController {
 
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String userHash) {
-		ArrayList<String> bookids = userDatabase.getBooksFromUser(userHash);
-		ArrayList<Book> books = new ArrayList<>();
-		if (!bookids.isEmpty()) {
-			books = GoogleBookAPI.getAllBooksById(bookids);
-		}
-		if (books != null) {
-			model.addAttribute("books", books);
-			UserHashForm hashForm = new UserHashForm();
-			hashForm.setHash(userHash);
+		ArrayList<Book> ownedBooks = getBooksFromUser(userHash, UserBookCategory.OWNED);
+		ArrayList<Book> wantedBooks = getBooksFromUser(userHash, UserBookCategory.WANTED);
+		if (ownedBooks != null) {
+			setBooksData(ownedBooks);
+			setBooksData(wantedBooks);
+			model.addAttribute("books", ownedBooks);
+			model.addAttribute("booksWanted", wantedBooks);
+			UserHashForm hashForm = new UserHashForm(userHash);
 			model.addAttribute("userHashForm", hashForm);
 			return "my";
 		} else {
@@ -61,8 +60,24 @@ public class BookController {
 
 	}
 
+	private void setBooksData(ArrayList<Book> ownedBooks) {
+		for (Book book : ownedBooks) {
+			book.setData();
+		}
+	}
+
+	private ArrayList<Book> getBooksFromUser(String userHash, UserBookCategory category) {
+		ArrayList<String> bookids = userDatabase.getBooksFromUser(userHash, category);
+		ArrayList<Book> ownedBooks = new ArrayList<>();
+		if (!bookids.isEmpty()) {
+			ownedBooks = GoogleBookAPI.getAllBooksById(bookids);
+		}
+		return ownedBooks;
+	}
+
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
+		System.out.println("HIIIIIIII");
 		String uriString = "redirect:/search/search?user=" + hashForm.getHash();
 		return uriString;
 

@@ -17,17 +17,7 @@ public class TestController {
 	@RequestMapping("")
 	@ResponseBody
 	public String test() {
-		userDatabase.addBookToUser("d02e6", "1151");
-		userDatabase.addBookToUser("d02e6", "3205");
-		
-		String str = "";
-		ArrayList<String> books = userDatabase.getBooksFromUser("d02e6");
-		str += books.size();
-		for (String string : books) {
-			str += string;
-			str += " ";
-		}
-		return str;
+		return "";
 	}
 
 }

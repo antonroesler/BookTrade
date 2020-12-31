@@ -11,6 +11,7 @@ import java.util.Scanner;
 import org.apache.logging.log4j.util.StringBuilderFormattable;
 import org.springframework.stereotype.Service;
 
+import de.frauas.intro.control.UserBookCategory;
 import de.frauas.intro.model.User;
 
 @Service
@@ -32,7 +33,8 @@ public class UserDatabase {
 		newUserFile.mkdir();
 		addFile("pass", password, newUserFile.getAbsolutePath());
 		addFile("name", name, newUserFile.getAbsolutePath());
-		addFile("books", newUserFile.getAbsolutePath());
+		addFile("owned", newUserFile.getAbsolutePath());
+		addFile("wanted", newUserFile.getAbsolutePath());
 
 	}
 	
@@ -56,13 +58,13 @@ public class UserDatabase {
 
 	}
 
-	public void addBookToUser(String userHash, String bookId) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), "books");
+	public void addBookToUser(String userHash, String bookId, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
 		writeToFile(userBooksFile, bookId);
 	}
 
-	public ArrayList<String> getBooksFromUser(String userHash) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), "books");
+	public ArrayList<String> getBooksFromUser(String userHash, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
 		return readFromFile(userBooksFile);
 	}
 
@@ -143,6 +145,17 @@ public class UserDatabase {
 
 	public static File getDatabasefile() {
 		return databaseFile;
+	}
+	
+	public String getCategoryString (UserBookCategory category) {
+		switch (category) {
+		case OWNED:
+			return "owned";
+		case WANTED:
+			return "wanted";
+
+		}
+		return null;
 	}
 
 
