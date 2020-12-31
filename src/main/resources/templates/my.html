@@ -8,6 +8,21 @@
 	<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 	<title>BücherHändler</title>
 	<script src="modal.js"></script>
+<script>
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  ev.target.appendChild(document.getElementById(data));
+}
+</script>
 </head>
 
 <body>
@@ -38,7 +53,7 @@
 
 	<div class="container" id="big-title">
 		<div class="row">
-			<h1>Bücher...</h1>
+			<h1>Bücher</h1>
 		</div>
 	</div>
 
@@ -47,65 +62,80 @@
 
 	<section id="my-books-section">
 
-		<div class="container" id="my-books-title">
+		<div class="container">
 			<div class="row">
-				<h2>Meine Bücher</h2>
+				<h2>Hab' Ich</h2>
 			</div>
-			<div class="container" id="my-books-title">
-				<div class="row">
+			<div class="container">
+			<div class="row">
 
-					<ul class="row">
-						<li th:each="book: ${books}">
-							<div class="book-card" onclick="location.href='';">
-								<p class="book-card-title" th:utext="${book.getVolumeInfo().title}">...</p>
-								<div class="card-bottom">
+				<ul class="row" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
+					<li th:each="book: ${books}" th:draggable="true" th:ondragstart="drag(event)">
+						<div class="book-card">
+							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+							<p class="book-card-text" th:utext="${book.autor}">...</p>
+							
+							<div class="card-bottom">
 
-									<a href="index.html" class="icon"> <img src="icons/delete.png" alt="More Iconn">
-									</a> <a href="https://books.google.de/books/about/The_Art_of_Statistics.html?id=CiZeDwAAQBAJ&redir_esc=y" class="icon"> <img src="icons/view.png" alt="View on Goole Books Icon">
-									</a> <a class="icon" id="more-btn"> <img src="icons/more.png" alt="More Icon">
-									</a>
-
+								<div th:attr="onclick='add(\'' + ${book.id}+  '\');'" class="icon">
+									<img src="../icons/add.png" alt="Delete Iconn">
 								</div>
-							</div>
-						</li>
+								<div  class="icon">
+									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
+									</form>
+								</div>
+								<div class="icon">
+									<img src="../icons/more.png" alt="Delete Iconn">
+								</div>
 
-					</ul>
-				</div>
+							</div>
+						</div>
+					</li>
+
+				</ul>
+
 			</div>
+		</div>
 		</div>
 	</section>
 
 	<!-- Wishlist -->
 
-	<section id="wishlist-section">
+		<section id="my-books-section">
 
 		<div class="container" id="my-books-title">
 			<div class="row">
-				<div class="col-6">
-					<h2>Wunschliste</h2>
-				</div>
+				<h2>Möcht' Ich</h2>
 			</div>
-
-		</div>
-
-	</section>
-
-	<!-- Recomondations -->
-
-	<section id="recomondations-section">
-
-		<div class="container" id="my-books-title">
+						<div class="container">
 			<div class="row">
-				<div class="col-6">
-					<h2>Empfehlungen</h2>
-				</div>
+
+				<ul class="row" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
+					
+
+				</ul>
+
 			</div>
-
 		</div>
-
-
-
+		</div>
 	</section>
+	
+	<section>
+	<h1>Java Script Test</h1>
+	
+	<ul class="test-con" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
+	<li id="tester" th:draggable="true" th:ondragstart="drag(event)"></li>
+	</ul>
+	
+	<ul class="test-con" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
+	</ul>
+	
+	</section>
+
+
 
 
 

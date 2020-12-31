@@ -125,11 +125,21 @@ form > input{
   height: inherit;
 }
 
+.flex-center {
+	padding: 1rem;
+	flex-direction: column;
+	align-items: center;
+  	justify-content: center;
+  	text-align: center;
+}
+
 .row {
   display: flex;
   align-content: space-between;
   flex-flow: row wrap;
   text-align: center;
+  min-height: 5rem;
+  width: 100%;
 }
 button {
   border: 0;
@@ -467,4 +477,19 @@ div.inner-flex > p:last-child{
 }
 .container .container {
   background-color: gold;
+}
+*/
+
+
+
+#tester {
+	background-color: green;
+	height: 100px;
+	width: 100px;
+}
+
+.test-con{
+	height: 30px;
+	width: 30px;
+	border: 1px solid black;
 }

@@ -41,6 +41,12 @@ public class SearchController {
 		return "search/search";
 	}
 	
+	@RequestMapping(value = {"/e"}, method = RequestMethod.GET)
+	public String getError() {
+		int x = 3/0;
+		return "index";
+	}
+	
 	@RequestMapping(value = {"/find"},method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
 		String query = searchForm.getInput();
@@ -69,8 +75,7 @@ public class SearchController {
 	@RequestMapping(value = {"/results"},method = RequestMethod.GET)
 	public String displayResults(Model model, @RequestParam("user") String userHash) {
 		model.addAttribute("bookList", summary.getItems());
-		UserHashForm hashForm = new UserHashForm();
-		hashForm.setHash(userHash);
+		UserHashForm hashForm = new UserHashForm(userHash);
 		model.addAttribute("userHashForm",hashForm);
 		String uri = "search/results";
 		return uri;
@@ -81,9 +86,8 @@ public class SearchController {
 	
 	@RequestMapping(value = "/results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String addBook(Model model, @RequestBody AddForm addForm) {
-		userDatabase.addBookToUser(addForm.getUserHash(), addForm.getBookId());
-		UserHashForm hashForm = new UserHashForm();
-		hashForm.setHash(addForm.getUserHash());
+		userDatabase.addBookToUser(addForm.getUserHash(), addForm.getBookId(), UserBookCategory.OWNED);
+		UserHashForm hashForm = new UserHashForm(addForm.getUserHash());
 		model.addAttribute("userHashForm",hashForm);
 		System.out.println("Book added");
 		return "search/results";
