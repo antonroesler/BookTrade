@@ -8,11 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import de.frauas.intro.DAO.BookDAO;
 import de.frauas.intro.DAO.UserDAO;
 import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.LoginForm;
+import de.frauas.intro.form.UserHashForm;
 import de.frauas.intro.model.User;
 import de.frauas.intro.util.UriUtil;
 
@@ -25,6 +29,8 @@ public class UserController {
 	
 	@Autowired
 	UserDatabase userDatabase;
+	
+	BookDAO bookDAO = new BookDAO();
 
 	
 	
@@ -61,6 +67,15 @@ public class UserController {
 		User user = new User(loginForm.getUsername(), loginForm.getPassword());
 		userDatabase.addUser(user);
 		return "redirect:/user/login";
+	}
+	
+	@RequestMapping(value = "/view" ,method = RequestMethod.GET)
+	public String viewUser(Model model, @RequestParam("user") String userHash) {
+		User user = userDatabase.getUser(userHash);
+		model.addAttribute("userHashForm", new UserHashForm(userHash));
+		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
+		model.addAttribute("user", user);
+		return "user/view";
 	}
 	
 

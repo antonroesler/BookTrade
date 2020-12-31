@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>View User</title>
+<link rel="stylesheet" type="text/css" href="../css/styles.css">
+<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+</head>
+<body>
+	<div class="container" id="big-title">
+		<div class="row">
+			<h1>User</h1>
+		</div>
+		<div class="row">
+			<h1 th:utext="${user.username}">...</h1>
+		</div>
+	</div>
+
+	<section id="my-books-section">
+
+		<div class="container">
+			<div class="row">
+				<h2>Zu haben</h2>
+			</div>
+			<div class="container">
+			<div class="row">
+
+				<ul class="row" style="list-style-type:none;">
+					<li th:each="book: ${books}">
+						<div class="book-card">
+							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+							<p class="book-card-text" th:utext="${book.autor}">...</p>
+
+							<div class="card-bottom">
+
+							
+								<div  class="icon">
+									<form th:action="@{/my}" th:object="${userHashForm}" method="POST">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/bell.png" alt="Ask for book">
+									</form>
+								</div>
+								<div  class="icon">
+									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
+									</form>
+								</div>
+								<div class="icon">
+									<img src="../icons/delete.png" alt="Delete Iconn">
+								</div>
+
+							</div>
+						</div>
+					</li>
+
+				</ul>
+
+			</div>
+		</div>
+		</div>
+	</section>
+	
+	<div class="platzhalter"></div>
+</body>
+</html>
