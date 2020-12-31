@@ -1,6 +1,7 @@
 package de.frauas.intro.form;
 
 public class AddForm {
+	
 	String bookId;
 	String userHash;
 

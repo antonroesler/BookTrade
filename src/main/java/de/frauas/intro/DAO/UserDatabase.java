@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.apache.logging.log4j.util.StringBuilderFormattable;
@@ -37,12 +38,12 @@ public class UserDatabase {
 		addFile("wanted", newUserFile.getAbsolutePath());
 
 	}
-	
+
 	public void addUser(User user) {
 		addUser(user.getHash(), user.getPassword(), user.getUsername());
-		
+
 	}
-	
+
 	public User getUser(String userHash) {
 		String userPath = getUserPath(userHash);
 		String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
@@ -78,7 +79,7 @@ public class UserDatabase {
 		}
 
 	}
-	
+
 	private void addFile(String fileName, String path) {
 		try {
 			File newFile = makeNewFile(path, fileName);
@@ -146,8 +147,8 @@ public class UserDatabase {
 	public static File getDatabasefile() {
 		return databaseFile;
 	}
-	
-	public String getCategoryString (UserBookCategory category) {
+
+	public String getCategoryString(UserBookCategory category) {
 		switch (category) {
 		case OWNED:
 			return "owned";
@@ -158,6 +159,37 @@ public class UserDatabase {
 		return null;
 	}
 
+	public void changeBook(String hash, String id) {
+		UserBookCategory category = findCategory(hash, id);
+		addBookToUser(hash, id, reverseCategory(category));
+		delteBookFormUserList(hash, id, category);
+	}
 
+	private void delteBookFormUserList(String hash, String id, UserBookCategory category) {
+
+		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		addFile(getCategoryString(category), getUserPath(hash));
+		ArrayList<String> result = readFromFile(userBooksFile);
+		userBooksFile.delete();
+		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		result.remove(id);
+		 for (String string : result) {
+			writeToFile(userBooksFile, string);
+		}
+	}
+
+	private UserBookCategory reverseCategory(UserBookCategory category) {
+		if (category == UserBookCategory.OWNED) {
+			return UserBookCategory.WANTED;
+		}
+		return UserBookCategory.OWNED;
+	}
+
+	private UserBookCategory findCategory(String hash, String id) {
+		if (getBooksFromUser(hash, UserBookCategory.OWNED).contains(id)) {
+			return UserBookCategory.OWNED;
+		}
+		return UserBookCategory.WANTED;
+	}
 
 }

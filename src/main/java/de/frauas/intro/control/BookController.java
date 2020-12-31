@@ -37,7 +37,7 @@ public class BookController {
 	@Autowired
 	UserDatabase userDatabase;
 
-	@RequestMapping(value = { "", "/", "/index", "/logout"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "", "/", "/index", "/logout" }, method = RequestMethod.GET)
 	public String Get() {
 		return "redirect:/user/login";
 	}
@@ -77,10 +77,15 @@ public class BookController {
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
-		System.out.println("HIIIIIIII");
 		String uriString = "redirect:/search/search?user=" + hashForm.getHash();
 		return uriString;
 
+	}
+
+	@RequestMapping(value = "/my", method = RequestMethod.POST)
+	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
+		userDatabase.changeBook(hashForm.getHash(), hashForm.getId());
+		return mainPage(model, hashForm.getHash());
 	}
 
 //	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)

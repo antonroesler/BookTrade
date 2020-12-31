@@ -287,9 +287,11 @@ section ul li:nth-child(4n+3) .book-card {
 .book-card .book-card-title{
   margin: 1rem;
   font-weight: 700;
+  overflow-wrap: break-word;
 }
 .book-card .book-card-author{
   margin: 1rem;
+  overflow-wrap: break-word;
 }
 
 .book-card .card-bottom{
