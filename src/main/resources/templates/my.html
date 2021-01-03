@@ -77,7 +77,7 @@ function drop(ev) {
 
 							<div class="card-bottom">
 
-							
+
 								<div  class="icon">
 									<form th:action="@{/my}" th:object="${userHashForm}" method="POST">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
@@ -126,12 +126,12 @@ function drop(ev) {
 
 							<div class="card-bottom">
 
-							
+
 								<div  class="icon">
-									<form th:action="@{/my}" th:object="${userHashForm}" method="POST">
+									<form th:action="@{/find}" th:object="${userHashForm}" method="GET">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
-									<input type="image" src="../icons/change.png" alt="Change list Icon">
+									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
 									</form>
 								</div>
 								<div  class="icon">
@@ -153,12 +153,14 @@ function drop(ev) {
 
 			</div>
 		</div>
-		
-		
-		
+
+
+
 		</div>
 	</section>
 
+
+<div class="platzhalter"></div>
 
 
 

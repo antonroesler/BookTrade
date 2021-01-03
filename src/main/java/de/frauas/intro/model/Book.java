@@ -40,10 +40,12 @@ public class Book {
 
 	public String authors() {
 		String authorString = "";
+		
+		if (volumeInfo.getAuthors() != null) {
 		for (String aut : volumeInfo.getAuthors()) {
 			authorString += aut;
 			authorString += ", ";
-		}
+		}}
 		return authorString;
 	}
 

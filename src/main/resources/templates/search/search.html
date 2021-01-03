@@ -10,10 +10,11 @@
 </head>
 
 <body>
-	<section id="search-section">
+	<section class="search-section" id="book-search-section">
 	<div class="flex-container">
+		<h1>Buch</h1>
 		<form th:action="@{/search/find}" th:object="${searchForm}" method="GET">
-			<input type="text" id="search-field" name="search" placeholder="ISBN, Title, Author" th:field="*{input}">
+			<input type="text" id="search-field" name="search" placeholder="ISBN, Title, Author" th:field="*{input}" autocomplete="off">
 			<div class="radio-btn">
 			<input type="radio" name="search-type" value="ALL" checked="checked" th:field="*{type}">
 			<label for="all">Alles</label><br>
@@ -30,11 +31,24 @@
 			<input type="radio" name="search-type" value="ISBN" th:field="*{type}">
 			<label for="isbn">ISBN</label><br>
 			</div>
-			
+
 			<input type="hidden" th:value="*{user}" th:field="*{user}" />
 			<button type="submit" id="search-btn">Search</button>
 		</form>
 		</div>
+
+	</section>
+
+	<section class="search-section" id="user-search-section">
+	<div class="flex-container">
+		<h1>User</h1>
+		<form method="GET">
+			<input type="text" id="search-field" name="search" placeholder="username" autocomplete="off">
+			<br>
+			<button type="submit" id="search-btn">Search</button>
+		</form>
+		</div>
+
 	</section>
 
 </body>

@@ -74,6 +74,19 @@ public class BookController {
 		userDatabase.changeBook(hashForm.getHash(), hashForm.getId());
 		return mainPage(model, hashForm.getHash());
 	}
+	
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public String findUsers(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
+		ArrayList<User> users = userDatabase.getUsersWithBook(hashForm.getId());
+		if (users.isEmpty()) {
+			return "/error/noUser";
+		}
+		model.addAttribute("users", users);
+		SearchForm searchForm = new SearchForm();
+		searchForm.setUser(hashForm.getHash());
+		model.addAttribute("searchForm", searchForm);
+		return "/find";
+	}
 
 //	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)
 //	public String makeSomeSampleBooks(Model model) {

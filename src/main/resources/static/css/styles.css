@@ -478,7 +478,7 @@ div.inner-flex>p:last-child {
 }
 
 /*Search Page*/
-#search-section form {
+.search-section form {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -486,20 +486,29 @@ div.inner-flex>p:last-child {
   justify-content: center;
 }
 
-#search-section #search-field {
+.search-section #search-field {
   width: 80%;
   margin-top: 1rem;
   margin-left: auto;
   margin-right: auto;
 }
 
-#search-section .radio-btn {
+.search-section .radio-btn {
   padding: 0.7rem;
 }
 
-#search-section #search-btn {
+.search-section #search-btn {
   width: 80%;
   margin-bottom: 1rem;
+}
+
+/*login Page*/
+
+#login-section form {
+	margin-bottom: 1rem;
+}
+#login-section a {
+	color: #D6D6D6;
 }
 
 /*Make Container Visible */

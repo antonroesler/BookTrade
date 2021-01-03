@@ -25,6 +25,7 @@ public class UserDatabase {
 		ArrayList<User> users = new ArrayList<>();
 		for (String hashString : userHashes) {
 			users.add(getUser(hashString));
+			System.out.println("Added: " + hashString);
 		}
 		return users;
 	}
@@ -38,6 +39,27 @@ public class UserDatabase {
 		addFile("wanted", newUserFile.getAbsolutePath());
 
 	}
+	
+	public ArrayList<User> getUsersWithBook(String bookId) {
+		ArrayList<User> users = getAllUseres();
+		ArrayList<User> outputArrayList = new ArrayList<>();
+		System.out.println("YYYYYYYYYYYYYYYYYYYYY");
+		for (User user : users) {
+			System.out.println("X"+user.getUsername());
+			if(hasBook(user, bookId)) {
+				outputArrayList.add(user);
+			} else {
+			}
+		}
+		
+		return outputArrayList;
+	}
+
+	private boolean hasBook(User user, String bookId) {
+		ArrayList<String> userBook = getBooksFromUser(user.getHash(), UserBookCategory.OWNED);
+		if (userBook.contains(bookId)) return true;
+		return false;
+	}
 
 	public void addUser(User user) {
 		addUser(user.getHash(), user.getPassword(), user.getUsername());
@@ -48,8 +70,10 @@ public class UserDatabase {
 		String userPath = getUserPath(userHash);
 		String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
 		String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
+		System.out.println("User: " + username);
 		return new User(username, password);
 	}
+	
 
 	public boolean checkUserPassword(String userhash, String password) {
 		File passwordFile = makeNewFile(getUserPath(userhash), "pass");
@@ -148,6 +172,7 @@ public class UserDatabase {
 		return databaseFile;
 	}
 
+	
 	public String getCategoryString(UserBookCategory category) {
 		switch (category) {
 		case OWNED:
