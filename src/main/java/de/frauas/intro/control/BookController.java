@@ -36,19 +36,19 @@ public class BookController {
 
 	@Autowired
 	UserDatabase userDatabase;
+	
+	BookDAO bookDAO = new BookDAO();
 
-	@RequestMapping(value = { "", "/", "/index", "/logout"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "", "/", "/index", "/logout" }, method = RequestMethod.GET)
 	public String Get() {
 		return "redirect:/user/login";
 	}
 
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String userHash) {
-		ArrayList<Book> ownedBooks = getBooksFromUser(userHash, UserBookCategory.OWNED);
-		ArrayList<Book> wantedBooks = getBooksFromUser(userHash, UserBookCategory.WANTED);
+		ArrayList<Book> ownedBooks = bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED);
+		ArrayList<Book> wantedBooks = bookDAO.getBooksFromUser(userHash, UserBookCategory.WANTED);
 		if (ownedBooks != null) {
-			setBooksData(ownedBooks);
-			setBooksData(wantedBooks);
 			model.addAttribute("books", ownedBooks);
 			model.addAttribute("booksWanted", wantedBooks);
 			UserHashForm hashForm = new UserHashForm(userHash);
@@ -60,27 +60,32 @@ public class BookController {
 
 	}
 
-	private void setBooksData(ArrayList<Book> ownedBooks) {
-		for (Book book : ownedBooks) {
-			book.setData();
-		}
-	}
 
-	private ArrayList<Book> getBooksFromUser(String userHash, UserBookCategory category) {
-		ArrayList<String> bookids = userDatabase.getBooksFromUser(userHash, category);
-		ArrayList<Book> ownedBooks = new ArrayList<>();
-		if (!bookids.isEmpty()) {
-			ownedBooks = GoogleBookAPI.getAllBooksById(bookids);
-		}
-		return ownedBooks;
-	}
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
-		System.out.println("HIIIIIIII");
 		String uriString = "redirect:/search/search?user=" + hashForm.getHash();
 		return uriString;
 
+	}
+
+	@RequestMapping(value = "/my", method = RequestMethod.POST)
+	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
+		userDatabase.changeBook(hashForm.getHash(), hashForm.getId());
+		return mainPage(model, hashForm.getHash());
+	}
+	
+	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	public String findUsers(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
+		ArrayList<User> users = userDatabase.getUsersWithBook(hashForm.getId());
+		if (users.isEmpty()) {
+			return "/error/noUser";
+		}
+		model.addAttribute("users", users);
+		SearchForm searchForm = new SearchForm();
+		searchForm.setUser(hashForm.getHash());
+		model.addAttribute("searchForm", searchForm);
+		return "/find";
 	}
 
 //	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)

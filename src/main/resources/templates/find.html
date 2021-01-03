@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="../css/styles.css">
+	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+	<title>BücherHändler</title>
+</head>
+
+<body>
+
+
+	<!-- NavBar -->
+
+	<nav id="header-navbar">
+
+		<div class="flex-container">
+			<ul>
+				<li><a href="index">Meine Bücher</a></li>
+				<li><a href="impressum">Impressum</a></li>
+
+			</ul>
+
+
+
+		</div>
+	</nav>
+
+	<section id="search-results-section">
+
+		<div class="container" id="my-books-title">
+			<div class="row">
+				<form th:action="@{/search/user}" th:object="${searchForm}" method="post">
+					<ul class="row">
+
+						<li th:each="user: ${users}">
+							<button type="submit" class="book-card-title" th:utext="${user.username}">...</button>
+							<input type="hidden" th:value="${user.getHash()}" th:attr="name='input'" />
+							<input type="hidden" th:value="*{user}" th:field="*{user}" />
+						</li>
+
+					</ul>
+
+				</form>
+
+
+			</div>
+		</div>
+
+	</section>
+
+
+</body>
+
+</html>

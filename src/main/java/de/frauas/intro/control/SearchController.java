@@ -41,10 +41,11 @@ public class SearchController {
 		return "search/search";
 	}
 	
-	@RequestMapping(value = {"/e"}, method = RequestMethod.GET)
-	public String getError() {
-		int x = 3/0;
-		return "index";
+	@RequestMapping(value = {"/user"}, method = RequestMethod.POST)
+	public String getUserSearchPage(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
+		String activeUserHash = searchForm.getUser() ;
+		String searchedUserHash = searchForm.getInput();
+		return "redirect:/user/view?" + UriUtil.addUserHeader(activeUserHash) + UriUtil.addHeader("search", searchedUserHash);
 	}
 	
 	@RequestMapping(value = {"/find"},method = RequestMethod.GET)

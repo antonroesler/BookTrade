@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import org.apache.logging.log4j.util.StringBuilderFormattable;
@@ -24,6 +25,7 @@ public class UserDatabase {
 		ArrayList<User> users = new ArrayList<>();
 		for (String hashString : userHashes) {
 			users.add(getUser(hashString));
+			System.out.println("Added: " + hashString);
 		}
 		return users;
 	}
@@ -38,17 +40,40 @@ public class UserDatabase {
 
 	}
 	
+	public ArrayList<User> getUsersWithBook(String bookId) {
+		ArrayList<User> users = getAllUseres();
+		ArrayList<User> outputArrayList = new ArrayList<>();
+		System.out.println("YYYYYYYYYYYYYYYYYYYYY");
+		for (User user : users) {
+			System.out.println("X"+user.getUsername());
+			if(hasBook(user, bookId)) {
+				outputArrayList.add(user);
+			} else {
+			}
+		}
+		
+		return outputArrayList;
+	}
+
+	private boolean hasBook(User user, String bookId) {
+		ArrayList<String> userBook = getBooksFromUser(user.getHash(), UserBookCategory.OWNED);
+		if (userBook.contains(bookId)) return true;
+		return false;
+	}
+
 	public void addUser(User user) {
 		addUser(user.getHash(), user.getPassword(), user.getUsername());
-		
+
 	}
-	
+
 	public User getUser(String userHash) {
 		String userPath = getUserPath(userHash);
 		String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
 		String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
+		System.out.println("User: " + username);
 		return new User(username, password);
 	}
+	
 
 	public boolean checkUserPassword(String userhash, String password) {
 		File passwordFile = makeNewFile(getUserPath(userhash), "pass");
@@ -78,7 +103,7 @@ public class UserDatabase {
 		}
 
 	}
-	
+
 	private void addFile(String fileName, String path) {
 		try {
 			File newFile = makeNewFile(path, fileName);
@@ -146,8 +171,9 @@ public class UserDatabase {
 	public static File getDatabasefile() {
 		return databaseFile;
 	}
+
 	
-	public String getCategoryString (UserBookCategory category) {
+	public String getCategoryString(UserBookCategory category) {
 		switch (category) {
 		case OWNED:
 			return "owned";
@@ -158,6 +184,37 @@ public class UserDatabase {
 		return null;
 	}
 
+	public void changeBook(String hash, String id) {
+		UserBookCategory category = findCategory(hash, id);
+		addBookToUser(hash, id, reverseCategory(category));
+		delteBookFormUserList(hash, id, category);
+	}
 
+	private void delteBookFormUserList(String hash, String id, UserBookCategory category) {
+
+		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		addFile(getCategoryString(category), getUserPath(hash));
+		ArrayList<String> result = readFromFile(userBooksFile);
+		userBooksFile.delete();
+		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		result.remove(id);
+		 for (String string : result) {
+			writeToFile(userBooksFile, string);
+		}
+	}
+
+	private UserBookCategory reverseCategory(UserBookCategory category) {
+		if (category == UserBookCategory.OWNED) {
+			return UserBookCategory.WANTED;
+		}
+		return UserBookCategory.OWNED;
+	}
+
+	private UserBookCategory findCategory(String hash, String id) {
+		if (getBooksFromUser(hash, UserBookCategory.OWNED).contains(id)) {
+			return UserBookCategory.OWNED;
+		}
+		return UserBookCategory.WANTED;
+	}
 
 }

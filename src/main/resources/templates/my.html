@@ -33,7 +33,7 @@ function drop(ev) {
 	<nav id="header-navbar">
 
 		<div class="flex-container">
-			<ul>
+			<ul style="list-style-type:none;">
 				<li><a href="index">Meine Bücher</a></li>
 				<li><a href="impressum">Impressum</a></li>
 				<li></li>
@@ -42,7 +42,7 @@ function drop(ev) {
 				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
 				<button type="submit">Search</button>
 			</form>
-			<form th:action="@{/logout}" method="DELETE">
+			<form th:action="@{/logout}" method="GET">
 				<button type="submit">Logout</button>
 			</form>
 		</div>
@@ -69,7 +69,7 @@ function drop(ev) {
 			<div class="container">
 			<div class="row">
 
-				<ul class="row">
+				<ul class="row" style="list-style-type:none;">
 					<li th:each="book: ${books}">
 						<div class="book-card">
 							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
@@ -77,8 +77,13 @@ function drop(ev) {
 
 							<div class="card-bottom">
 
-								<div th:attr="onclick='add(\'' + ${book.id}+  '\');'" class="icon">
-									<img src="../icons/add.png" alt="Delete Iconn">
+
+								<div  class="icon">
+									<form th:action="@{/my}" th:object="${userHashForm}" method="POST">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/change.png" alt="Change list Icon">
+									</form>
 								</div>
 								<div  class="icon">
 									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
@@ -88,7 +93,7 @@ function drop(ev) {
 									</form>
 								</div>
 								<div class="icon">
-									<img src="../icons/more.png" alt="Delete Iconn">
+									<img src="../icons/delete.png" alt="Delete Iconn">
 								</div>
 
 							</div>
@@ -110,19 +115,52 @@ function drop(ev) {
 			<div class="row">
 				<h2>Möcht' Ich</h2>
 			</div>
-						<div class="container">
+					<div class="container">
 			<div class="row">
 
-				<ul class="row" th:ondrop="drop(event)" th:ondragover="allowDrop(event)">
+				<ul class="row">
+					<li th:each="book: ${booksWanted}">
+						<div class="book-card">
+							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+							<p class="book-card-text" th:utext="${book.autor}">...</p>
 
+							<div class="card-bottom">
+
+
+								<div  class="icon">
+									<form th:action="@{/find}" th:object="${userHashForm}" method="GET">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
+									</form>
+								</div>
+								<div  class="icon">
+									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
+									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
+									</form>
+								</div>
+								<div class="icon">
+									<img src="../icons/delete.png" alt="Delete Iconn">
+								</div>
+
+							</div>
+						</div>
+					</li>
 
 				</ul>
 
 			</div>
 		</div>
+
+
+
 		</div>
 	</section>
 
+
+<div class="platzhalter"></div>
 
 
 
