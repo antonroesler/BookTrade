@@ -7,6 +7,25 @@
 <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 </head>
 <body>
+	<!-- NavBar -->
+
+	<nav id="header-navbar">
+
+		<div class="flex-container">
+			<form th:action="@{/back}" th:object="${viewingUser}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Back</button>
+			</form>
+			<form th:action="@{/search}" th:object="${viewingUser}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Search</button>
+			</form>
+			<form th:action="@{/logout}" method="GET">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+	</nav>
+
 	<div class="container" id="big-title">
 		<div class="row">
 			<h1>User</h1>
@@ -34,13 +53,13 @@
 							<div class="card-bottom">
 
 
-								<div  class="icon"  th:attr="onclick='inquiry(\'' + ${book.id}+  '\');'" th:object="${userHashForm}" >
+								<div  class="icon"  th:attr="onclick='inquiry(\'' + ${book.id}+  '\');'" th:object="${viewedUser}" >
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<img type="image" src="../icons/bell.png" alt="Ask for book">
 								</div>
 								<div  class="icon">
-									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
+									<form th:action="@{/bookView}" th:object="${viewedUser}" method="GET">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>

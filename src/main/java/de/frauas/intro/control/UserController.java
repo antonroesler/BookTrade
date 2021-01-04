@@ -73,10 +73,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/view" ,method = RequestMethod.GET)
-	public String viewUser(Model model, @RequestParam("search") String userHash) {
-		User user = userDatabase.getUser(userHash);
-		model.addAttribute("userHashForm", new UserHashForm(userHash));
-		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
+	public String viewUser(Model model, @RequestParam("user") String viewingUser, @RequestParam("search") String viewedUser) {
+		User user = userDatabase.getUser(viewedUser);
+		model.addAttribute("viewingUser", new UserHashForm(viewingUser));
+		model.addAttribute("viewedUser", new UserHashForm(viewedUser));
+		model.addAttribute("books", bookDAO.getBooksFromUser(viewedUser, UserBookCategory.OWNED));
 		model.addAttribute("user", user);
 		return "user/view";
 	}
@@ -89,7 +90,6 @@ public class UserController {
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String inquiry(Model model, @RequestBody UserHashForm userHashForm) {
-		System.out.println(userHashForm.getHash() + " " + userHashForm.getId());
 		String userHash = userHashForm.getHash();
 		User user = userDatabase.getUser(userHash);
 		model.addAttribute("userHashForm", new UserHashForm(userHash));
@@ -97,4 +97,5 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "user/view";
 	}
+	
 }

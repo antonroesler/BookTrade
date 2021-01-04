@@ -29,6 +29,7 @@ import de.frauas.intro.form.SearchForm;
 import de.frauas.intro.form.UserHashForm;
 import de.frauas.intro.model.Book;
 import de.frauas.intro.model.User;
+import de.frauas.intro.util.UriUtil;
 
 @Controller
 @RequestMapping(value = "/")
@@ -52,6 +53,7 @@ public class BookController {
 			model.addAttribute("books", ownedBooks);
 			model.addAttribute("booksWanted", wantedBooks);
 			UserHashForm hashForm = new UserHashForm(userHash);
+			model.addAttribute("username", userDatabase.getUser(userHash).getUsername());
 			model.addAttribute("userHashForm", hashForm);
 			return "my";
 		} else {
@@ -86,6 +88,11 @@ public class BookController {
 		searchForm.setUser(hashForm.getHash());
 		model.addAttribute("searchForm", searchForm);
 		return "/find";
+	}
+	
+	@RequestMapping(value = "/back", method = RequestMethod.GET)
+	public String back(Model model, @RequestParam("hash") String userHash) {
+		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
 	}
 
 //	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)
