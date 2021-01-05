@@ -43,10 +43,9 @@ public class UserDatabase {
 	public ArrayList<User> getUsersWithBook(String bookId) {
 		ArrayList<User> users = getAllUseres();
 		ArrayList<User> outputArrayList = new ArrayList<>();
-		System.out.println("YYYYYYYYYYYYYYYYYYYYY");
 		for (User user : users) {
-			System.out.println("X"+user.getUsername());
 			if(hasBook(user, bookId)) {
+				System.out.println("User " + user.getUsername() + " has the book");
 				outputArrayList.add(user);
 			} else {
 			}
@@ -56,6 +55,8 @@ public class UserDatabase {
 	}
 
 	private boolean hasBook(User user, String bookId) {
+		System.out.println("Checking for user: " + user.getUsername());
+		System.out.println(user.getUsername() + " has " + user.getHash());
 		ArrayList<String> userBook = getBooksFromUser(user.getHash(), UserBookCategory.OWNED);
 		if (userBook.contains(bookId)) return true;
 		return false;

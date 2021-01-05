@@ -69,6 +69,7 @@ public class BookController {
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
+		System.out.println("LOOKING FOR BOOK: " + infoForm.getHash());
 		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
 		model.addAttribute("infoForm", infoForm);
 		if (users.isEmpty()) {
