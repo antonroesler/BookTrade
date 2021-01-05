@@ -55,18 +55,8 @@
 
 								<div  class="icon"  th:attr="onclick='inquiry(\'' + ${book.id}+  '\');'" th:object="${viewedUser}" >
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<img type="image" src="../icons/bell.png" alt="Ask for book">
-								</div>
-								<div  class="icon">
-									<form th:action="@{/bookView}" th:object="${viewedUser}" method="GET">
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
-									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
-									</form>
-								</div>
-								<div class="icon">
-									<img src="../icons/delete.png" alt="Delete Iconn">
 								</div>
 
 							</div>
@@ -82,19 +72,23 @@
 	<script type="text/javascript">
 
 		function inquiry(id){
+			alert("Es wurde eine Anfrage an Buch mit ID "+ id +" versendet");
+		}
+		
+		function inquiry2(id){
 
 			var url_string = window.location.href
 			var url = new URL(url_string);
 			var user = url.searchParams.get("user");
 
 
-				var userHashForm = {};
+				var infoForm = {};
 			  var contentType = 'application/json; charset=utf-8';
-			  userHashForm.id = id;
+			  infoForm.id = id;
 				console.log(id)
 				console.log(user)
-				userHashForm.hash = user;
-			  json = JSON.stringify(userHashForm);
+				infoForm.hash = user;
+			  json = JSON.stringify(infoForm);
 			  console.log(json)
 			  var url = "http://127.0.0.1:8080/user/inquiry";
 			  var xmlhttp = new XMLHttpRequest();
@@ -102,7 +96,7 @@
 			  xmlhttp.setRequestHeader('Content-type', contentType);
 			  xmlhttp.send(json);
 
-				alert("Es wurde eine Anfrage versendet");
+				
 		}
 
 

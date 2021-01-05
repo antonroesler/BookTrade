@@ -18,13 +18,13 @@
 	<nav id="header-navbar">
 
 		<div class="flex-container">
-			<ul>
-				<li><a href="index">Meine Bücher</a></li>
-				<li><a href="impressum">Impressum</a></li>
-
-			</ul>
-
-
+			<form th:action="@{/back}" th:object="${infoForm}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Zurück</button>
+			</form>
+			<form th:action="@{/logout}" method="GET">
+				<button type="submit">Logout</button>
+			</form>
 		</div>
 	</nav>
 

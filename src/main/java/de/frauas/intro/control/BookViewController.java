@@ -2,13 +2,13 @@ package de.frauas.intro.control;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import de.frauas.intro.DAO.GoogleBookAPI;
+import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.Book;
 
 @Controller
@@ -20,10 +20,10 @@ public class BookViewController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String viewPage(Model model, @RequestParam("hash") String hash, @RequestParam("id") String id) {
 		try {
-			Book book = googleBookAPI.getBookByID(id);
+			Book book = GoogleBookAPI.getBookByID(id);
 			book.setData();
-
 			book.setImgUri();
+			model.addAttribute("infoForm", new UserBookInfoForm(hash));
 			model.addAttribute("book", book);
 			return "bookView";
 		} catch (Exception e) {
@@ -31,6 +31,7 @@ public class BookViewController {
 		}
 		return "redirect:/error/notfound";
 	}
+	
 
 
 }

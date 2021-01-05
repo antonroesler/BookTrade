@@ -15,9 +15,9 @@
 	<nav id="header-navbar">
 
 		<div class="flex-container">
-			<form th:action="@{/back}" th:object="${searchForm}" method="GET">
-				<input type="hidden" th:value="*{user}" th:field="*{hash}" />
-				<button type="submit">Back</button>
+			<form th:action="@{/back}" th:object="${infoForm}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Zurück</button>
 			</form>
 			<form th:action="@{/logout}" method="GET">
 				<button type="submit">Logout</button>

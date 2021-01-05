@@ -82,13 +82,13 @@
 		var user = url.searchParams.get("user");
 
 
-			var addForm = {};
+			var infoForm = {};
 		  var contentType = 'application/json; charset=utf-8';
-		  addForm.bookId = id;
+		  infoForm.bookId = id;
 			console.log(id)
 			console.log(user)
-			addForm.userHash = user;
-		  json = JSON.stringify(addForm);
+			infoForm.hash = user;
+		  json = JSON.stringify(infoForm);
 		  console.log(json)
 		  var url = "http://127.0.0.1:8080/search/results";
 		  var xmlhttp = new XMLHttpRequest();
