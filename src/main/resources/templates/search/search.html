@@ -10,6 +10,21 @@
 </head>
 
 <body>
+	<!-- NavBar -->
+
+	<nav id="header-navbar">
+
+		<div class="flex-container">
+			<form th:action="@{/back}" th:object="${infoForm}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Zurück</button>
+			</form>
+			<form th:action="@{/logout}" method="GET">
+				<button type="submit">Logout</button>
+			</form>
+		</div>
+	</nav>
+
 	<section class="search-section" id="book-search-section">
 	<div class="flex-container">
 		<h1>Buch</h1>

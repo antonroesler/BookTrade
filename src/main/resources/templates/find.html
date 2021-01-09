@@ -17,16 +17,16 @@
 	<nav id="header-navbar">
 
 		<div class="flex-container">
-			<ul>
-				<li><a href="index">Meine Bücher</a></li>
-				<li><a href="impressum">Impressum</a></li>
-
-			</ul>
-
-
-
+			<form th:action="@{/back}" th:object="${infoForm}" method="GET">
+				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<button type="submit">Zurück</button>
+			</form>
+			<form th:action="@{/logout}" method="GET">
+				<button type="submit">Logout</button>
+			</form>
 		</div>
 	</nav>
+
 
 	<section id="search-results-section">
 
@@ -36,13 +36,12 @@
 					<ul class="row">
 
 						<li th:each="user: ${users}">
-							<button type="submit" class="book-card-title" th:utext="${user.username}">...</button>
-							<input type="hidden" th:value="${user.getHash()}" th:attr="name='input'" />
-							<input type="hidden" th:value="*{user}" th:field="*{user}" />
+							<button type="submit" class="book-card-title" th:utext="${user.username}" th:value="${user.getHash()}" th:attr="name='input'">...</button>
+	
 						</li>
-
+                          
 					</ul>
-
+					<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				</form>
 
 

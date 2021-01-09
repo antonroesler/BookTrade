@@ -15,20 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import de.frauas.intro.DAO.BookDAO;
-import de.frauas.intro.DAO.UserDAO;
+import de.frauas.intro.DAO.GoogleBookAPI;
 import de.frauas.intro.DAO.UserDatabase;
-import de.frauas.intro.form.AddForm;
 import de.frauas.intro.form.LoginForm;
-import de.frauas.intro.form.UserHashForm;
+import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.User;
 import de.frauas.intro.util.UriUtil;
 
 @Controller
 @RequestMapping(value = "/user")
 public class UserController {
-	
-	@Autowired
-	UserDAO userDB;
+
 	
 	@Autowired
 	UserDatabase userDatabase;
@@ -73,28 +70,32 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/view" ,method = RequestMethod.GET)
-	public String viewUser(Model model, @RequestParam("search") String userHash) {
-		User user = userDatabase.getUser(userHash);
-		model.addAttribute("userHashForm", new UserHashForm(userHash));
-		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
+	public String viewUser(Model model, @RequestParam("user") String viewingUser, @RequestParam("search") String viewedUser) {
+		User user = userDatabase.getUser(viewedUser);
+		System.out.println(viewedUser);
+		System.out.println(viewingUser);
+		System.out.println("^^^^^^^^^^^");
+		model.addAttribute("viewingUser", new UserBookInfoForm(viewingUser));
+		model.addAttribute("viewedUser", new UserBookInfoForm(viewedUser));
+		model.addAttribute("books", bookDAO.getBooksFromUser(viewedUser, UserBookCategory.OWNED));
 		model.addAttribute("user", user);
 		return "user/view";
 	}
 	
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
 	@ResponseBody
-	public String inquiryOld(Model model, @ModelAttribute("userHashForm") UserHashForm hashForm) {
-		return hashForm.getId() + hashForm.getHash();
+	public String inquiryOld(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
+		return infoForm.getBookId() + infoForm.getHash();
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String inquiry(Model model, @RequestBody UserHashForm userHashForm) {
-		System.out.println(userHashForm.getHash() + " " + userHashForm.getId());
-		String userHash = userHashForm.getHash();
+	public String inquiry(Model model, @RequestBody UserBookInfoForm infoForm) {
+		String userHash = infoForm.getHash();
 		User user = userDatabase.getUser(userHash);
-		model.addAttribute("userHashForm", new UserHashForm(userHash));
+		model.addAttribute("viewingUser", new UserBookInfoForm(userHash));
 		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
 		model.addAttribute("user", user);
 		return "user/view";
 	}
+	
 }
