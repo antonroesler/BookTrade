@@ -195,7 +195,7 @@ ul {
 
 input[type=text]:focus {
   border: none;
-  background-color: #333533;
+  background-color: #FFD100;
   outline: none;
 }
 
