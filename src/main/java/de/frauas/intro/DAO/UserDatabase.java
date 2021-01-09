@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Scanner;
 import org.apache.logging.log4j.util.StringBuilderFormattable;
 import org.springframework.stereotype.Service;
@@ -21,76 +22,77 @@ public class UserDatabase {
 	private final static File databaseFile = new File(databasePath);
 
 	public ArrayList<User> getAllUseres() {
-		String[] userHashes = getDatabasefile().list();
+		String[] usernameStrings = getDatabasefile().list();
 		ArrayList<User> users = new ArrayList<>();
-		for (String hashString : userHashes) {
-			users.add(getUser(hashString));
-			System.out.println("Added: " + hashString);
+		for (String username : usernameStrings) {
+			users.add(getUser(username));
 		}
 		return users;
 	}
+	
+	public User getUserbyHash(String userHash) {
+		for (User user : getAllUseres()) {
+			if (userHash.equals(user.getHash()));
+			return user;
+		}
+		return null;
+	}
 
 	public void addUser(String userhash, String password, String name) {
-		File newUserFile = makeNewFile(databaseFile.getAbsolutePath(), userhash);
+		File newUserFile = makeNewFile(databaseFile.getAbsolutePath(), name);
 		newUserFile.mkdir();
 		addFile("pass", password, newUserFile.getAbsolutePath());
-		addFile("name", name, newUserFile.getAbsolutePath());
+		addFile("hash", userhash, newUserFile.getAbsolutePath());
 		addFile("owned", newUserFile.getAbsolutePath());
 		addFile("wanted", newUserFile.getAbsolutePath());
 
 	}
 	
+	public void addUser(User user) {
+		addUser(user.getHash(), user.getPassword(), user.getUsername());
+	}
+
 	public ArrayList<User> getUsersWithBook(String bookId) {
 		ArrayList<User> users = getAllUseres();
 		ArrayList<User> outputArrayList = new ArrayList<>();
 		for (User user : users) {
-			if(hasBook(user, bookId)) {
-				System.out.println("User " + user.getUsername() + " has the book");
+			if (hasBook(user, bookId)) {
 				outputArrayList.add(user);
-			} else {
 			}
 		}
-		
 		return outputArrayList;
 	}
 
 	private boolean hasBook(User user, String bookId) {
-		System.out.println("Checking for user: " + user.getUsername());
-		System.out.println(user.getUsername() + " has " + user.getHash());
-		ArrayList<String> userBook = getBooksFromUser(user.getHash(), UserBookCategory.OWNED);
-		if (userBook.contains(bookId)) return true;
+		ArrayList<String> userBook = getBooksFromUser(user.getUsername(), UserBookCategory.OWNED);
+		if (userBook.contains(bookId))
+			return true;
 		return false;
 	}
 
-	public void addUser(User user) {
-		addUser(user.getHash(), user.getPassword(), user.getUsername());
-
-	}
-
-	public User getUser(String userHash) {
-		String userPath = getUserPath(userHash);
-		String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
-		String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
-		System.out.println("User: " + username);
-		return new User(username, password);
-	}
 	
 
-	public boolean checkUserPassword(String userhash, String password) {
-		File passwordFile = makeNewFile(getUserPath(userhash), "pass");
-		System.out.println(password);
-		System.out.println(readFirstLineFromFile(passwordFile));
-		return password.equals(readFirstLineFromFile(passwordFile));
+	public User getUser(String username) {
+		String userPath = getUserPath(username);
+		String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
+		return new User(username, password);
+	}
+
+	public boolean checkUserPassword(String username, String password) {
+		File passwordFile = makeNewFile(getUserPath(username), "pass");
+		System.out.println("1: " + username);
+		System.out.println("2: " + password);
+		return password.equals(username);
 
 	}
 
-	public void addBookToUser(String userHash, String bookId, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
+	public void addBookToUser(String username, String bookId, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
 		writeToFile(userBooksFile, bookId);
 	}
 
-	public ArrayList<String> getBooksFromUser(String userHash, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
+	public ArrayList<String> getBooksFromUser(String username, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
 		return readFromFile(userBooksFile);
 	}
 
@@ -165,15 +167,14 @@ public class UserDatabase {
 		return new File(path + "/" + fileName);
 	}
 
-	private String getUserPath(String userHash) {
-		return databasePath + "/" + userHash;
+	private String getUserPath(String username) {
+		return databasePath + "/" + username;
 	}
 
 	public static File getDatabasefile() {
 		return databaseFile;
 	}
 
-	
 	public String getCategoryString(UserBookCategory category) {
 		switch (category) {
 		case OWNED:
@@ -185,21 +186,21 @@ public class UserDatabase {
 		return null;
 	}
 
-	public void changeBook(String hash, String id) {
-		UserBookCategory category = findCategory(hash, id);
-		addBookToUser(hash, id, reverseCategory(category));
-		delteBookFormUserList(hash, id, category);
+	public void changeBook(String username, String id) {
+		UserBookCategory category = findCategory(username, id);
+		addBookToUser(username, id, reverseCategory(category));
+		delteBookFormUserList(username, id, category);
 	}
 
-	private void delteBookFormUserList(String hash, String id, UserBookCategory category) {
+	private void delteBookFormUserList(String username, String id, UserBookCategory category) {
 
-		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
-		addFile(getCategoryString(category), getUserPath(hash));
+		File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
+		addFile(getCategoryString(category), getUserPath(username));
 		ArrayList<String> result = readFromFile(userBooksFile);
 		userBooksFile.delete();
-		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		File newFile = makeNewFile(getUserPath(username), getCategoryString(category));
 		result.remove(id);
-		 for (String string : result) {
+		for (String string : result) {
 			writeToFile(userBooksFile, string);
 		}
 	}

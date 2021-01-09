@@ -47,7 +47,7 @@ public class UserController {
 		System.out.println("hi3");
 		
 		User user = new User(loginForm.getUsername(), loginForm.getPassword());
-		if (userDatabase.checkUserPassword(user.getHash(), user.getPassword())) {
+		if (userDatabase.checkUserPassword(user.getUsername(), user.getPassword())) {
 			
 			String uri = "redirect:/my?" + UriUtil.addHeader("user", user.getHash());
 			return uri;
