@@ -9,6 +9,7 @@ public class User {
 	private String username;
 	private String password;
 	private ArrayList<Book> books = new ArrayList<>();
+
 	
 
 	public User(String username, String password) {
@@ -53,6 +54,11 @@ public class User {
 		hashMap.put("username", username);
 		hashMap.put("password", password);
 		return hashMap;
+	}
+
+	public String toJSON() {
+		return "{ \"username\":\""+username+"\", \"password\":\""+password+"\" }";
+		
 	}
 
 }

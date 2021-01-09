@@ -12,8 +12,14 @@ public class GoogleBookAPI {
 	public static Book getBookByID(String id) {
 		String uri = "https://www.googleapis.com/books/v1/volumes/" + removeLeadingSlash(id);
 		RestTemplate restTemplate = new RestTemplate();
-		Book book = restTemplate.getForObject(uri, Book.class);
-		return book;
+		try {
+			Book book = restTemplate.getForObject(uri, Book.class);
+			return book;
+		}
+		catch (Exception e) {
+	
+		}
+		return null;
 	}
 
 	public static SearchResultSummary query(String query) {
@@ -55,7 +61,9 @@ public class GoogleBookAPI {
 		ArrayList<Book> books = new ArrayList<>();
 		if (arrayList != null) {
 			for (String book : arrayList) {
-				books.add(getBookByID(book));
+				Book apibook = getBookByID(book);
+				if (apibook!=null)
+					books.add(apibook);
 			}
 		}
 		return books;

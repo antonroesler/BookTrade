@@ -20,7 +20,7 @@ import de.frauas.intro.util.UriUtil;
 
 @Controller
 @RequestMapping(value = "/")
-public class BookController {
+public class MainController {
 
 	@Autowired
 	UserDatabase userDatabase;
@@ -87,37 +87,5 @@ public class BookController {
 		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
 	}
 
-//	@RequestMapping(value = { "/makeSome" }, method = RequestMethod.POST)
-//	public String makeSomeSampleBooks(Model model) {
-//		user
-//		return "redirect:/index";
-//	}
-//
-//	@RequestMapping(value = { "/addBook" }, method = RequestMethod.GET)
-//	public String addBookpage(Model model) {
-//		BookForm bookForm = new BookForm();
-//		model.addAttribute("bookForm", bookForm);
-//		return "addBook";
-//
-//	}
-//
-//	@RequestMapping(value = { "/addBook" }, method = RequestMethod.POST)
-//	public String addBook(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
-//
-//		bookDAO.addBook(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor());
-//
-//		return "redirect:/index";
-//
-//	}
-//	
-//	@RequestMapping(value = { "/addBookExtra" }, method = RequestMethod.POST)
-//	public String addBookExtra(Model model, @ModelAttribute("bookForm") BookForm bookForm) {
-//
-//		bookDAO.addBookFull(bookForm.getTitle(), bookForm.getIsbn(), bookForm.getAuthor(), bookForm.getGoogleBooksReferenceUri(), 
-//				bookForm.getBookAbstract(), bookForm.getPublisher());
-//
-//		return "redirect:/index";
-//
-//	}
 
 }
