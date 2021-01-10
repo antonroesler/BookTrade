@@ -80,14 +80,14 @@ function drop(ev) {
 								<div  class="icon">
 									<form th:action="@{/my}" th:object="${infoForm}" method="POST">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<input type="image" src="../icons/change.png" alt="Change list Icon">
 									</form>
 								</div>
 								<div  class="icon">
 									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
 									</form>
 								</div>
@@ -129,14 +129,14 @@ function drop(ev) {
 								<div  class="icon">
 									<form th:action="@{/find}" th:object="${infoForm}" method="GET">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
 									</form>
 								</div>
 								<div  class="icon">
 									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
 									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
+									<input type="hidden" th:value="${book.id}" th:attr="name='id'"/>
 									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
 									</form>
 								</div>
@@ -162,7 +162,33 @@ function drop(ev) {
 <div class="platzhalter"></div>
 
 
+<script type="text/javascript">
 
+	function add(id){
+
+		var url_string = window.location.href
+		var url = new URL(url_string);
+		var user = url.searchParams.get("user");
+
+
+			var infoForm = {};
+		  var contentType = 'application/json; charset=utf-8';
+		  infoForm.bookId = id;
+			console.log(id)
+			console.log(user)
+			infoForm.hash = user;
+		  json = JSON.stringify(infoForm);
+		  console.log(json)
+		  var url = "http://127.0.0.1:8080/search/results";
+		  var xmlhttp = new XMLHttpRequest();
+		  xmlhttp.open("DELETE", url, true);
+		  xmlhttp.setRequestHeader('Content-type', contentType);
+		  xmlhttp.send(json);
+
+	}
+
+
+</script>
 
 
 

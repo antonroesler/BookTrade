@@ -86,6 +86,11 @@ public class MainController {
 	public String back(Model model, @RequestParam("hash") String userHash) {
 		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
 	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	public String delete(Model model, @RequestParam("hash") String userHash) {
+		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
+	}
 
 
 }

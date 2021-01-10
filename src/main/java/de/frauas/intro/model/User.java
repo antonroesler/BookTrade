@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class User {
 
 	private String username;
 	private String password;
 	private ArrayList<Book> books = new ArrayList<>();
+	
 
 	
 
@@ -57,7 +60,7 @@ public class User {
 	}
 
 	public String toJSON() {
-		return "{ \"username\":\""+username+"\", \"password\":\""+password+"\" }";
+		return "{ \"username\":\""+username+"\", \"password\":\""+password+"\" , \"hash\":\""+getHash()+"\" }";
 		
 	}
 

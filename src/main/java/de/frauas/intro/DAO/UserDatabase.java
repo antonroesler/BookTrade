@@ -3,13 +3,10 @@ package de.frauas.intro.DAO;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import org.apache.logging.log4j.util.StringBuilderFormattable;
 import org.springframework.stereotype.Service;
 
 import de.frauas.intro.control.UserBookCategory;
@@ -35,7 +32,7 @@ public class UserDatabase {
 	 * @return ArrayList wit all users as'User' objects.
 	 */
 	public ArrayList<User> getAllUseres() {
-		String[] userHashes = getDatabasefile().list();
+		String[] userHashes = listAllUserHashes();
 		ArrayList<User> users = new ArrayList<>();
 		for (String hashString : userHashes) {
 			users.add(getUser(hashString));
@@ -68,17 +65,21 @@ public class UserDatabase {
 	 * 
 	 * @param user User Object
 	 */
-	public boolean  addUser(User user) {
+	public boolean addUser(User user) {
 		return addUser(user.getHash(), user.getPassword(), user.getUsername());
 
 	}
-	
-	public void deleteUser(String userHash) {
-		File userfile = makeNewFile(databasePath, userHash);
-		for (String file : userfile.list()) {
-			makeNewFile(userfile.getAbsolutePath(), file).delete();
+
+	public boolean deleteUser(String userHash) {
+		if (userExists(userHash)) {
+			File userfile = makeNewFile(databasePath, userHash);
+			for (String file : userfile.list()) {
+				makeNewFile(userfile.getAbsolutePath(), file).delete();
+			}
+			userfile.delete();
+			return true;
 		}
-		userfile.delete();
+		return false;
 	}
 
 	private boolean userNameTaken(String name) {
@@ -108,14 +109,6 @@ public class UserDatabase {
 		return outputArrayList;
 	}
 
-	private boolean hasBook(User user, String bookId) {
-		// Checks if given user owns given book.
-		ArrayList<String> userBook = getBooksFromUser(user.getHash(), UserBookCategory.OWNED);
-		if (userBook.contains(bookId))
-			return true;
-		return false;
-	}
-
 	/**
 	 * Finds a user by its hash value.
 	 * 
@@ -123,10 +116,13 @@ public class UserDatabase {
 	 * @return User object
 	 */
 	public User getUser(String userHash) {
-		String userPath = getUserPath(userHash);
-		String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
-		String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
-		return new User(username, password);
+		if (userExists(userHash)) {
+			String userPath = getUserPath(userHash);
+			String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
+			String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
+			return new User(username, password);
+		}
+		return null;
 	}
 
 	/**
@@ -150,10 +146,15 @@ public class UserDatabase {
 	 * @param userHash the hash value of the user
 	 * @param bookId   the GoogleBooks ID of the book
 	 * @param category wanted/owned by user
+	 * @return
 	 */
-	public void addBookToUser(String userHash, String bookId, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
-		writeToFile(userBooksFile, bookId);
+	public boolean addBookToUser(String userHash, String bookId, UserBookCategory category) {
+		if (userExists(userHash)) {
+			File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
+			writeToFile(userBooksFile, bookId);
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -166,6 +167,58 @@ public class UserDatabase {
 	public ArrayList<String> getBooksFromUser(String userHash, UserBookCategory category) {
 		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
 		return readFromFile(userBooksFile);
+	}
+
+	/**
+	 * Switches a book from one list of a user to the other.
+	 * 
+	 * @param hash the user hash value
+	 * @param id   the book id
+	 * @return
+	 */
+	public boolean changeBook(String hash, String id) {
+		UserBookCategory category = findCategory(hash, id);
+		if (userExists(hash)) {
+			if (hasBook(getUser(hash), id) || wantsBook(getUser(hash), id)) {
+				addBookToUser(hash, id, reverseCategory(category));
+				delteBookFormUserList(hash, id, category);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Deletes a book from a users list.
+	 * 
+	 * @param hash:     the user hash value
+	 * @param id:       the book id
+	 * @param category: the list
+	 */
+	public void delteBookFormUserList(String hash, String id, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		addFile(getCategoryString(category), getUserPath(hash));
+		ArrayList<String> result = readFromFile(userBooksFile);
+		userBooksFile.delete();
+		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
+		result.remove(id);
+		for (String string : result) {
+			writeToFile(userBooksFile, string);
+		}
+	}
+
+	private boolean hasBook(User user, String bookId) {
+		// Checks if given user owns given book.
+		if (getBooksFromUser(user.getHash(), UserBookCategory.OWNED).contains(bookId))
+			return true;
+		return false;
+	}
+
+	private boolean wantsBook(User user, String bookId) {
+		// Checks if given user wants given book.
+		if (getBooksFromUser(user.getHash(), UserBookCategory.WANTED).contains(bookId))
+			return true;
+		return false;
 	}
 
 	private void addFile(String fileName, String content, String path) {
@@ -219,7 +272,6 @@ public class UserDatabase {
 		} catch (FileNotFoundException e) {
 			System.out.println("File doens't exists.");
 		}
-
 		return content;
 	}
 
@@ -258,40 +310,22 @@ public class UserDatabase {
 			return "owned";
 		case WANTED:
 			return "wanted";
-
 		}
 		return null;
 	}
 
-	/**
-	 * Switches a book from one list of a user to the other.
-	 * 
-	 * @param hash the user hash value
-	 * @param id   the book id
-	 */
-	public void changeBook(String hash, String id) {
-		UserBookCategory category = findCategory(hash, id);
-		addBookToUser(hash, id, reverseCategory(category));
-		delteBookFormUserList(hash, id, category);
+	private boolean userExists(String userHash) {
+		// true if a user exists.
+		for (String currentUser : listAllUserHashes()) {
+			if (currentUser.equals(userHash)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	/**
-	 * Deletes a book from a users list.
-	 * 
-	 * @param hash:     the user hash value
-	 * @param id:       the book id
-	 * @param category: the list
-	 */
-	public void delteBookFormUserList(String hash, String id, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
-		addFile(getCategoryString(category), getUserPath(hash));
-		ArrayList<String> result = readFromFile(userBooksFile);
-		userBooksFile.delete();
-		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
-		result.remove(id);
-		for (String string : result) {
-			writeToFile(userBooksFile, string);
-		}
+	private String[] listAllUserHashes() {
+		return getDatabasefile().list();
 	}
 
 	private UserBookCategory reverseCategory(UserBookCategory category) {
