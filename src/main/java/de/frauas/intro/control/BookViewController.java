@@ -18,7 +18,7 @@ public class BookViewController {
 	GoogleBookAPI googleBookAPI = new GoogleBookAPI();
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String viewPage(Model model, @RequestParam("hash") String hash, @RequestParam("id") String id) {
+	public String viewPage(Model model, @RequestParam("hash") String hash, @RequestParam("bookId") String id) {
 		try {
 			Book book = GoogleBookAPI.getBookByID(id);
 			book.setData();

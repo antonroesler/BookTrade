@@ -1,4 +1,4 @@
-package de.frauas.intro.form;
+package de.frauas.intro.model;
 
 import java.net.URI;
 import java.util.HashMap;

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,7 +64,7 @@ public class MainController {
 	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		System.out.println("User: " + infoForm.getHash() + " Book: " + infoForm.getBookId());		
 		userDatabase.changeBook(infoForm.getHash(), infoForm.getBookId());
-		return mainPage(model, infoForm.getHash());
+		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getHash());
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
@@ -88,8 +89,11 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public String delete(Model model, @RequestParam("hash") String userHash) {
-		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
+	public String delete(Model model, @RequestBody UserBookInfoForm infoForm) {
+		userDatabase.delteBookFormUserList(infoForm.getHash(), infoForm.getBookId(), UserBookCategory.WANTED);
+		userDatabase.delteBookFormUserList(infoForm.getHash(), infoForm.getBookId(), UserBookCategory.OWNED);
+		System.out.println("TRY TO DELETE");
+		return "my" ;
 	}
 
 

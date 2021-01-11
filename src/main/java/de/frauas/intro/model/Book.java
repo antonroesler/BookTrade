@@ -1,9 +1,6 @@
 package de.frauas.intro.model;
 
-import java.awt.Image;
 import java.net.URI;
-
-import de.frauas.intro.form.VolumeInfo;
 
 public class Book {
 
