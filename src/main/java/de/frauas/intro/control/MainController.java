@@ -41,7 +41,7 @@ public class MainController {
 			model.addAttribute("books", ownedBooks);
 			model.addAttribute("booksWanted", wantedBooks);
 			UserBookInfoForm hashForm = new UserBookInfoForm(userHash);
-			System.out.println("Y " + hashForm.getHash());
+			System.out.println("Y " + hashForm.getUser());
 			model.addAttribute("username", userDatabase.getUser(userHash).getUsername());
 			model.addAttribute("infoForm", hashForm);
 			return "my";
@@ -55,43 +55,43 @@ public class MainController {
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("userHashForm") UserBookInfoForm hashForm) {
-		String uriString = "redirect:/search/search?user=" + hashForm.getHash();
+		String uriString = "redirect:/search/search?user=" + hashForm.getUser();
 		return uriString;
 
 	}
 
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
 	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
-		System.out.println("User: " + infoForm.getHash() + " Book: " + infoForm.getBookId());		
-		userDatabase.changeBook(infoForm.getHash(), infoForm.getBookId());
-		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getHash());
+		System.out.println("User: " + infoForm.getUser() + " Book: " + infoForm.getBookId());		
+		userDatabase.changeBook(infoForm.getUser(), infoForm.getBookId());
+		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getUser());
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
-		System.out.println("LOOKING FOR BOOK: " + infoForm.getHash());
+		System.out.println("LOOKING FOR BOOK: " + infoForm.getUser());
 		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
 		model.addAttribute("infoForm", infoForm);
 		if (users.isEmpty()) {
 			return "/error/noUser";
 		}
 		SearchForm searchForm = new SearchForm();
-		searchForm.setUser(infoForm.getHash());
+		searchForm.setUser(infoForm.getUser());
 		model.addAttribute("users", users);
 		model.addAttribute("searchForm", searchForm);
 		return "/find";
 	}
 	
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
-	public String back(Model model, @RequestParam("hash") String userHash) {
+	public String back(Model model, @RequestParam("user") String userHash) {
 		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	public String delete(Model model, @RequestBody UserBookInfoForm infoForm) {
-		userDatabase.delteBookFormUserList(infoForm.getHash(), infoForm.getBookId(), UserBookCategory.WANTED);
-		userDatabase.delteBookFormUserList(infoForm.getHash(), infoForm.getBookId(), UserBookCategory.OWNED);
+		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.WANTED);
+		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
 		System.out.println("TRY TO DELETE");
 		return "my" ;
 	}

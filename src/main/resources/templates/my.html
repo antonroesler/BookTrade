@@ -38,7 +38,7 @@ function drop(ev) {
 			</form>
 
 			<form th:action="@{/search}" th:object="${infoForm}" method="GET">
-				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Search</button>
 			</form>
 			<form th:action="@{/logout}" method="GET">
@@ -79,14 +79,14 @@ function drop(ev) {
 
 								<div  class="icon">
 									<form th:action="@{/my}" th:object="${infoForm}" method="POST">
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<input type="image" src="../icons/change.png" alt="Change list Icon">
 									</form>
 								</div>
 								<div  class="icon">
 									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
 									</form>
@@ -130,14 +130,14 @@ function drop(ev) {
 
 								<div  class="icon">
 									<form th:action="@{/find}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
 									</form>
 								</div>
 								<div  class="icon">
 									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<input type="image" src="../icons/view.png" alt="View Icon"/>
 									</form>
@@ -179,7 +179,7 @@ function drop(ev) {
 		  infoForm.bookId = id;
 			console.log(id)
 			console.log(user)
-			infoForm.hash = user;
+			infoForm.user = user;
 		  json = JSON.stringify(infoForm);
 		  console.log(json)
 		  var url = "http://127.0.0.1:8080/delete";

@@ -18,7 +18,7 @@
 
 		<div class="flex-container">
 			<form th:action="@{/back}" th:object="${infoForm}" method="GET">
-				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Zurück</button>
 			</form>
 			<form th:action="@{/logout}" method="GET">

@@ -2,27 +2,27 @@ package de.frauas.intro.form;
 
 public class UserBookInfoForm {
 	
-	private String hash;
+	private String user;
 	private String bookId;
 
 	public UserBookInfoForm() {
 	}
 	
 	public UserBookInfoForm(String userHash) {
-		this.hash = userHash;
+		this.user = userHash;
 	}
 	
 	public UserBookInfoForm(String userHash, String bookid) {
-		this.hash = userHash;
+		this.user = userHash;
 		this.bookId = bookid;
 	}
 
-	public String getHash() {
-		return hash;
+	public String getUser() {
+		return user;
 	}
 
-	public void setHash(String hash) {
-		this.hash = hash;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public String getBookId() {

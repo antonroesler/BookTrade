@@ -21,12 +21,12 @@ import de.frauas.intro.util.UriUtil;
 @RequestMapping("/search")
 public class SearchController {
 	SearchResultSummary summary;
-	
+
 	@Autowired
 	UserDatabase userDatabase;
-	
-	@RequestMapping(value = {"/search"}, method = RequestMethod.GET)
-	public String get(Model model,  @RequestParam("user") String userHash) {
+
+	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
+	public String get(Model model, @RequestParam("user") String userHash) {
 		SearchForm searchForm = new SearchForm();
 		UserBookInfoForm infoForm = new UserBookInfoForm(userHash);
 		searchForm.setUser(userHash);
@@ -35,19 +35,20 @@ public class SearchController {
 
 		return "search/search";
 	}
-	
-	@RequestMapping(value = {"/user"}, method = RequestMethod.POST)
+
+	@RequestMapping(value = { "/user" }, method = RequestMethod.POST)
 	public String getUserSearchPage(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
 		System.out.println(searchForm.getUser());
-		String activeUserHash = searchForm.getUser() ;
+		String activeUserHash = searchForm.getUser();
 		String searchedUserHash = searchForm.getInput();
-		return "redirect:/user/view?" + UriUtil.addUserHeader(activeUserHash) + UriUtil.addHeader("search", searchedUserHash);
+		return "redirect:/user/view?" + UriUtil.addUserHeader(activeUserHash)
+				+ UriUtil.addHeader("search", searchedUserHash);
 	}
-	
-	@RequestMapping(value = {"/find"},method = RequestMethod.GET)
+
+	@RequestMapping(value = { "/find" }, method = RequestMethod.GET)
 	public String search(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
 		String query = searchForm.getInput();
-		
+
 		switch (searchForm.getType()) {
 		case AUTHOR:
 			summary = GoogleBookAPI.queryByAuthor(query);
@@ -58,17 +59,17 @@ public class SearchController {
 		case ISBN:
 			summary = GoogleBookAPI.queryByISBN(query);
 			break;
-			
+
 		default:
 			summary = GoogleBookAPI.query(query);
 			break;
 		}
 		summary.setData();
-		return displayResults(model, searchForm.getUser()); //displayResults(model, searchForm.getUser());
+		return displayResults(model, searchForm.getUser()); // displayResults(model, searchForm.getUser());
 
 	}
-	
-	@RequestMapping(value = {"/results"},method = RequestMethod.GET)
+
+	@RequestMapping(value = { "/results" }, method = RequestMethod.GET)
 	public String displayResults(Model model, @RequestParam("user") String userHash) {
 		model.addAttribute("bookList", summary.getItems());
 		UserBookInfoForm infoForm = new UserBookInfoForm(userHash);
@@ -76,28 +77,15 @@ public class SearchController {
 		String uri = "search/results";
 		return uri;
 
-
 	}
-	
-	
+
 	@RequestMapping(value = "/results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String addBook(Model model, @RequestBody UserBookInfoForm infoForm) {
-		userDatabase.addBookToUser(infoForm.getHash(), infoForm.getBookId(), UserBookCategory.OWNED);
-		infoForm = new UserBookInfoForm(infoForm.getHash());
+		userDatabase.addBookToUser(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
+		infoForm = new UserBookInfoForm(infoForm.getUser());
 		model.addAttribute("userHashForm", infoForm);
 		return "search/results";
-	
 
 	}
-	
-	@RequestMapping(value = "/back", method = RequestMethod.GET)
-	public String backToMyBooks(Model model, @RequestParam("hash") String hash) {
-		
-		return "redirect:/my?" + UriUtil.addUserHeader(hash);
-	
-
-	}
-	
-	
 
 }

@@ -13,11 +13,11 @@
 
 		<div class="flex-container">
 			<form th:action="@{/back}" th:object="${viewingUser}" method="GET">
-				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Back</button>
 			</form>
 			<form th:action="@{/search}" th:object="${viewingUser}" method="GET">
-				<input type="hidden" th:value="*{hash}" th:field="*{hash}" />
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Search</button>
 			</form>
 			<form th:action="@{/logout}" method="GET">
@@ -54,7 +54,7 @@
 
 
 								<div  class="icon"  th:attr="onclick='inquiry(\'' + ${book.id}+  '\');'" th:object="${viewedUser}" >
-									<input type="hidden" th:value="*{hash}" th:field="*{hash}"/>
+									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<img type="image" src="../icons/bell.png" alt="Ask for book">
 								</div>
@@ -87,7 +87,7 @@
 			  infoForm.id = id;
 				console.log(id)
 				console.log(user)
-				infoForm.hash = user;
+				infoForm.user = user;
 			  json = JSON.stringify(infoForm);
 			  console.log(json)
 			  var url = "http://127.0.0.1:8080/user/inquiry";

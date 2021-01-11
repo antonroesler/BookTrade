@@ -85,12 +85,12 @@ public class UserController {
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
 	@ResponseBody
 	public String inquiryOld(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
-		return infoForm.getBookId() + infoForm.getHash();
+		return infoForm.getBookId() + infoForm.getUser();
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String inquiry(Model model, @RequestBody UserBookInfoForm infoForm) {
-		String userHash = infoForm.getHash();
+		String userHash = infoForm.getUser();
 		User user = userDatabase.getUser(userHash);
 		model.addAttribute("viewingUser", new UserBookInfoForm(userHash));
 		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
