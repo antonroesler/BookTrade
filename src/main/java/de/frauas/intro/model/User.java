@@ -1,24 +1,22 @@
 package de.frauas.intro.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 
 public class User {
 
 	private String username;
 	private String password;
-	private ArrayList<Book> books = new ArrayList<>();
-	
-
 	
 
 	public User(String username, String password) {
 		super();
 		this.username = username;
 		this.password = password;
+	}
+
+	public User() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public String getHash() {
@@ -44,13 +42,6 @@ public class User {
 		this.password = password;
 	}
 
-	public ArrayList<Book> getBooks() {
-		return books;
-	}
-
-	public void addBook(Book book) {
-		this.books.add(book);
-	}
 	
 	public HashMap<String, String> toHashMap() {
 		HashMap<String, String> hashMap = new HashMap<>();

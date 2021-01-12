@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
-import de.frauas.intro.DAO.BookDAO;
 import de.frauas.intro.DAO.GoogleBookAPI;
 import de.frauas.intro.DAO.UserDatabase;
-import de.frauas.intro.form.LoginForm;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.User;
 import de.frauas.intro.util.UriUtil;
@@ -29,24 +27,20 @@ public class UserController {
 	
 	@Autowired
 	UserDatabase userDatabase;
-	
-	BookDAO bookDAO = new BookDAO();
+
 
 	
 	
 	@RequestMapping(value = "/login" ,method = RequestMethod.GET)
 	public String loginPage(Model model) {
-		LoginForm loginForm = new LoginForm();
-		model.addAttribute("loginForm", loginForm);
-		System.out.println("hi");
+		User user = new User(); // User acts as a form.
+		model.addAttribute("loginForm", user);
 		return "user/login";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String login(Model model, @ModelAttribute("loginForm") LoginForm loginForm) {
-		System.out.println("hi3");
+	public String login(Model model, @ModelAttribute("loginForm") User user) {
 		
-		User user = new User(loginForm.getUsername(), loginForm.getPassword());
 		if (userDatabase.checkUserPassword(user.getHash(), user.getPassword())) {
 			
 			String uri = "redirect:/my?" + UriUtil.addHeader("user", user.getHash());
@@ -57,14 +51,13 @@ public class UserController {
 
 	@RequestMapping(value = "/register" ,method = RequestMethod.GET)
 	public String registerPage(Model model) {
-		LoginForm loginForm = new LoginForm();
-		model.addAttribute("loginForm", loginForm);
+		User user = new User(); // User acts as a form.
+		model.addAttribute("loginForm", user);
 		return "user/register";
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String register(Model model, @ModelAttribute("loginForm") LoginForm loginForm, HttpServletResponse response) {
-		User user = new User(loginForm.getUsername(), loginForm.getPassword());
+	public String register(Model model, @ModelAttribute("loginForm") User user, HttpServletResponse response) {
 		userDatabase.addUser(user);
 		return "redirect:/user/login";
 	}
@@ -77,7 +70,7 @@ public class UserController {
 		System.out.println("^^^^^^^^^^^");
 		model.addAttribute("viewingUser", new UserBookInfoForm(viewingUser));
 		model.addAttribute("viewedUser", new UserBookInfoForm(viewedUser));
-		model.addAttribute("books", bookDAO.getBooksFromUser(viewedUser, UserBookCategory.OWNED));
+		model.addAttribute("books", GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(viewedUser, UserBookCategory.OWNED)));
 		model.addAttribute("user", user);
 		return "user/view";
 	}
@@ -93,7 +86,7 @@ public class UserController {
 		String userHash = infoForm.getUser();
 		User user = userDatabase.getUser(userHash);
 		model.addAttribute("viewingUser", new UserBookInfoForm(userHash));
-		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
+		model.addAttribute("books", GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(userHash, UserBookCategory.OWNED)));
 		model.addAttribute("user", user);
 		return "user/view";
 	}
