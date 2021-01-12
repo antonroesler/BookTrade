@@ -1,5 +1,6 @@
 package de.frauas.intro.control;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -150,7 +151,7 @@ public class RESTController {
 	}
 
 	private boolean isValidAuthentication(String auth) {
-		if (auth.equals("abc"))
+		if (auth.equals("707bde15210b2aba"))
 			return true;
 		return false;
 
