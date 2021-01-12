@@ -33,6 +33,13 @@ public class MainController {
 		return "redirect:/user/login";
 	}
 
+	/**
+	 * The main page for each user. 
+	 * 
+	 * @param model 
+	 * @param userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * @return the user's main page or 404 error page if the user hash is not valid.
+	 */
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String userHash) {
 		ArrayList<Book> ownedBooks = bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED);
@@ -52,14 +59,6 @@ public class MainController {
 	}
 
 
-
-	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
-	public String search(Model model, @ModelAttribute("userHashForm") UserBookInfoForm hashForm) {
-		String uriString = "redirect:/search/search?user=" + hashForm.getUser();
-		return uriString;
-
-	}
-
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
 	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		System.out.println("User: " + infoForm.getUser() + " Book: " + infoForm.getBookId());		
@@ -67,22 +66,15 @@ public class MainController {
 		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getUser());
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
-	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
-		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
-		System.out.println("LOOKING FOR BOOK: " + infoForm.getUser());
-		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
-		model.addAttribute("infoForm", infoForm);
-		if (users.isEmpty()) {
-			return "/error/noUser";
-		}
-		SearchForm searchForm = new SearchForm();
-		searchForm.setUser(infoForm.getUser());
-		model.addAttribute("users", users);
-		model.addAttribute("searchForm", searchForm);
-		return "/find";
-	}
+
 	
+	/**
+	 * This method is used to get back to the main page from other html pages.
+	 * Usually by pressing a 'back' button.
+	 * @param model
+	 * @param userHash userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * @return the user's main page or 404 error page if the user hash is not valid.
+	 */
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
 	public String back(Model model, @RequestParam("user") String userHash) {
 		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;

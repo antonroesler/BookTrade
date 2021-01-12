@@ -37,7 +37,7 @@ function drop(ev) {
 				<p>Hallo &nbsp <p th:utext="${username}">...</p></p>
 			</form>
 
-			<form th:action="@{/search}" th:object="${infoForm}" method="GET">
+			<form th:action="@{/search/search}" th:object="${infoForm}" method="GET">
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Search</button>
 			</form>
@@ -129,7 +129,7 @@ function drop(ev) {
 
 
 								<div  class="icon">
-									<form th:action="@{/find}" th:object="${infoForm}" method="GET">
+									<form th:action="@{/search/findUser}" th:object="${infoForm}" method="GET">
 									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
 									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
 									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">

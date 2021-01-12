@@ -1,5 +1,7 @@
 package de.frauas.intro.control;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.SearchForm;
 import de.frauas.intro.form.SearchResultSummary;
 import de.frauas.intro.form.UserBookInfoForm;
+import de.frauas.intro.model.User;
 import de.frauas.intro.util.UriUtil;
 
 @Controller
@@ -86,6 +89,22 @@ public class SearchController {
 		model.addAttribute("userHashForm", infoForm);
 		return "search/results";
 
+	}
+	
+	@RequestMapping(value = "/findUser", method = RequestMethod.GET)
+	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
+		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
+		System.out.println("LOOKING FOR BOOK: " + infoForm.getUser());
+		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
+		model.addAttribute("infoForm", infoForm);
+		if (users.isEmpty()) {
+			return "/error/noUser";
+		}
+		SearchForm searchForm = new SearchForm();
+		searchForm.setUser(infoForm.getUser());
+		model.addAttribute("users", users);
+		model.addAttribute("searchForm", searchForm);
+		return "search/findUser";
 	}
 
 }

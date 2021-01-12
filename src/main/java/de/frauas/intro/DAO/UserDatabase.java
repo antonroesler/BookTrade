@@ -15,9 +15,10 @@ import de.frauas.intro.model.User;
 /**
  * The UserDatabase stores Users in a 'database' directory. A User is saved in a
  * directory named after the Users hash value. For every user there are the
- * following files: - pass (stores the password in a single line) - name (sores
- * the username in a single line) - owned (stores a list of Book IDs, every ID
- * in a new line) - wanted (stores a list of Book IDs, every ID in a new line)
+ * following files located in the users directory: 
+ * - pass (stores the password in a single line) - name (sores the username in a single line) 
+ * - owned (stores a list of all Book IDs of books that are owned, every ID in a new line) 
+ * - wanted (stores a list of all Book IDs of books that are wanted, every ID in a new line)
  *
  * @author Anton Roesler
  */
@@ -27,11 +28,11 @@ public class UserDatabase {
 	private final static File databaseFile = new File(databasePath);
 
 	/**
-	 * Searches the database for all users.
+	 * Searches the database for all users. 
 	 * 
-	 * @return ArrayList wit all users as'User' objects.
+	 * @return ArrayList with all users as 'User' objects.
 	 */
-	public ArrayList<User> getAllUseres() {
+	public ArrayList<User> getAllUsers() {
 		String[] userHashes = listAllUserHashes();
 		ArrayList<User> users = new ArrayList<>();
 		for (String hashString : userHashes) {
@@ -70,6 +71,12 @@ public class UserDatabase {
 
 	}
 
+	/**
+	 * Deletes a user from the database. Deletes the user directory and all files within.
+	 * 
+	 * @param userHash: The hash value of the user to be deleted.
+	 * @return a boolean true if there was a user with the hash value, false if not.
+	 */
 	public boolean deleteUser(String userHash) {
 		if (userExists(userHash)) {
 			File userfile = makeNewFile(databasePath, userHash);
@@ -82,9 +89,13 @@ public class UserDatabase {
 		return false;
 	}
 
+	/**
+	 * Checks if a username is already used by any user in the DB
+	 * @param name: The username to be checked 
+	 * @return true if usersname is taken, false if free.
+	 */
 	private boolean userNameTaken(String name) {
-		// Checks if a user name is used by any user in the DB
-		for (User user : getAllUseres()) {
+		for (User user : getAllUsers()) {
 			if (name.equals(user.getUsername()))
 				return true;
 		}
@@ -92,13 +103,13 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Finds all users in the DB that own a given book
-	 * 
+	 * Finds all users in the DB that own a given book, by a book id. 
+	 * Checks for every user if the book id is present in the respective user's owned books file.
 	 * @param bookId GoogleBookAPI book ID
-	 * @return ArrayList of Users
+	 * @return ArrayList of all Users that own the book with the respective book id
 	 */
 	public ArrayList<User> getUsersWithBook(String bookId) {
-		ArrayList<User> users = getAllUseres();
+		ArrayList<User> users = getAllUsers();
 		ArrayList<User> outputArrayList = new ArrayList<>();
 		for (User user : users) {
 			if (hasBook(user, bookId)) {
@@ -110,10 +121,10 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Finds a user by its hash value.
+	 * Finds a user by a hash value.
 	 * 
 	 * @param userHash the hash value
-	 * @return User object
+	 * @return A User object if a user with the respective hash exists. null if not. 
 	 */
 	public User getUser(String userHash) {
 		if (userExists(userHash)) {
@@ -126,7 +137,7 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Checks a given password for a given user.
+	 * Checks if given password is correct for a given user.
 	 * 
 	 * @param userhash the hash value of the user to be checked.
 	 * @param password the password to be checked.
@@ -141,12 +152,12 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Adds a given book to a given user.
+	 * Adds a given book to a given user. The book can either be added to the users wanted or owned book file.
 	 * 
 	 * @param userHash the hash value of the user
 	 * @param bookId   the GoogleBooks ID of the book
 	 * @param category wanted/owned by user
-	 * @return
+	 * @return true if successful, false if not (user with given user hash does not exist). 
 	 */
 	public boolean addBookToUser(String userHash, String bookId, UserBookCategory category) {
 		if (userExists(userHash)) {
@@ -191,9 +202,9 @@ public class UserDatabase {
 	/**
 	 * Deletes a book from a users list.
 	 * 
-	 * @param hash:     the user hash value
-	 * @param id:       the book id
-	 * @param category: the list
+	 * @param hash the user's hash value
+	 * @param id the book id
+	 * @param category the list
 	 */
 	public void delteBookFormUserList(String hash, String id, UserBookCategory category) {
 		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
@@ -207,6 +218,13 @@ public class UserDatabase {
 		}
 	}
 
+	/**
+	 * Checks if a given user has a given book in its owned books file.
+	 * 
+	 * @param user The user as an user object.
+	 * @param bookId The book id of the book.
+	 * @return true if book id is present in the users owned books file
+	 */
 	private boolean hasBook(User user, String bookId) {
 		// Checks if given user owns given book.
 		if (getBooksFromUser(user.getHash(), UserBookCategory.OWNED).contains(bookId))
@@ -214,6 +232,13 @@ public class UserDatabase {
 		return false;
 	}
 
+	/**
+	 * Checks if a given user has a given book in its wanted books file.
+	 * 
+	 * @param user The user as an user object.
+	 * @param bookId The book id of the book.
+	 * @return true if book id is present in the users wanted books file
+	 */
 	private boolean wantsBook(User user, String bookId) {
 		// Checks if given user wants given book.
 		if (getBooksFromUser(user.getHash(), UserBookCategory.WANTED).contains(bookId))

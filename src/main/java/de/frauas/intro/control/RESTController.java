@@ -62,7 +62,7 @@ public class RESTController {
 	public ResponseEntity<String> getAllUsers(@RequestHeader("Authorization") String auth) {
 		String body = "";
 		if (isValidAuthentication(auth)) {
-			for (User user : userDatabase.getAllUseres()) {
+			for (User user : userDatabase.getAllUsers()) {
 				body += user.toJSON();
 			}
 			return new ResponseEntity<String>(body, HttpStatus.OK);
