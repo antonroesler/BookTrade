@@ -1,4 +1,4 @@
-package de.frauas.intro.control;
+package de.frauas.intro.model;
 
 public enum UserBookCategory {
 	OWNED,

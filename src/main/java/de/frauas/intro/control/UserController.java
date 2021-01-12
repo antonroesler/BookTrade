@@ -20,6 +20,7 @@ import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.LoginForm;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.User;
+import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.util.UriUtil;
 
 @Controller

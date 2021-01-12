@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import de.frauas.intro.DAO.GoogleBookAPI;
 import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.model.Book;
+import de.frauas.intro.model.UserBookCategory;
 
 public class UserDatabaseHelper {
 	
