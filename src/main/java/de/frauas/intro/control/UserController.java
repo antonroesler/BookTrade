@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.frauas.intro.DAO.BookDAO;
 import de.frauas.intro.DAO.GoogleBookAPI;
+import de.frauas.intro.DAO.InquiryDAO;
 import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.LoginForm;
 import de.frauas.intro.form.UserBookInfoForm;
+import de.frauas.intro.model.Inquiry;
 import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.util.UriUtil;
@@ -31,8 +33,11 @@ public class UserController {
 	@Autowired
 	UserDatabase userDatabase;
 	
+	@Autowired
 	BookDAO bookDAO = new BookDAO();
 
+	@Autowired
+	InquiryDAO inquiryDAO;
 	
 	
 	@RequestMapping(value = "/login" ,method = RequestMethod.GET)
@@ -73,9 +78,6 @@ public class UserController {
 	@RequestMapping(value = "/view" ,method = RequestMethod.GET)
 	public String viewUser(Model model, @RequestParam("user") String viewingUser, @RequestParam("search") String viewedUser) {
 		User user = userDatabase.getUser(viewedUser);
-		System.out.println(viewedUser);
-		System.out.println(viewingUser);
-		System.out.println("^^^^^^^^^^^");
 		model.addAttribute("viewingUser", new UserBookInfoForm(viewingUser));
 		model.addAttribute("viewedUser", new UserBookInfoForm(viewedUser));
 		model.addAttribute("books", bookDAO.getBooksFromUser(viewedUser, UserBookCategory.OWNED));
@@ -90,12 +92,17 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public String inquiry(Model model, @RequestBody UserBookInfoForm infoForm) {
+	public String inquiry(Model model, @RequestBody UserBookInfoForm infoForm, @RequestParam("search") String requestedUser) {
 		String userHash = infoForm.getUser();
 		User user = userDatabase.getUser(userHash);
 		model.addAttribute("viewingUser", new UserBookInfoForm(userHash));
 		model.addAttribute("books", bookDAO.getBooksFromUser(userHash, UserBookCategory.OWNED));
 		model.addAttribute("user", user);
+		System.out.println("BookID: "+infoForm.getBookId());
+		System.out.println("User1: "+infoForm.getUser());
+		System.out.println("User2: "+ requestedUser);
+		inquiryDAO.save(new Inquiry(user, userDatabase.getUser(requestedUser), GoogleBookAPI.getBookByID(infoForm.getBookId())));
+		System.out.println("A: "+inquiryDAO.getAll().size());
 		return "user/view";
 	}
 	

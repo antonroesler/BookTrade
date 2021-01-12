@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import de.frauas.intro.DAO.BookDAO;
+import de.frauas.intro.DAO.InquiryDAO;
 import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.SearchForm;
 import de.frauas.intro.form.UserBookInfoForm;
@@ -28,6 +29,9 @@ public class MainController {
 	UserDatabase userDatabase;
 	
 	BookDAO bookDAO = new BookDAO();
+	
+	@Autowired
+	InquiryDAO inquiryDAO;
 
 	@RequestMapping(value = { "", "/", "/index", "/logout" }, method = RequestMethod.GET)
 	public String Get() {
@@ -45,6 +49,7 @@ public class MainController {
 			System.out.println("Y " + hashForm.getUser());
 			model.addAttribute("username", userDatabase.getUser(userHash).getUsername());
 			model.addAttribute("infoForm", hashForm);
+			System.out.println("B: "+inquiryDAO.getAll().size());
 			return "my";
 		} else {
 			return "redirect:/user/login";

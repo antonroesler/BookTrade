@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
+
 <head>
-<meta charset="utf-8">
-<title>View User</title>
-<link rel="stylesheet" type="text/css" href="../css/styles.css">
-<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+	<meta charset="utf-8">
+	<title>View User</title>
+	<link rel="stylesheet" type="text/css" href="../css/styles.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 </head>
+
 <body>
 	<!-- NavBar -->
-
 	<nav id="header-navbar">
-
 		<div class="flex-container">
 			<form th:action="@{/back}" th:object="${viewingUser}" method="GET">
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
@@ -41,68 +41,61 @@
 			<div class="row">
 				<h2>Zu haben</h2>
 			</div>
+
 			<div class="container">
-			<div class="row">
-
-				<ul class="row" style="list-style-type:none;">
-					<li th:each="book: ${books}">
-						<div class="book-card">
-							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
-							<p class="book-card-text" th:utext="${book.autor}">...</p>
-
-							<div class="card-bottom">
-
-
-								<div  class="icon"  th:attr="onclick='inquiry(\'' + ${book.id}+  '\');'" th:object="${viewedUser}" >
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<img type="image" src="../icons/bell.png" alt="Ask for book">
+				<div class="row">
+					<ul class="row" style="list-style-type:none;">
+						<li th:each="book: ${books}">
+							<div class="book-card">
+								<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+								<p class="book-card-text" th:utext="${book.autor}">...</p>
+								<div class="card-bottom">
+									<div class="icon" onclick="'javascript:inquiry2(\'' bookId '\');'" th:object="${viewedUser}">
+										<input type="hidden" th:value="*{user}" th:field="*{user}" />
+										<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+										<img type="image" src="../icons/bell.png" alt="Ask for book">
+									</div>
 								</div>
-
 							</div>
-						</div>
-					</li>
-
-				</ul>
-
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
-		</div>
-	</section>
-	<script type="text/javascript">
 
-		function inquiry(id){
-			alert("Es wurde eine Anfrage an Buch mit ID "+ id +" versendet");
+	</section>
+
+	<script type="text/javascript">
+		function inquiry(id) {
+			alert("Es wurde eine Anfrage an Buch mit ID " + id + " versendet");
 		}
-		
-		function inquiry2(id){
+
+		function inquiry2(id) {
 
 			var url_string = window.location.href
 			var url = new URL(url_string);
 			var user = url.searchParams.get("user");
+			var requestedUser = url.searchParams.get("search");
+
+			var infoForm = {};
+			var contentType = 'application/json; charset=utf-8';
+			infoForm.id = id;
+			console.log(id)
+			console.log(user)
+			infoForm.user = user;
+			json = JSON.stringify(infoForm);
+			console.log(json)
+			var url = "http://127.0.0.1:8080/user/inquiry?search=" + requestedUser;
+			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.open("POST", url, true);
+			xmlhttp.setRequestHeader('Content-type', contentType);
+			xmlhttp.send(json);
 
 
-				var infoForm = {};
-			  var contentType = 'application/json; charset=utf-8';
-			  infoForm.id = id;
-				console.log(id)
-				console.log(user)
-				infoForm.user = user;
-			  json = JSON.stringify(infoForm);
-			  console.log(json)
-			  var url = "http://127.0.0.1:8080/user/inquiry";
-			  var xmlhttp = new XMLHttpRequest();
-			  xmlhttp.open("POST", url, true);
-			  xmlhttp.setRequestHeader('Content-type', contentType);
-			  xmlhttp.send(json);
-
-				
 		}
-
-
-
 	</script>
 
 	<div class="platzhalter"></div>
 </body>
+
 </html>

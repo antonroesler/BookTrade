@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import de.frauas.intro.model.Book;
 import de.frauas.intro.model.UserBookCategory;
 
-
+@Service
 public class BookDAO {
 	
 
