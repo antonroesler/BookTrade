@@ -22,6 +22,7 @@ import de.frauas.intro.model.User;
  *
  * @author Anton Roesler
  */
+
 @Service
 public class UserDatabase {
 	private final static String databasePath = "./src/main/resources/database";
