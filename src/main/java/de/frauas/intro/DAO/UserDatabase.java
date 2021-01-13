@@ -211,7 +211,6 @@ public class UserDatabase {
 		addFile(getCategoryString(category), getUserPath(hash));
 		ArrayList<String> result = readFromFile(userBooksFile);
 		userBooksFile.delete();
-		File newFile = makeNewFile(getUserPath(hash), getCategoryString(category));
 		result.remove(id);
 		for (String string : result) {
 			writeToFile(userBooksFile, string);

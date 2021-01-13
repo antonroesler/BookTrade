@@ -17,6 +17,7 @@ import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.SearchForm;
 import de.frauas.intro.form.SearchResultSummary;
 import de.frauas.intro.form.UserBookInfoForm;
+import de.frauas.intro.model.SearchType;
 import de.frauas.intro.model.User;
 import de.frauas.intro.util.UriUtil;
 
@@ -33,9 +34,9 @@ public class SearchController {
 		SearchForm searchForm = new SearchForm();
 		UserBookInfoForm infoForm = new UserBookInfoForm(userHash);
 		searchForm.setUser(userHash);
+		searchForm.setType(SearchType.ALL);
 		model.addAttribute("searchForm", searchForm);
 		model.addAttribute("infoForm", infoForm);
-
 		return "search/search";
 	}
 
@@ -62,14 +63,12 @@ public class SearchController {
 		case ISBN:
 			summary = GoogleBookAPI.queryByISBN(query);
 			break;
-
 		default:
 			summary = GoogleBookAPI.query(query);
 			break;
 		}
 		summary.setData();
 		return displayResults(model, searchForm.getUser()); // displayResults(model, searchForm.getUser());
-
 	}
 
 	@RequestMapping(value = { "/results" }, method = RequestMethod.GET)
@@ -79,7 +78,6 @@ public class SearchController {
 		model.addAttribute("userHashForm", infoForm);
 		String uri = "search/results";
 		return uri;
-
 	}
 
 	@RequestMapping(value = "/results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,9 +86,8 @@ public class SearchController {
 		infoForm = new UserBookInfoForm(infoForm.getUser());
 		model.addAttribute("userHashForm", infoForm);
 		return "search/results";
-
 	}
-	
+
 	@RequestMapping(value = "/findUser", method = RequestMethod.GET)
 	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
