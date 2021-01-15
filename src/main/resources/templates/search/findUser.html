@@ -37,9 +37,9 @@
 
 						<li th:each="user: ${users}">
 							<button type="submit" class="book-card-title" th:utext="${user.username}" th:value="${user.getHash()}" th:attr="name='input'">...</button>
-	
+
 						</li>
-                          
+
 					</ul>
 					<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				</form>

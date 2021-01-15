@@ -7,6 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/styles.css">
 	<link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
 	<title>BücherHändler</title>
+	<script src="./../js/addBook.js"></script>
 </head>
 
 <body>
@@ -19,9 +20,9 @@
 		<div class="flex-container">
 
 			<form th:action="@{/back}" th:object="${userHashForm}" method="GET">
-						<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-						<button type="submit">Zurück zur Übersicht</button>
-					</form>
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
+				<button type="submit">Zurück zur Übersicht</button>
+			</form>
 
 
 		</div>
@@ -43,11 +44,11 @@
 								<div th:attr="onclick='add(\'' + ${book.id}+  '\');'" class="icon">
 									<img src="../icons/add.png" alt="Add Icon">
 								</div>
-								<div  class="icon">
+								<div class="icon">
 									<form th:action="@{/bookView}" th:object="${userHashForm}" method="GET">
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<input type="image" src="../icons/view.png" alt="View Icon"/>
+										<input type="hidden" th:value="*{user}" th:field="*{user}" />
+										<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+										<input type="image" src="../icons/view.png" alt="View Icon" />
 									</form>
 								</div>
 								<div class="icon">
@@ -64,38 +65,9 @@
 		</div>
 
 	</section>
-<script type="text/javascript">
-	function add1(id){
+	<script type="text/javascript">
 
-		var url_string = window.location.href
-		var url = new URL(url_string);
-		var user = url.searchParams.get("user");
-	}
-	function add(id){
-
-		var url_string = window.location.href
-		var url = new URL(url_string);
-		var user = url.searchParams.get("user");
-
-
-			var infoForm = {};
-		  var contentType = 'application/json; charset=utf-8';
-		  infoForm.bookId = id;
-			console.log(id)
-			console.log(user)
-			infoForm.user = user;
-		  json = JSON.stringify(infoForm);
-		  console.log(json)
-		  var url = "http://127.0.0.1:8080/search/results";
-		  var xmlhttp = new XMLHttpRequest();
-		  xmlhttp.open("POST", url, true);
-		  xmlhttp.setRequestHeader('Content-type', contentType);
-		  xmlhttp.send(json);
-
-	}
-
-
-</script>
+	</script>
 
 </body>
 

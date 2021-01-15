@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
-    <title>Login</title>
-  </head>
-  <body>
 
-    <!-- NavBar -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../css/styles.css">
+  <link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+  <title>Login</title>
+</head>
 
-  	<nav id="header-navbar">
-  		<div class="flex-container">
-  			<p>
-  				BookTrade! Die Seite zum Tauschen.
-  			</p>
-  		</div>
-  	</nav>
+<body>
 
+  <!-- NavBar -->
 
-    <!-- Big Title -->
-
-  	<div class="container" id="big-title">
-  		<div class="row">
-  			<h1>Register</h1>
-  		</div>
-  	</div>
+  <nav id="header-navbar">
+    <div class="flex-container">
+      <p>
+        BookTrade! Die Seite zum Tauschen.
+      </p>
+    </div>
+  </nav>
 
 
+  <!-- Big Title -->
 
-    <section id="login-section">
-<div class="container">
-    <form th:action="@{/user/register}" th:object="${loginForm}" method="POST">
-      <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
-      <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
-      <button type="submit" id="login-btn">Register</button>
-    </form>
-</div>
+  <div class="container" id="big-title">
+    <div class="row">
+      <h1>Register</h1>
+    </div>
+  </div>
 
 
-    </section>
 
-  </body>
+  <section id="login-section">
+    <div class="container">
+      <form th:action="@{/user/register}" th:object="${loginForm}" method="POST">
+        <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
+        <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
+        <button type="submit" id="login-btn">Register</button>
+      </form>
+    </div>
+
+
+  </section>
+
+</body>
+
 </html>

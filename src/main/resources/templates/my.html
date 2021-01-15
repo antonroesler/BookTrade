@@ -19,7 +19,9 @@
 
 		<div class="flex-container">
 			<form>
-				<p>Hallo &nbsp <p th:utext="${username}">...</p></p>
+				<p>Hallo &nbsp
+				<p th:utext="${username}">...</p>
+				</p>
 			</form>
 
 			<form th:action="@{/search/search}" th:object="${infoForm}" method="GET">
@@ -51,95 +53,95 @@
 				<h2>Hab' Ich</h2>
 			</div>
 			<div class="container">
-			<div class="row">
+				<div class="row">
 
-				<ul class="row" style="list-style-type:none;">
-					<li th:each="book: ${books}">
-						<div class="book-card">
-							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
-							<p class="book-card-text" th:utext="${book.autor}">...</p>
+					<ul class="row" style="list-style-type:none;">
+						<li th:each="book: ${books}">
+							<div class="book-card">
+								<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+								<p class="book-card-text" th:utext="${book.autor}">...</p>
 
-							<div class="card-bottom">
+								<div class="card-bottom">
 
 
-								<div  class="icon">
-									<form th:action="@{/my}" th:object="${infoForm}" method="POST">
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<input type="image" src="../icons/change.png" alt="Change list Icon">
-									</form>
+									<div class="icon">
+										<form th:action="@{/my}" th:object="${infoForm}" method="POST">
+											<input type="hidden" th:value="*{user}" th:field="*{user}" />
+											<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+											<input type="image" src="../icons/change.png" alt="Change list Icon">
+										</form>
+									</div>
+									<div class="icon">
+										<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
+											<input type="hidden" th:value="*{user}" th:field="*{user}" />
+											<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+											<input type="image" src="../icons/view.png" alt="Delete Iconn" />
+										</form>
+									</div>
+									<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
+										<img src="../icons/delete.png" alt="Delete Icon">
+
+									</div>
+
 								</div>
-								<div  class="icon">
-									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<input type="image" src="../icons/view.png" alt="Delete Iconn"/>
-									</form>
-								</div>
-								<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
-									<img src="../icons/delete.png" alt="Delete Icon">
-
-								</div>
-
 							</div>
-						</div>
-					</li>
+						</li>
 
-				</ul>
+					</ul>
 
+				</div>
 			</div>
-		</div>
 		</div>
 	</section>
 
 	<!-- Wishlist -->
 
-		<section id="my-books-section">
+	<section id="my-books-section">
 
 		<div class="container" id="my-books-title">
 			<div class="row">
 				<h2>Möcht' Ich</h2>
 			</div>
-					<div class="container">
-			<div class="row">
+			<div class="container">
+				<div class="row">
 
-				<ul class="row">
-					<li th:each="book: ${booksWanted}">
-						<div class="book-card">
+					<ul class="row">
+						<li th:each="book: ${booksWanted}">
+							<div class="book-card">
 
-							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
-							<p class="book-card-text" th:utext="${book.autor}">...</p>
+								<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
+								<p class="book-card-text" th:utext="${book.autor}">...</p>
 
-							<div class="card-bottom">
+								<div class="card-bottom">
 
 
-								<div  class="icon">
-									<form th:action="@{/search/findUser}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
-									</form>
+									<div class="icon">
+										<form th:action="@{/search/findUser}" th:object="${infoForm}" method="GET">
+											<input type="hidden" th:value="*{user}" th:field="*{user}" />
+											<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+											<input type="image" src="../icons/loupe.png" alt="Loupe Search Icon">
+										</form>
+									</div>
+									<div class="icon">
+										<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
+											<input type="hidden" th:value="*{user}" th:field="*{user}" />
+											<input type="hidden" th:value="${book.id}" th:attr="name='bookId'" />
+											<input type="image" src="../icons/view.png" alt="View Icon" />
+										</form>
+									</div>
+									<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
+										<img src="../icons/delete.png" alt="Delete Icon">
+
+									</div>
+
 								</div>
-								<div  class="icon">
-									<form th:action="@{/bookView}" th:object="${infoForm}" method="GET">
-									<input type="hidden" th:value="*{user}" th:field="*{user}"/>
-									<input type="hidden" th:value="${book.id}" th:attr="name='bookId'"/>
-									<input type="image" src="../icons/view.png" alt="View Icon"/>
-									</form>
-								</div>
-								<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
-									<img src="../icons/delete.png" alt="Delete Icon">
-
-								</div>
-
 							</div>
-						</div>
-					</li>
+						</li>
 
-				</ul>
+					</ul>
 
+				</div>
 			</div>
-		</div>
 
 
 
@@ -147,7 +149,7 @@
 	</section>
 
 
-<div class="platzhalter"></div>
+	<div class="platzhalter"></div>
 
 
 

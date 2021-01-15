@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html lang="de" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
-    <link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
-    <title>Login</title>
-  </head>
-  <body>
 
-    <!-- NavBar -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="../css/styles.css">
+  <link rel="stylesheet" type="text/css" href="../../static/css/styles.css">
+  <title>Login</title>
+</head>
 
-  	<nav id="header-navbar">
+<body>
 
-  		<div class="flex-container">
-  			<p>
-  				BookTrade! Die Seite zum Tauschen.
-  			</p>
+  <!-- NavBar -->
 
-  		</div>
-  	</nav>
+  <nav id="header-navbar">
+
+    <div class="flex-container">
+      <p>
+        BookTrade! Die Seite zum Tauschen.
+      </p>
+
+    </div>
+  </nav>
 
 
 
-    <!-- Big Title -->
+  <!-- Big Title -->
 
-    <div class="container" id="big-title">
-      <div class="row">
-        <h1>Login</h1>
-      </div>
+  <div class="container" id="big-title">
+    <div class="row">
+      <h1>Login</h1>
+    </div>
+  </div>
+
+
+  <section id="login-section">
+    <div class="container">
+      <form th:action="@{/user/login}" th:object="${loginForm}" method="POST">
+        <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
+        <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
+
+        <button type="submit" id="login-btn">Login</button>
+      </form>
+      <a href="register">Neu hier? Jetzt registrieren.</a>
     </div>
 
 
-    <section id="login-section">
-<div class="container">
-    <form th:action="@{/user/login}" th:object="${loginForm}" method="POST">
-      <input type="text" placeholder="username" th:field="*{username}" autocomplete="off">
-      <input type="password" placeholder="password" th:field="*{password}" autocomplete="off">
+  </section>
 
-      <button type="submit" id="login-btn">Login</button>
-    </form>
-    <a href="register">Neu hier? Jetzt registrieren.</a>
-</div>
+</body>
 
-
-    </section>
-
-  </body>
 </html>
