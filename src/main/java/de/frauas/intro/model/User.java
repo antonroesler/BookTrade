@@ -59,6 +59,7 @@ public class User {
 		this.password = password;
 	}
 
+	// I think i dont need this. 
 //	public HashMap<String, String> toHashMap() {
 //		HashMap<String, String> hashMap = new HashMap<>();
 //		hashMap.put("username", username);

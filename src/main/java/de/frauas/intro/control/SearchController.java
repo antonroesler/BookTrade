@@ -19,6 +19,7 @@ import de.frauas.intro.form.SearchResultSummary;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.SearchType;
 import de.frauas.intro.model.User;
+import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.util.UriUtil;
 
 @Controller

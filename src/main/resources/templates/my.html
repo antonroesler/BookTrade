@@ -7,22 +7,7 @@
 	<link rel="stylesheet" type="text/css" href="./css/styles.css">
 	<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 	<title>BücherHändler</title>
-	<script src="modal.js"></script>
-<script>
-function allowDrop(ev) {
-  ev.preventDefault();
-}
-
-function drag(ev) {
-  ev.dataTransfer.setData("text", ev.target.id);
-}
-
-function drop(ev) {
-  ev.preventDefault();
-  var data = ev.dataTransfer.getData("text");
-  ev.target.appendChild(document.getElementById(data));
-}
-</script>
+	<script src="./js/deleteBook.js"></script>
 </head>
 
 <body>
@@ -39,7 +24,7 @@ function drop(ev) {
 
 			<form th:action="@{/search/search}" th:object="${infoForm}" method="GET">
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
-				<button type="submit">Search</button>
+				<button type="submit">Suchen</button>
 			</form>
 			<form th:action="@{/logout}" method="GET">
 				<button type="submit">Logout</button>
@@ -93,7 +78,7 @@ function drop(ev) {
 								</div>
 								<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
 									<img src="../icons/delete.png" alt="Delete Icon">
-									
+
 								</div>
 
 							</div>
@@ -121,10 +106,10 @@ function drop(ev) {
 				<ul class="row">
 					<li th:each="book: ${booksWanted}">
 						<div class="book-card">
-						
+
 							<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
 							<p class="book-card-text" th:utext="${book.autor}">...</p>
-							
+
 							<div class="card-bottom">
 
 
@@ -144,7 +129,7 @@ function drop(ev) {
 								</div>
 								<div th:attr="onclick='deleteBook(\'' + ${book.id}+  '\');'" class="icon">
 									<img src="../icons/delete.png" alt="Delete Icon">
-									
+
 								</div>
 
 							</div>
@@ -165,33 +150,7 @@ function drop(ev) {
 <div class="platzhalter"></div>
 
 
-<script type="text/javascript">
 
-	function deleteBook(id){
-
-		var url_string = window.location.href
-		var url = new URL(url_string);
-		var user = url.searchParams.get("user");
-
-
-			var infoForm = {};
-		  var contentType = 'application/json; charset=utf-8';
-		  infoForm.bookId = id;
-			console.log(id)
-			console.log(user)
-			infoForm.user = user;
-		  json = JSON.stringify(infoForm);
-		  console.log(json)
-		  var url = "http://127.0.0.1:8080/delete";
-		  var xmlhttp = new XMLHttpRequest();
-		  xmlhttp.open("DELETE", url, true);
-		  xmlhttp.setRequestHeader('Content-type', contentType);
-		  xmlhttp.send(json);
-
-	}
-
-
-</script>
 
 
 

@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.frauas.intro.DAO.GoogleBookAPI;
 import de.frauas.intro.DAO.UserDatabase;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.Book;
+import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.util.UriUtil;
 
 @Controller
@@ -78,11 +80,12 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public String delete(Model model, @RequestBody UserBookInfoForm infoForm) {
+	@ResponseBody
+	public void delete(Model model, @RequestBody UserBookInfoForm infoForm) {
 		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.WANTED);
 		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
 		System.out.println("TRY TO DELETE");
-		return "my" ;
+
 	}
 
 

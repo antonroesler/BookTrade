@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import org.springframework.stereotype.Service;
 
-import de.frauas.intro.control.UserBookCategory;
 import de.frauas.intro.model.User;
+import de.frauas.intro.model.UserBookCategory;
 
 /**
  * The UserDatabase stores Users in a 'database' directory. A User is saved in a
