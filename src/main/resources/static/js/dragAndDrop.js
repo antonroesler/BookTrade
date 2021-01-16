@@ -1,3 +1,5 @@
+// Not used in project so far.
+
 function allowDrop(ev) {
   ev.preventDefault();
 }
