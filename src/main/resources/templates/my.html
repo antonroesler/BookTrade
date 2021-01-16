@@ -8,6 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="../static/css/styles.css">
 	<title>BücherHändler</title>
 	<script src="./js/deleteBook.js"></script>
+	<script src="./js/changeColor.js"></script>
 </head>
 
 <body>
@@ -35,6 +36,9 @@
 	</nav>
 
 
+	<script type="text/javascript">
+
+	</script>
 	<!-- Big Title -->
 
 	<div class="container" id="big-title">
@@ -53,11 +57,12 @@
 				<h2>Hab' Ich</h2>
 			</div>
 			<div class="container">
+					<button id="color-btn" onclick="changeColor()">Neue Farben</button>
 				<div class="row">
 
 					<ul class="row" style="list-style-type:none;">
 						<li th:each="book: ${books}">
-							<div class="book-card">
+							<div id="bb" class="book-card">
 								<p class="book-card-title" th:utext="${book.shortTitle}">...</p>
 								<p class="book-card-text" th:utext="${book.autor}">...</p>
 
