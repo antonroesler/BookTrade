@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.frauas.intro.DAO.UserDatabase;
+import de.frauas.intro.data.UserDatabase;
 import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
 

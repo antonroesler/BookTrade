@@ -3,7 +3,7 @@ function inquiry(id) {
 }
 
 function inquiry2(id) {
-
+  
   var url_string = window.location.href
   var url = new URL(url_string);
   var user = url.searchParams.get("user");

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import de.frauas.intro.DAO.GoogleBookAPI;
+import de.frauas.intro.data.GoogleBookAPI;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.Book;
 

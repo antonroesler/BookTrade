@@ -1,4 +1,4 @@
-package de.frauas.intro.DAO;
+package de.frauas.intro.data;
 
 import java.util.ArrayList;
 
