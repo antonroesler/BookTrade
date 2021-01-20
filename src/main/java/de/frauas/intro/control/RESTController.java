@@ -45,11 +45,11 @@ public class RESTController {
 		return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "/user/{userHash}", method = RequestMethod.GET, produces = { "application/JSON" })
+	@RequestMapping(value = "/user/{username}", method = RequestMethod.GET, produces = { "application/JSON" })
 	@ResponseBody
-	public ResponseEntity<String> getUser(@PathVariable String userHash, @RequestHeader("Authorization") String auth) {
+	public ResponseEntity<String> getUser(@PathVariable String username, @RequestHeader("Authorization") String auth) {
 		if (isValidAuthentication(auth)) {
-			User user = userDatabase.getUser(userHash);
+			User user = userDatabase.getUser(username);
 			if (user != null)
 				return new ResponseEntity<String>(user.toJSON(), HttpStatus.OK);
 			else
@@ -71,12 +71,12 @@ public class RESTController {
 		return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "/user/{userHash}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/user/{username}", method = RequestMethod.DELETE)
 	@ResponseBody
-	public ResponseEntity<String> deleteUser(@PathVariable String userHash,
+	public ResponseEntity<String> deleteUser(@PathVariable String username,
 			@RequestHeader("Authorization") String auth) {
 		if (isValidAuthentication(auth)) {
-			if (userDatabase.deleteUser(userHash))
+			if (userDatabase.deleteUser(username))
 				return new ResponseEntity<String>(HttpStatus.OK);
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
@@ -84,25 +84,25 @@ public class RESTController {
 
 	}
 
-	@RequestMapping(value = "/user/{userHash}/{bookId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/{username}/{bookId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> addBookToUser(@PathVariable String userHash, @PathVariable String bookId,
+	public ResponseEntity<String> addBookToUser(@PathVariable String username, @PathVariable String bookId,
 			@RequestHeader("Authorization") String auth) {
 		if (isValidAuthentication(auth)) {
-			if (userDatabase.addBookToUser(userHash, bookId, UserBookCategory.OWNED))
+			if (userDatabase.addBookToUser(username, bookId, UserBookCategory.OWNED))
 				return new ResponseEntity<String>(HttpStatus.OK);
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "/user/books/{userHash}", method = RequestMethod.GET, produces = { "application/JSON" })
+	@RequestMapping(value = "/user/books/{username}", method = RequestMethod.GET, produces = { "application/JSON" })
 	@ResponseBody
-	public ResponseEntity<String> getAllBooksFromUser(@PathVariable String userHash, @RequestHeader("Authorization") String auth) {
+	public ResponseEntity<String> getAllBooksFromUser(@PathVariable String username, @RequestHeader("Authorization") String auth) {
 		// TODO: refactor!
 		String body = "";
 		if (isValidAuthentication(auth)) {
-			ArrayList<String> books = userDatabase.getBooksFromUser(userHash, UserBookCategory.OWNED);
+			ArrayList<String> books = userDatabase.getBooksFromUser(username, UserBookCategory.OWNED);
 			body = "{\"books_owned\":[";
 			for (int i = 0; i < books.size(); i++) {
 				String string = books.get(i);
@@ -118,7 +118,7 @@ public class RESTController {
 
 			}
 			body += "],";
-			ArrayList<String> books2 = userDatabase.getBooksFromUser(userHash, UserBookCategory.WANTED);
+			ArrayList<String> books2 = userDatabase.getBooksFromUser(username, UserBookCategory.WANTED);
 			body += "\"books_wanted\":[";
 			for (int i = 0; i < books2.size(); i++) {
 				String string = books2.get(i);
@@ -139,12 +139,12 @@ public class RESTController {
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
-	@RequestMapping(value = "/user/changeList/{userHash}/{bookId}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/user/changeList/{username}/{bookId}", method = RequestMethod.PUT)
 	@ResponseBody
-	public ResponseEntity<String> changeBook(@PathVariable String userHash, @PathVariable String bookId,
+	public ResponseEntity<String> changeBook(@PathVariable String username, @PathVariable String bookId,
 			@RequestHeader("Authorization") String auth) {
 		if (isValidAuthentication(auth)) {
-			if (userDatabase.changeBook(userHash, bookId))
+			if (userDatabase.changeBook(username, bookId))
 				return new ResponseEntity<String>(HttpStatus.OK);
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
 		} 
