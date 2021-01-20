@@ -20,7 +20,7 @@
 				<button type="submit">Zurück</button>
 			</form>
 			<form th:action="@{/logout}" th:object="${infoForm}" method="GET">
-					<input type="hidden" th:value="*{user}" th:field="*{user}" />
+				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Logout</button>
 			</form>
 		</div>
@@ -52,20 +52,6 @@
 				<button type="submit" id="search-btn">Search</button>
 			</form>
 		</div>
-
-	</section>
-
-	<section class="search-section" id="user-search-section">
-		<div class="flex-container">
-			<h1>User</h1>
-			<form method="GET">
-				<input type="text" id="search-field" name="search" placeholder="username" autocomplete="off">
-				<br>
-				<button type="submit" id="search-btn">Search</button>
-			</form>
-		</div>
-
-	</section>
 
 </body>
 
