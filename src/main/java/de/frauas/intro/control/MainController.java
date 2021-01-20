@@ -27,7 +27,7 @@ public class MainController {
 
 	@Autowired
 	UserDatabase userDatabase;
-	
+
 	@Autowired
 	SessionHandler sessionHandler;
 
@@ -38,17 +38,17 @@ public class MainController {
 	}
 
 	/**
-	 * The main page for each user. 
-	 * 
-	 * @param model 
-	 * @param userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * The main page for each user.
+	 *
+	 * @param model
+	 * @param session: The session ID of the active session.
 	 * @return the user's main page or 404 error page if the user hash is not valid.
 	 */
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String session) {
 		User user = sessionHandler.getUser(session);
 		if (user == null) {
-			return "redirect:/user/login"; 
+			return "redirect:/user/login";
 		}
 		ArrayList<Book> ownedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.OWNED));
 		ArrayList<Book> wantedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.WANTED));
@@ -69,25 +69,25 @@ public class MainController {
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
 	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
 		User user = sessionHandler.getUser(infoForm.getUser());
-		System.out.println("User: " + user.getUsername() + " Book: " + infoForm.getBookId());		
+		System.out.println("User: " + user.getUsername() + " Book: " + infoForm.getBookId());
 		userDatabase.changeBook(user.getUsername(), infoForm.getBookId());
 		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getUser());
 	}
-	
 
-	
+
+
 	/**
 	 * This method is used to get back to the main page from other html pages.
 	 * Usually by pressing a 'back' button.
 	 * @param model
-	 * @param userHash userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * @param session: The session ID of the active session.
 	 * @return the user's main page or 404 error page if the user hash is not valid.
 	 */
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
 	public String back(Model model, @RequestParam("user") String session) {
 		return "redirect:/my?" + UriUtil.addUserHeader(session) ;
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(Model model, @RequestBody UserBookInfoForm infoForm) {
@@ -101,7 +101,7 @@ public class MainController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(Model model, @RequestParam("user") String session) {
 		sessionHandler.dropSession(session);
-		return "redirect:/user/login"; 
+		return "redirect:/user/login";
 	}
 
 }
