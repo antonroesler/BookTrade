@@ -17,7 +17,7 @@
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Zurück</button>
 			</form>
-			<form th:action="@{/search}" th:object="${viewingUser}" method="GET">
+			<form th:action="@{/search/search}" th:object="${viewingUser}" method="GET">
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Suchen</button>
 			</form>

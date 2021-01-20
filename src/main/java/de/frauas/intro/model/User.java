@@ -35,12 +35,12 @@ public class User {
 	 * 
 	 * @return The calculated hash value as a string.
 	 */
-	public String getHash() {
-		String userString = username + password;
-		String hashCode = Integer.toHexString(userString.hashCode());
-		hashCode = hashCode.substring(0, 7);
-		return hashCode;
-	}
+//	public String getHash() {
+//		String userString = username + password;
+//		String hashCode = Integer.toHexString(userString.hashCode());
+//		hashCode = hashCode.substring(0, 7);
+//		return hashCode;
+//	}
 
 	// Getters and Setters
 	public String getUsername() {
@@ -74,8 +74,7 @@ public class User {
 	 * @return A string in JSON format, with the user's information.
 	 */
 	public String toJSON() {
-		return "{ \"username\":\"" + username + "\", \"password\":\"" + password + "\" , \"hash\":\"" + getHash()
-				+ "\" }";
+		return "{ \"username\":\"" + username + "\", \"password\":\"" + password + "\" }";
 
 	}
 

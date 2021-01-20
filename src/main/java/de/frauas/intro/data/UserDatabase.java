@@ -36,10 +36,10 @@ public class UserDatabase {
 	 * @return ArrayList with all users as 'User' objects.
 	 */
 	public ArrayList<User> getAllUsers() {
-		String[] userHashes = listAllUserHashes();
+		String[] usernames = listAllUserNames();
 		ArrayList<User> users = new ArrayList<>();
-		for (String hashString : userHashes) {
-			users.add(getUser(hashString));
+		for (String username : usernames) {
+			users.add(getUser(username));
 		}
 		return users;
 	}
@@ -51,12 +51,11 @@ public class UserDatabase {
 	 * @param password the users password
 	 * @param name     the username
 	 */
-	public boolean addUser(String userhash, String password, String name) {
-		if (!userNameTaken(name)) {
-			File newUserFile = makeNewFile(databaseFile.getAbsolutePath(), userhash);
+	public boolean addUser(String username, String password) {
+		if (!userNameTaken(username)) {
+			File newUserFile = makeNewFile(databaseFile.getAbsolutePath(), username);
 			newUserFile.mkdir();
 			addFile("pass", password, newUserFile.getAbsolutePath());
-			addFile("name", name, newUserFile.getAbsolutePath());
 			addFile("owned", newUserFile.getAbsolutePath());
 			addFile("wanted", newUserFile.getAbsolutePath());
 			return true;
@@ -70,7 +69,7 @@ public class UserDatabase {
 	 * @param user User Object
 	 */
 	public boolean addUser(User user) {
-		return addUser(user.getHash(), user.getPassword(), user.getUsername());
+		return addUser(user.getUsername(), user.getPassword());
 
 	}
 
@@ -129,10 +128,9 @@ public class UserDatabase {
 	 * @param userHash the hash value
 	 * @return A User object if a user with the respective hash exists. null if not. 
 	 */
-	public User getUser(String userHash) {
-		if (userExists(userHash)) {
-			String userPath = getUserPath(userHash);
-			String username = readFirstLineFromFile(makeNewFile(userPath, "name"));
+	public User getUser(String username) {
+		if (userExists(username)) {
+			String userPath = getUserPath(username);
 			String password = readFirstLineFromFile(makeNewFile(userPath, "pass"));
 			return new User(username, password);
 		}
@@ -146,11 +144,9 @@ public class UserDatabase {
 	 * @param password the password to be checked.
 	 * @return boolean
 	 */
-	public boolean checkUserPassword(String userhash, String password) {
-		File passwordFile = makeNewFile(getUserPath(userhash), "pass");
-		System.out.println(password);
-		System.out.println(readFirstLineFromFile(passwordFile));
-		return password.equals(readFirstLineFromFile(passwordFile));
+	public boolean checkUserPassword(User user) {
+		File passwordFile = makeNewFile(getUserPath(user.getUsername()), "pass");
+		return user.getPassword().equals(readFirstLineFromFile(passwordFile));
 
 	}
 
@@ -162,9 +158,9 @@ public class UserDatabase {
 	 * @param category wanted/owned by user
 	 * @return true if successful, false if not (user with given user hash does not exist). 
 	 */
-	public boolean addBookToUser(String userHash, String bookId, UserBookCategory category) {
-		if (userExists(userHash)) {
-			File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
+	public boolean addBookToUser(String username, String bookId, UserBookCategory category) {
+		if (userExists(username)) {
+			File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
 			writeToFile(userBooksFile, bookId);
 			return true;
 		}
@@ -178,8 +174,8 @@ public class UserDatabase {
 	 * @param category from wanted or owned list
 	 * @return ArrayList with GoogleBook ID Strings
 	 */
-	public ArrayList<String> getBooksFromUser(String userHash, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(userHash), getCategoryString(category));
+	public ArrayList<String> getBooksFromUser(String username, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
 		return readFromFile(userBooksFile);
 	}
 
@@ -190,12 +186,12 @@ public class UserDatabase {
 	 * @param id   the book id
 	 * @return
 	 */
-	public boolean changeBook(String hash, String id) {
-		UserBookCategory category = findCategory(hash, id);
-		if (userExists(hash)) {
-			if (hasBook(getUser(hash), id) || wantsBook(getUser(hash), id)) {
-				addBookToUser(hash, id, reverseCategory(category));
-				delteBookFormUserList(hash, id, category);
+	public boolean changeBook(String username, String id) {
+		UserBookCategory category = findCategory(username, id);
+		if (userExists(username)) {
+			if (hasBook(getUser(username), id) || wantsBook(getUser(username), id)) {
+				addBookToUser(username, id, reverseCategory(category));
+				delteBookFormUserList(username, id, category);
 				return true;
 			}
 		}
@@ -209,9 +205,9 @@ public class UserDatabase {
 	 * @param id the book id
 	 * @param category the list
 	 */
-	public void delteBookFormUserList(String hash, String id, UserBookCategory category) {
-		File userBooksFile = makeNewFile(getUserPath(hash), getCategoryString(category));
-		addFile(getCategoryString(category), getUserPath(hash));
+	public void delteBookFormUserList(String username, String id, UserBookCategory category) {
+		File userBooksFile = makeNewFile(getUserPath(username), getCategoryString(category));
+		addFile(getCategoryString(category), getUserPath(username));
 		ArrayList<String> result = readFromFile(userBooksFile);
 		userBooksFile.delete();
 		result.remove(id);
@@ -229,7 +225,7 @@ public class UserDatabase {
 	 */
 	private boolean hasBook(User user, String bookId) {
 		// Checks if given user owns given book.
-		if (getBooksFromUser(user.getHash(), UserBookCategory.OWNED).contains(bookId))
+		if (getBooksFromUser(user.getUsername(), UserBookCategory.OWNED).contains(bookId))
 			return true;
 		return false;
 	}
@@ -243,7 +239,7 @@ public class UserDatabase {
 	 */
 	private boolean wantsBook(User user, String bookId) {
 		// Checks if given user wants given book.
-		if (getBooksFromUser(user.getHash(), UserBookCategory.WANTED).contains(bookId))
+		if (getBooksFromUser(user.getUsername(), UserBookCategory.WANTED).contains(bookId))
 			return true;
 		return false;
 	}
@@ -341,17 +337,17 @@ public class UserDatabase {
 		return null;
 	}
 
-	private boolean userExists(String userHash) {
+	private boolean userExists(String username) {
 		// true if a user exists.
-		for (String currentUser : listAllUserHashes()) {
-			if (currentUser.equals(userHash)) {
+		for (String currentUser : listAllUserNames()) {
+			if (currentUser.equals(username)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private String[] listAllUserHashes() {
+	private String[] listAllUserNames() {
 		return getDatabasefile().list();
 	}
 
