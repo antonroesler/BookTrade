@@ -18,5 +18,9 @@ function deleteBook(id){
     xmlhttp.open("DELETE", url, true);
     xmlhttp.setRequestHeader('Content-type', contentType);
     xmlhttp.send(json);
+	
+	setTimeout(function(){
+    location.reload()
+}, 10);
 
 }

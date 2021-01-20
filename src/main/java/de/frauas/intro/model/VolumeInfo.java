@@ -31,7 +31,6 @@ public class VolumeInfo {
 		this.publisher = publisher;
 	}
 
-
 	public int getPageCount() {
 		return pageCount;
 	}

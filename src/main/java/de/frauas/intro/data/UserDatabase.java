@@ -16,7 +16,8 @@ import de.frauas.intro.model.UserBookCategory;
  * The UserDatabase stores Users in a 'database' directory. A User is saved in a
  * directory named after the Users hash value. For every user there are the
  * following files located in the users directory: 
- * - pass (stores the password in a single line) 
+ * - 
+ * pass (stores the password in a single line) 
  * - name (sores the username in a single line) 
  * - owned (stores a list of all Book IDs of books that are owned, every ID in a new line) 
  * - wanted (stores a list of all Book IDs of books that are wanted, every ID in a new line)
