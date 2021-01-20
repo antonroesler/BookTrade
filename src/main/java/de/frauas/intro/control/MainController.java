@@ -91,8 +91,9 @@ public class MainController {
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(Model model, @RequestBody UserBookInfoForm infoForm) {
-		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.WANTED);
-		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
+		User user = sessionHandler.getUser(infoForm.getUser());
+		userDatabase.delteBookFormUserList(user.getUsername(), infoForm.getBookId(), UserBookCategory.WANTED);
+		userDatabase.delteBookFormUserList(user.getUsername(), infoForm.getBookId(), UserBookCategory.OWNED);
 		System.out.println("TRY TO DELETE");
 
 	}
