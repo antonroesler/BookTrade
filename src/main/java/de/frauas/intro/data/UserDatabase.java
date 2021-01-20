@@ -15,11 +15,11 @@ import de.frauas.intro.model.UserBookCategory;
 /**
  * The UserDatabase stores Users in a 'database' directory. A User is saved in a
  * directory named after the Users hash value. For every user there are the
- * following files located in the users directory: 
- * - 
- * pass (stores the password in a single line) 
- * - name (sores the username in a single line) 
- * - owned (stores a list of all Book IDs of books that are owned, every ID in a new line) 
+ * following files located in the users directory:
+ * -
+ * pass (stores the password in a single line)
+ * - name (sores the username in a single line)
+ * - owned (stores a list of all Book IDs of books that are owned, every ID in a new line)
  * - wanted (stores a list of all Book IDs of books that are wanted, every ID in a new line)
  *
  * @author Anton Roesler
@@ -31,8 +31,8 @@ public class UserDatabase {
 	private final static File databaseFile = new File(databasePath);
 
 	/**
-	 * Searches the database for all users. 
-	 * 
+	 * Searches the database for all users.
+	 *
 	 * @return ArrayList with all users as 'User' objects.
 	 */
 	public ArrayList<User> getAllUsers() {
@@ -46,8 +46,8 @@ public class UserDatabase {
 
 	/**
 	 * Adds a new users to the database. Only if username is not already taken.
-	 * 
-	 * @param userhash the users hash value
+	 *
+	 * @param username the username of the new user
 	 * @param password the users password
 	 * @param name     the username
 	 */
@@ -65,7 +65,7 @@ public class UserDatabase {
 
 	/**
 	 * Adds a new users to the database. Only if username is not already taken.
-	 * 
+	 *
 	 * @param user User Object
 	 */
 	public boolean addUser(User user) {
@@ -75,13 +75,13 @@ public class UserDatabase {
 
 	/**
 	 * Deletes a user from the database. Deletes the user directory and all files within.
-	 * 
-	 * @param userHash: The hash value of the user to be deleted.
+	 *
+	 * @param username The username of the user to be deleted.
 	 * @return a boolean true if there was a user with the hash value, false if not.
 	 */
-	public boolean deleteUser(String userHash) {
-		if (userExists(userHash)) {
-			File userfile = makeNewFile(databasePath, userHash);
+	public boolean deleteUser(String username) {
+		if (userExists(username)) {
+			File userfile = makeNewFile(databasePath, username);
 			for (String file : userfile.list()) {
 				makeNewFile(userfile.getAbsolutePath(), file).delete();
 			}
@@ -93,7 +93,7 @@ public class UserDatabase {
 
 	/**
 	 * Checks if a username is already used by any user in the DB
-	 * @param name: The username to be checked 
+	 * @param name: The username to be checked
 	 * @return true if usersname is taken, false if free.
 	 */
 	private boolean userNameTaken(String name) {
@@ -105,7 +105,7 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Finds all users in the DB that own a given book, by a book id. 
+	 * Finds all users in the DB that own a given book, by a book id.
 	 * Checks for every user if the book id is present in the respective user's owned books file.
 	 * @param bookId GoogleBookAPI book ID
 	 * @return ArrayList of all Users that own the book with the respective book id
@@ -124,9 +124,9 @@ public class UserDatabase {
 
 	/**
 	 * Finds a user by a hash value.
-	 * 
-	 * @param userHash the hash value
-	 * @return A User object if a user with the respective hash exists. null if not. 
+	 *
+	 * @param username the username of the user to be found.
+	 * @return A User object if a user with the respective hash exists. null if not.
 	 */
 	public User getUser(String username) {
 		if (userExists(username)) {
@@ -138,10 +138,11 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Checks if given password is correct for a given user.
-	 * 
-	 * @param userhash the hash value of the user to be checked.
-	 * @param password the password to be checked.
+	 * Checks if given user exists in the database. The Methods checks if a user
+	 *with the username of th euser object exists and if the password of the user
+	 *object equals the on in the database.
+	 *
+	 * @param user an user object.
 	 * @return boolean
 	 */
 	public boolean checkUserPassword(User user) {
@@ -152,11 +153,11 @@ public class UserDatabase {
 
 	/**
 	 * Adds a given book to a given user. The book can either be added to the users wanted or owned book file.
-	 * 
-	 * @param userHash the hash value of the user
+	 *
+	 * @param username the username of the user
 	 * @param bookId   the GoogleBooks ID of the book
 	 * @param category wanted/owned by user
-	 * @return true if successful, false if not (user with given user hash does not exist). 
+	 * @return true if successful, false if not (user with given user hash does not exist).
 	 */
 	public boolean addBookToUser(String username, String bookId, UserBookCategory category) {
 		if (userExists(username)) {
@@ -169,8 +170,8 @@ public class UserDatabase {
 
 	/**
 	 * Get all books (either from wanted or owned list) form a given user.
-	 * 
-	 * @param userHash the hash value of the user
+	 *
+	 * @param username the  username of the user
 	 * @param category from wanted or owned list
 	 * @return ArrayList with GoogleBook ID Strings
 	 */
@@ -181,8 +182,8 @@ public class UserDatabase {
 
 	/**
 	 * Switches a book from one list of a user to the other.
-	 * 
-	 * @param hash the user hash value
+	 *
+	 * @param username the username of the user
 	 * @param id   the book id
 	 * @return
 	 */
@@ -200,8 +201,8 @@ public class UserDatabase {
 
 	/**
 	 * Deletes a book from a users list.
-	 * 
-	 * @param hash the user's hash value
+	 *
+	 * @param username the username of the user
 	 * @param id the book id
 	 * @param category the list
 	 */
@@ -218,7 +219,7 @@ public class UserDatabase {
 
 	/**
 	 * Checks if a given user has a given book in its owned books file.
-	 * 
+	 *
 	 * @param user The user as an user object.
 	 * @param bookId The book id of the book.
 	 * @return true if book id is present in the users owned books file
@@ -232,7 +233,7 @@ public class UserDatabase {
 
 	/**
 	 * Checks if a given user has a given book in its wanted books file.
-	 * 
+	 *
 	 * @param user The user as an user object.
 	 * @param bookId The book id of the book.
 	 * @return true if book id is present in the users wanted books file
@@ -347,6 +348,11 @@ public class UserDatabase {
 		return false;
 	}
 
+	/**
+	 * Create a list of all usernames in the database.
+	 * 
+	 * @return ArrayList with Strings of all usernames.
+	 */
 	private String[] listAllUserNames() {
 		return getDatabasefile().list();
 	}
