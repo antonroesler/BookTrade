@@ -18,6 +18,7 @@ import de.frauas.intro.data.UserDatabase;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
+import de.frauas.intro.session.SessionHandler;
 import de.frauas.intro.util.UriUtil;
 
 /**
@@ -33,6 +34,9 @@ public class UserController {
 
 	@Autowired
 	UserDatabase userDatabase;
+	
+	@Autowired
+	SessionHandler sessionHandler;
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(Model model) {
@@ -43,8 +47,10 @@ public class UserController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(Model model, @ModelAttribute("loginForm") User user) {
-		if (userDatabase.checkUserPassword(user.getHash(), user.getPassword())) {
-			String uri = "redirect:/my?" + UriUtil.addHeader("user", user.getHash());
+		if (userDatabase.checkUserPassword(user)) {
+			String session = sessionHandler.addSession(user);
+			System.out.println("Session: " + session);
+			String uri = "redirect:/my?" + UriUtil.addHeader("user", session);
 			return uri;
 		}
 		return "user/login";

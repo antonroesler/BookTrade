@@ -22,7 +22,8 @@
 				<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Zurück</button>
 			</form>
-			<form th:action="@{/logout}" method="GET">
+			<form th:action="@{/logout}" th:object="${infoForm}" method="GET">
+					<input type="hidden" th:value="*{user}" th:field="*{user}" />
 				<button type="submit">Logout</button>
 			</form>
 		</div>

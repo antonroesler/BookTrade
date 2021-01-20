@@ -20,6 +20,7 @@ import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.SearchType;
 import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
+import de.frauas.intro.session.SessionHandler;
 import de.frauas.intro.util.UriUtil;
 
 @Controller
@@ -29,12 +30,15 @@ public class SearchController {
 
 	@Autowired
 	UserDatabase userDatabase;
+	
+	@Autowired
+	SessionHandler sessionHandler;
 
 	@RequestMapping(value = { "/search" }, method = RequestMethod.GET)
-	public String get(Model model, @RequestParam("user") String userHash) {
+	public String get(Model model, @RequestParam("user") String session) {
 		SearchForm searchForm = new SearchForm();
-		UserBookInfoForm infoForm = new UserBookInfoForm(userHash);
-		searchForm.setUser(userHash);
+		UserBookInfoForm infoForm = new UserBookInfoForm(session);
+		searchForm.setUser(session);
 		searchForm.setType(SearchType.ALL);
 		model.addAttribute("searchForm", searchForm);
 		model.addAttribute("infoForm", infoForm);
@@ -43,11 +47,10 @@ public class SearchController {
 
 	@RequestMapping(value = { "/user" }, method = RequestMethod.POST)
 	public String getUserSearchPage(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
-		System.out.println(searchForm.getUser());
-		String activeUserHash = searchForm.getUser();
-		String searchedUserHash = searchForm.getInput();
-		return "redirect:/user/view?" + UriUtil.addUserHeader(activeUserHash)
-				+ UriUtil.addHeader("search", searchedUserHash);
+		String session = searchForm.getUser();
+		String searchedUsername = searchForm.getInput();
+		return "redirect:/user/view?" + UriUtil.addUserHeader(session)
+				+ UriUtil.addHeader("search", searchedUsername);
 	}
 
 	@RequestMapping(value = { "/find" }, method = RequestMethod.GET)
@@ -73,9 +76,9 @@ public class SearchController {
 	}
 
 	@RequestMapping(value = { "/results" }, method = RequestMethod.GET)
-	public String displayResults(Model model, @RequestParam("user") String userHash) {
+	public String displayResults(Model model, @RequestParam("user") String session) {
 		model.addAttribute("bookList", summary.getItems());
-		UserBookInfoForm infoForm = new UserBookInfoForm(userHash);
+		UserBookInfoForm infoForm = new UserBookInfoForm(session);
 		model.addAttribute("userHashForm", infoForm);
 		String uri = "search/results";
 		return uri;
@@ -83,7 +86,8 @@ public class SearchController {
 
 	@RequestMapping(value = "/results", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String addBook(Model model, @RequestBody UserBookInfoForm infoForm) {
-		userDatabase.addBookToUser(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
+		User user = sessionHandler.getUser(infoForm.getUser());
+		userDatabase.addBookToUser(user.getUsername(), infoForm.getBookId(), UserBookCategory.OWNED);
 		infoForm = new UserBookInfoForm(infoForm.getUser());
 		model.addAttribute("userHashForm", infoForm);
 		return "search/results";
@@ -91,8 +95,6 @@ public class SearchController {
 
 	@RequestMapping(value = "/findUser", method = RequestMethod.GET)
 	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
-		System.out.println("LOOKING FOR BOOK: " + infoForm.getBookId());
-		System.out.println("LOOKING FOR BOOK: " + infoForm.getUser());
 		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
 		model.addAttribute("infoForm", infoForm);
 		if (users.isEmpty()) {

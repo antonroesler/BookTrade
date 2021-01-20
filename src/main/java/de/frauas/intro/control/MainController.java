@@ -16,7 +16,9 @@ import de.frauas.intro.data.GoogleBookAPI;
 import de.frauas.intro.data.UserDatabase;
 import de.frauas.intro.form.UserBookInfoForm;
 import de.frauas.intro.model.Book;
+import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
+import de.frauas.intro.session.SessionHandler;
 import de.frauas.intro.util.UriUtil;
 
 @Controller
@@ -26,29 +28,35 @@ public class MainController {
 	@Autowired
 	UserDatabase userDatabase;
 
+	@Autowired
+	SessionHandler sessionHandler;
 
-	@RequestMapping(value = { "", "/", "/index", "/logout" }, method = RequestMethod.GET)
+
+	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String Get() {
 		return "redirect:/user/login";
 	}
 
 	/**
-	 * The main page for each user. 
-	 * 
-	 * @param model 
-	 * @param userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * The main page for each user.
+	 *
+	 * @param model
+	 * @param session: The session ID of the active session.
 	 * @return the user's main page or 404 error page if the user hash is not valid.
 	 */
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
-	public String mainPage(Model model, @RequestParam("user") String userHash) {
-		ArrayList<Book> ownedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(userHash, UserBookCategory.OWNED));
-		ArrayList<Book> wantedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(userHash, UserBookCategory.WANTED));
+	public String mainPage(Model model, @RequestParam("user") String session) {
+		User user = sessionHandler.getUser(session);
+		if (user == null) {
+			return "redirect:/user/login";
+		}
+		ArrayList<Book> ownedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.OWNED));
+		ArrayList<Book> wantedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.WANTED));
 		if (ownedBooks != null) {
 			model.addAttribute("books", ownedBooks);
 			model.addAttribute("booksWanted", wantedBooks);
-			UserBookInfoForm hashForm = new UserBookInfoForm(userHash);
-			System.out.println("Y " + hashForm.getUser());
-			model.addAttribute("username", userDatabase.getUser(userHash).getUsername());
+			UserBookInfoForm hashForm = new UserBookInfoForm(session);
+			model.addAttribute("username", user.getUsername());
 			model.addAttribute("infoForm", hashForm);
 			return "my";
 		} else {
@@ -60,33 +68,40 @@ public class MainController {
 
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
 	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
-		System.out.println("User: " + infoForm.getUser() + " Book: " + infoForm.getBookId());		
-		userDatabase.changeBook(infoForm.getUser(), infoForm.getBookId());
+		User user = sessionHandler.getUser(infoForm.getUser());
+		System.out.println("User: " + user.getUsername() + " Book: " + infoForm.getBookId());
+		userDatabase.changeBook(user.getUsername(), infoForm.getBookId());
 		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getUser());
 	}
-	
 
-	
+
+
 	/**
 	 * This method is used to get back to the main page from other html pages.
 	 * Usually by pressing a 'back' button.
 	 * @param model
-	 * @param userHash userHash: The hash value that uniquely identifies a user. User.getHash()
+	 * @param session: The session ID of the active session.
 	 * @return the user's main page or 404 error page if the user hash is not valid.
 	 */
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
-	public String back(Model model, @RequestParam("user") String userHash) {
-		return "redirect:/my?" + UriUtil.addUserHeader(userHash) ;
+	public String back(Model model, @RequestParam("user") String session) {
+		return "redirect:/my?" + UriUtil.addUserHeader(session) ;
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(Model model, @RequestBody UserBookInfoForm infoForm) {
-		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.WANTED);
-		userDatabase.delteBookFormUserList(infoForm.getUser(), infoForm.getBookId(), UserBookCategory.OWNED);
+		User user = sessionHandler.getUser(infoForm.getUser());
+		userDatabase.delteBookFormUserList(user.getUsername(), infoForm.getBookId(), UserBookCategory.WANTED);
+		userDatabase.delteBookFormUserList(user.getUsername(), infoForm.getBookId(), UserBookCategory.OWNED);
 		System.out.println("TRY TO DELETE");
 
 	}
 
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(Model model, @RequestParam("user") String session) {
+		sessionHandler.dropSession(session);
+		return "redirect:/user/login";
+	}
 
 }
