@@ -89,11 +89,11 @@ public class UserController {
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public String inquiry(Model model, @RequestBody UserBookInfoForm infoForm) {
-		String userHash = infoForm.getUser();
-		User user = userDatabase.getUser(userHash);
-		model.addAttribute("viewingUser", new UserBookInfoForm(userHash));
+		String session = infoForm.getUser();
+		User user = sessionHandler.getUser(session);
+		model.addAttribute("viewingUser", new UserBookInfoForm(session));
 		model.addAttribute("books",
-				GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(userHash, UserBookCategory.OWNED)));
+				GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.OWNED)));
 		model.addAttribute("user", user);
 		return "user/view";
 	}

@@ -37,7 +37,7 @@ public class UserBookInfoForm {
 
 	/**
 	 *
-	 * @param userHash A value that identifies a user, usually the session id, which
+	 * @param user A value that identifies a user, usually the session id, which
 	 *                 is mapped to a user by the session handler.
 	 * @param bookid   The book id used by google books.
 	 */
@@ -47,7 +47,7 @@ public class UserBookInfoForm {
 	}
 
 	/**
-	 * The user hash is a value that identifies a user, usually the session id,
+	 * User ususally stores a session id of tha active user. But i cloud also store a username. Use it however you need it.
 	 * which is mapped to a user by the session handler.
 	 *
 	 * @return a string to identify a user.

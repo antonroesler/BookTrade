@@ -5,7 +5,7 @@ import de.frauas.intro.model.SearchType;
 /**
  * Transfer object. Used to transfer information from the view layer to the
  * controller. Used on the search page.
- * 
+ *
  * @author Anton Roesler
  *
  */
@@ -18,7 +18,7 @@ public class SearchForm {
 	/**
 	 * The search type is an enum that specifies what the user searches. Possible
 	 * values are ALL, TITLE, AUTHOR and ISBN.
-	 * 
+	 *
 	 * @return the SearchType enum that the user specified.
 	 */
 	public SearchType getType() {
@@ -42,8 +42,8 @@ public class SearchForm {
 	}
 
 	/**
-	 * The user hash value of the user who is searching.
-	 * @return The user hash value as a string.
+	 * The user is usually a session id that belongs to the active user. But it could also store a username.
+	 * @return The session id as a string.
 	 */
 	public String getUser() {
 		return user;

@@ -42,7 +42,7 @@ public class MainController {
 	 *
 	 * @param model
 	 * @param session: The session ID of the active session.
-	 * @return the user's main page or 404 error page if the user hash is not valid.
+	 * @return the user's main page or 404 error page if the session id is not valid.
 	 */
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String session) {
@@ -81,7 +81,7 @@ public class MainController {
 	 * Usually by pressing a 'back' button.
 	 * @param model
 	 * @param session: The session ID of the active session.
-	 * @return the user's main page or 404 error page if the user hash is not valid.
+	 * @return the user's main page or 404 error page if the user session id is not valid.
 	 */
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
 	public String back(Model model, @RequestParam("user") String session) {

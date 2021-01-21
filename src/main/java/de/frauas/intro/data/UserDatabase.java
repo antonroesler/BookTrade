@@ -157,7 +157,7 @@ public class UserDatabase {
 	 * @param username the username of the user
 	 * @param bookId   the GoogleBooks ID of the book
 	 * @param category wanted/owned by user
-	 * @return true if successful, false if not (user with given user hash does not exist).
+	 * @return true if successful, false if not (user does not exist).
 	 */
 	public boolean addBookToUser(String username, String bookId, UserBookCategory category) {
 		if (userExists(username)) {
@@ -318,9 +318,9 @@ public class UserDatabase {
 		return new File(path + "/" + fileName);
 	}
 
-	private String getUserPath(String userHash) {
+	private String getUserPath(String username) {
 		// Creates a new user directory in the database.
-		return databasePath + "/" + userHash;
+		return databasePath + "/" + username;
 	}
 
 	public static File getDatabasefile() {
