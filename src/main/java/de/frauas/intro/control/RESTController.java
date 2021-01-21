@@ -135,7 +135,7 @@ public class RESTController {
 			}
 			body += "]}";
 			return new ResponseEntity<>(body, HttpStatus.OK);
-		} 
+		}
 		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 	}
 
@@ -147,7 +147,7 @@ public class RESTController {
 			if (userDatabase.changeBook(username, bookId))
 				return new ResponseEntity<String>(HttpStatus.OK);
 			return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
-		} 
+		}
 		return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
 	}
 

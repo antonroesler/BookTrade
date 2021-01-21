@@ -30,7 +30,7 @@ public class SearchController {
 
 	@Autowired
 	UserDatabase userDatabase;
-	
+
 	@Autowired
 	SessionHandler sessionHandler;
 
@@ -79,7 +79,7 @@ public class SearchController {
 	public String displayResults(Model model, @RequestParam("user") String session) {
 		model.addAttribute("bookList", summary.getItems());
 		UserBookInfoForm infoForm = new UserBookInfoForm(session);
-		model.addAttribute("userHashForm", infoForm);
+		model.addAttribute("infoForm", infoForm);
 		String uri = "search/results";
 		return uri;
 	}
@@ -89,12 +89,12 @@ public class SearchController {
 		User user = sessionHandler.getUser(infoForm.getUser());
 		userDatabase.addBookToUser(user.getUsername(), infoForm.getBookId(), UserBookCategory.OWNED);
 		infoForm = new UserBookInfoForm(infoForm.getUser());
-		model.addAttribute("userHashForm", infoForm);
+		model.addAttribute("infoForm", infoForm);
 		return "search/results";
 	}
 
 	@RequestMapping(value = "/findUser", method = RequestMethod.GET)
-	public String findUsers(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
+	public String findUsers(Model model, @ModelAttribute("infoForm") UserBookInfoForm infoForm) {
 		ArrayList<User> users = userDatabase.getUsersWithBook(infoForm.getBookId());
 		model.addAttribute("infoForm", infoForm);
 		if (users.isEmpty()) {

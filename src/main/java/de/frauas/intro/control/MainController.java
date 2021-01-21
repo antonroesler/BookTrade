@@ -67,7 +67,7 @@ public class MainController {
 
 
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
-	public String changeListOfBook(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
+	public String changeListOfBook(Model model, @ModelAttribute("infoForm") UserBookInfoForm infoForm) {
 		User user = sessionHandler.getUser(infoForm.getUser());
 		System.out.println("User: " + user.getUsername() + " Book: " + infoForm.getBookId());
 		userDatabase.changeBook(user.getUsername(), infoForm.getBookId());

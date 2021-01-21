@@ -10,7 +10,7 @@ import de.frauas.intro.model.Book;
 /**
  * The Class is used to retrieve information about books from the google books
  * API. Books can be found by id, title, author or ISBN.
- * 
+ *
  * @author Anton Roesler
  *
  */
@@ -20,7 +20,7 @@ public class GoogleBookAPI {
 	 * Queries the google books API for an specific id. The id is an id given by
 	 * google books uniquely for every book. If the id is valid a book object will
 	 * be created.
-	 * 
+	 *
 	 * @param id The id of the book.
 	 * @return An book object as defined in the model.Book class
 	 */
@@ -39,7 +39,7 @@ public class GoogleBookAPI {
 	/**
 	 * Query the google book API by anything (title, author, isbn....). A list of
 	 * book objects with the ten best results will be created.
-	 * 
+	 *
 	 * @param query A String with which the google books api should be queried.
 	 * @return SearchResultSummary object. It contains a list of book objects.
 	 */
@@ -53,7 +53,7 @@ public class GoogleBookAPI {
 	/**
 	 * Query the google book API by title. A list of book objects with the ten best
 	 * results will be created.
-	 * 
+	 *
 	 * @param query A String with which the google books api should be queried.
 	 * @return SearchResultSummary object. It contains a list of book objects.
 	 */
@@ -67,7 +67,7 @@ public class GoogleBookAPI {
 	/**
 	 * Query the google book API by Author. A list of book objects with the ten best
 	 * results will be created.
-	 * 
+	 *
 	 * @param query A String with which the google books api should be queried.
 	 * @return SearchResultSummary object. It contains a list of book objects.
 	 */
@@ -81,7 +81,7 @@ public class GoogleBookAPI {
 	/**
 	 * Query the google book API by ISBN. A list of book objects with the ten best
 	 * results will be created.
-	 * 
+	 *
 	 * @param query A String with which the google books api should be queried.
 	 * @return SearchResultSummary object. It contains a list of book objects.
 	 */
@@ -96,7 +96,7 @@ public class GoogleBookAPI {
 	 * This method is used to turn a whole list of book ids into a list containing
 	 * the respective books. Invalid book ids are ignored. The method queries the
 	 * google book API for every string and saves the resulting book objects.
-	 * 
+	 *
 	 * @param arrayList An ArrayList containing strings of book ids.
 	 * @return A list of book objects.
 	 */
@@ -112,7 +112,7 @@ public class GoogleBookAPI {
 		setBooksData(books);
 		return books;
 	}
-	
+
 	private static void setBooksData(ArrayList<Book> books) {
 		for (Book book : books) {
 			try {
@@ -120,14 +120,14 @@ public class GoogleBookAPI {
 			} catch (Exception e) {
 				System.err.println("Error while setting book data: " + book);
 			}
-			
+
 		}
 	}
 
 	/**
 	 * An util method to remove a leading slash from a given string. /word -> word.
 	 * But only if the '/' is the first character.
-	 * 
+	 *
 	 * @param uri A string.
 	 * @return the given string without the '/' at the beginning.
 	 */

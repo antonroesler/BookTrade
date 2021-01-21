@@ -350,7 +350,7 @@ public class UserDatabase {
 
 	/**
 	 * Create a list of all usernames in the database.
-	 * 
+	 *
 	 * @return ArrayList with Strings of all usernames.
 	 */
 	private String[] listAllUserNames() {

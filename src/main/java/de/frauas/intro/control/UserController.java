@@ -24,7 +24,7 @@ import de.frauas.intro.util.UriUtil;
 /**
  * A Controller to handle HTTP requests for pages regarding the user. Like
  * register, login or to view users.
- * 
+ *
  * @author Anton Roesler
  *
  */
@@ -34,7 +34,7 @@ public class UserController {
 
 	@Autowired
 	UserDatabase userDatabase;
-	
+
 	@Autowired
 	SessionHandler sessionHandler;
 
@@ -83,7 +83,7 @@ public class UserController {
 
 	@RequestMapping(value = "/inquiry", method = RequestMethod.GET)
 	@ResponseBody
-	public String inquiryOld(Model model, @ModelAttribute("userHashForm") UserBookInfoForm infoForm) {
+	public String inquiryOld(Model model, @ModelAttribute("infoForm") UserBookInfoForm infoForm) {
 		return infoForm.getBookId() + infoForm.getUser();
 	}
 
