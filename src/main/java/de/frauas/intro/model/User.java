@@ -26,22 +26,6 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * Calculates a user specific hash value to simulate security.
-	 * 
-	 * The hash value depends on username and password. It's length is set to 7. The
-	 * length can be changed but only if all users in the database are deleted as
-	 * well. If the length is changed the existing users wont be recognized.
-	 * 
-	 * @return The calculated hash value as a string.
-	 */
-//	public String getHash() {
-//		String userString = username + password;
-//		String hashCode = Integer.toHexString(userString.hashCode());
-//		hashCode = hashCode.substring(0, 7);
-//		return hashCode;
-//	}
-
 	// Getters and Setters
 	public String getUsername() {
 		return username;
@@ -58,14 +42,6 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	// I think i dont need this. 
-//	public HashMap<String, String> toHashMap() {
-//		HashMap<String, String> hashMap = new HashMap<>();
-//		hashMap.put("username", username);
-//		hashMap.put("password", password);
-//		return hashMap;
-//	}
 
 	/**
 	 * Method to create a user in JSON format. Including: username, password and the
