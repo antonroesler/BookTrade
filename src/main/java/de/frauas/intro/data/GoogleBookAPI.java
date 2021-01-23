@@ -94,8 +94,9 @@ public class GoogleBookAPI {
 
 	/**
 	 * This method is used to turn a whole list of book ids into a list containing
-	 * the respective books. Invalid book ids are ignored. The method queries the
-	 * google book API for every string and saves the resulting book objects.
+	 * the respective books as Java objects. Invalid book ids are ignored. The
+	 * method queries the google book API for every string and saves the resulting
+	 * book objects.
 	 *
 	 * @param arrayList An ArrayList containing strings of book ids.
 	 * @return A list of book objects.

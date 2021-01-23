@@ -23,6 +23,10 @@ public class VolumeInfo {
 	private HashMap<String, URI> imageLinks;
 	private URI infoLink;
 
+	/**
+	 * 
+	 * @return Name of the publisher.
+	 */
 	public String getPublisher() {
 		return publisher;
 	}
@@ -53,6 +57,11 @@ public class VolumeInfo {
 		this.imageLinks = imageLinks;
 	}
 
+	/**
+	 * Info Link is a URL to the resource at Google Books
+	 * 
+	 * @return The URI
+	 */
 	public URI getInfoLink() {
 		return infoLink;
 	}
@@ -61,6 +70,11 @@ public class VolumeInfo {
 		this.infoLink = infoLink;
 	}
 
+	/**
+	 * An array containing all the authors.
+	 * 
+	 * @return An array with the Author names as Strings.
+	 */
 	public String[] getAuthors() {
 		return authors;
 	}

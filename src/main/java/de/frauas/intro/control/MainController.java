@@ -21,6 +21,12 @@ import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.session.SessionHandler;
 import de.frauas.intro.util.UriUtil;
 
+/**
+ * The main controller handles the overview page (/my) for a logged in user.
+ * 
+ * @author Anton Roesler
+ *
+ */
 @Controller
 @RequestMapping(value = "/")
 public class MainController {
@@ -30,7 +36,6 @@ public class MainController {
 
 	@Autowired
 	SessionHandler sessionHandler;
-
 
 	@RequestMapping(value = { "", "/", "/index" }, method = RequestMethod.GET)
 	public String Get() {
@@ -42,29 +47,34 @@ public class MainController {
 	 *
 	 * @param model
 	 * @param session: The session ID of the active session.
-	 * @return the user's main page or 404 error page if the session id is not valid.
+	 * @return the user's main page or 404 error page if the session id is not
+	 *         valid.
 	 */
 	@RequestMapping(value = { "/my" }, method = RequestMethod.GET)
 	public String mainPage(Model model, @RequestParam("user") String session) {
 		User user = sessionHandler.getUser(session);
 		if (user == null) {
-			return "redirect:/user/login";
+			// If user doesn't exist in the DB, the session will be dropped.
+			return "redirect:/logout?" + UriUtil.addUserHeader(session);
 		}
-		ArrayList<Book> ownedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.OWNED));
-		ArrayList<Book> wantedBooks = GoogleBookAPI.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.WANTED));
+		// Get the books from the user. Ids need to be turned into real book objects by querying th GoogleBooksAPI.
+		ArrayList<Book> ownedBooks = GoogleBookAPI
+				.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.OWNED));
+		ArrayList<Book> wantedBooks = GoogleBookAPI
+				.getAllBooksById(userDatabase.getBooksFromUser(user.getUsername(), UserBookCategory.WANTED));
 		if (ownedBooks != null) {
 			model.addAttribute("books", ownedBooks);
 			model.addAttribute("booksWanted", wantedBooks);
-			UserBookInfoForm hashForm = new UserBookInfoForm(session);
+			UserBookInfoForm infoForm = new UserBookInfoForm(session);
 			model.addAttribute("username", user.getUsername());
-			model.addAttribute("infoForm", hashForm);
+			model.addAttribute("infoForm", infoForm);
 			return "my";
 		} else {
-			return "redirect:/user/login";
+			// If owned books is null, something is wrong and the user will be logged out.
+			return "redirect:/logout?" + UriUtil.addUserHeader(session);
 		}
 
 	}
-
 
 	@RequestMapping(value = "/my", method = RequestMethod.POST)
 	public String changeListOfBook(Model model, @ModelAttribute("infoForm") UserBookInfoForm infoForm) {
@@ -74,20 +84,22 @@ public class MainController {
 		return "redirect:/my?" + UriUtil.addUserHeader(infoForm.getUser());
 	}
 
-
-
 	/**
 	 * This method is used to get back to the main page from other html pages.
 	 * Usually by pressing a 'back' button.
-	 * @param model
+	 * 
 	 * @param session: The session ID of the active session.
-	 * @return the user's main page or 404 error page if the user session id is not valid.
+	 * @return the user's main page or 404 error page if the user session id is not
+	 *         valid.
 	 */
 	@RequestMapping(value = "/back", method = RequestMethod.GET)
 	public String back(Model model, @RequestParam("user") String session) {
-		return "redirect:/my?" + UriUtil.addUserHeader(session) ;
+		return "redirect:/my?" + UriUtil.addUserHeader(session);
 	}
 
+	/**
+	 * Used to delete books from a user's list.
+	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
 	@ResponseBody
 	public void delete(Model model, @RequestBody UserBookInfoForm infoForm) {
@@ -98,6 +110,11 @@ public class MainController {
 
 	}
 
+	/**
+	 * Used to logout a user and drop the current user's session.
+	 * @param session The session id of the session to be ended.
+	 * @return redirects to login page.
+	 */
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(Model model, @RequestParam("user") String session) {
 		sessionHandler.dropSession(session);

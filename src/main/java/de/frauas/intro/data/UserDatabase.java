@@ -15,12 +15,11 @@ import de.frauas.intro.model.UserBookCategory;
 /**
  * The UserDatabase stores Users in a 'database' directory. A User is saved in a
  * directory named after the Users hash value. For every user there are the
- * following files located in the users directory:
- * -
- * pass (stores the password in a single line)
- * - name (sores the username in a single line)
- * - owned (stores a list of all Book IDs of books that are owned, every ID in a new line)
- * - wanted (stores a list of all Book IDs of books that are wanted, every ID in a new line)
+ * following files located in the users directory: - pass (stores the password
+ * in a single line) - name (sores the username in a single line) - owned
+ * (stores a list of all Book IDs of books that are owned, every ID in a new
+ * line) - wanted (stores a list of all Book IDs of books that are wanted, every
+ * ID in a new line)
  *
  * @author Anton Roesler
  */
@@ -74,7 +73,8 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Deletes a user from the database. Deletes the user directory and all files within.
+	 * Deletes a user from the database. Deletes the user directory and all files
+	 * within.
 	 *
 	 * @param username The username of the user to be deleted.
 	 * @return a boolean true if there was a user with the hash value, false if not.
@@ -93,6 +93,7 @@ public class UserDatabase {
 
 	/**
 	 * Checks if a username is already used by any user in the DB
+	 * 
 	 * @param name: The username to be checked
 	 * @return true if usersname is taken, false if free.
 	 */
@@ -105,8 +106,10 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Finds all users in the DB that own a given book, by a book id.
-	 * Checks for every user if the book id is present in the respective user's owned books file.
+	 * Finds all users in the DB that own a given book, by a book id. Checks for
+	 * every user if the book id is present in the respective user's owned books
+	 * file.
+	 * 
 	 * @param bookId GoogleBookAPI book ID
 	 * @return ArrayList of all Users that own the book with the respective book id
 	 */
@@ -139,8 +142,8 @@ public class UserDatabase {
 
 	/**
 	 * Checks if given user exists in the database. The Methods checks if a user
-	 *with the username of th euser object exists and if the password of the user
-	 *object equals the on in the database.
+	 * with the username of th euser object exists and if the password of the user
+	 * object equals the on in the database.
 	 *
 	 * @param user an user object.
 	 * @return boolean
@@ -152,7 +155,8 @@ public class UserDatabase {
 	}
 
 	/**
-	 * Adds a given book to a given user. The book can either be added to the users wanted or owned book file.
+	 * Adds a given book to a given user. The book can either be added to the users
+	 * wanted or owned book file.
 	 *
 	 * @param username the username of the user
 	 * @param bookId   the GoogleBooks ID of the book
@@ -171,7 +175,7 @@ public class UserDatabase {
 	/**
 	 * Get all books (either from wanted or owned list) form a given user.
 	 *
-	 * @param username the  username of the user
+	 * @param username the username of the user
 	 * @param category from wanted or owned list
 	 * @return ArrayList with GoogleBook ID Strings
 	 */
@@ -184,7 +188,7 @@ public class UserDatabase {
 	 * Switches a book from one list of a user to the other.
 	 *
 	 * @param username the username of the user
-	 * @param id   the book id
+	 * @param id       the book id
 	 * @return
 	 */
 	public boolean changeBook(String username, String id) {
@@ -203,7 +207,7 @@ public class UserDatabase {
 	 * Deletes a book from a users list.
 	 *
 	 * @param username the username of the user
-	 * @param id the book id
+	 * @param id       the book id
 	 * @param category the list
 	 */
 	public void delteBookFormUserList(String username, String id, UserBookCategory category) {
@@ -220,7 +224,7 @@ public class UserDatabase {
 	/**
 	 * Checks if a given user has a given book in its owned books file.
 	 *
-	 * @param user The user as an user object.
+	 * @param user   The user as an user object.
 	 * @param bookId The book id of the book.
 	 * @return true if book id is present in the users owned books file
 	 */
@@ -234,7 +238,7 @@ public class UserDatabase {
 	/**
 	 * Checks if a given user has a given book in its wanted books file.
 	 *
-	 * @param user The user as an user object.
+	 * @param user   The user as an user object.
 	 * @param bookId The book id of the book.
 	 * @return true if book id is present in the users wanted books file
 	 */

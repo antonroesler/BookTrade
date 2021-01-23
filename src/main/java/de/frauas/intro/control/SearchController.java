@@ -23,6 +23,14 @@ import de.frauas.intro.model.UserBookCategory;
 import de.frauas.intro.session.SessionHandler;
 import de.frauas.intro.util.UriUtil;
 
+/**
+ * Controller to handle search requests. Books can be search by title, author,
+ * isbn or anything. Also displays the result page. Books then can be added to a
+ * users collection.
+ * 
+ * @author Anton Roesler
+ *
+ */
 @Controller
 @RequestMapping("/search")
 public class SearchController {
@@ -49,8 +57,7 @@ public class SearchController {
 	public String getUserSearchPage(Model model, @ModelAttribute("searchForm") SearchForm searchForm) {
 		String session = searchForm.getUser();
 		String searchedUsername = searchForm.getInput();
-		return "redirect:/user/view?" + UriUtil.addUserHeader(session)
-				+ UriUtil.addHeader("search", searchedUsername);
+		return "redirect:/user/view?" + UriUtil.addUserHeader(session) + UriUtil.addHeader("search", searchedUsername);
 	}
 
 	@RequestMapping(value = { "/find" }, method = RequestMethod.GET)

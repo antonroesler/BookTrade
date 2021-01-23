@@ -44,8 +44,7 @@ public class User {
 	}
 
 	/**
-	 * Method to create a user in JSON format. Including: username, password and the
-	 * hash value.
+	 * Method to create a user in JSON format. Including: username and password.
 	 * 
 	 * @return A string in JSON format, with the user's information.
 	 */

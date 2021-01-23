@@ -18,8 +18,15 @@ import de.frauas.intro.data.UserDatabase;
 import de.frauas.intro.model.User;
 import de.frauas.intro.model.UserBookCategory;
 
+/**
+ * A REST controller for admin use only. Admins can add/delete users, add books
+ * to users and more.
+ * 
+ * @author Anotn Roesler
+ *
+ */
 @RestController
-@RequestMapping(value = "/api/v1")
+@RequestMapping(value = "/api")
 public class RESTController {
 
 	@Autowired
@@ -98,7 +105,8 @@ public class RESTController {
 
 	@RequestMapping(value = "/user/books/{username}", method = RequestMethod.GET, produces = { "application/JSON" })
 	@ResponseBody
-	public ResponseEntity<String> getAllBooksFromUser(@PathVariable String username, @RequestHeader("Authorization") String auth) {
+	public ResponseEntity<String> getAllBooksFromUser(@PathVariable String username,
+			@RequestHeader("Authorization") String auth) {
 		// TODO: refactor!
 		String body = "";
 		if (isValidAuthentication(auth)) {
@@ -112,10 +120,6 @@ public class RESTController {
 				if (books.size() > i) {
 					body += ",";
 				}
-
-			}
-			{
-
 			}
 			body += "],";
 			ArrayList<String> books2 = userDatabase.getBooksFromUser(username, UserBookCategory.WANTED);
@@ -128,10 +132,6 @@ public class RESTController {
 				if (books2.size() > i) {
 					body += ",";
 				}
-
-			}
-			{
-
 			}
 			body += "]}";
 			return new ResponseEntity<>(body, HttpStatus.OK);
