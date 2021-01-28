@@ -2,6 +2,7 @@ function inquiry(id) {
   alert("Es wurde eine Anfrage an Buch mit ID " + id + " versendet");
 }
 
+// NOT IN USE YET: Just an idea for the future:
 function inquiry2(id) {
   
   var url_string = window.location.href
